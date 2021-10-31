@@ -7,7 +7,7 @@ public class MainCharacter extends Character {
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.direction = direction;
-		myGraphicEntity = new GraphicEntity(this, xValue, yValue, imageRoute);
+		this.imageRoute = imageRoute;
 		
 	}
 	
@@ -15,6 +15,40 @@ public class MainCharacter extends Character {
 	@Override
 	public void accept(Visitor v) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void moveUp() {
+		
+		yValue -= 5;
+
+		
+	}
+
+
+	@Override
+	public void moveDown() {
+		
+		yValue += 5;
+
+		
+	}
+
+
+	@Override
+	public void moveLeft() {
+		xValue -= 5;
+
+		
+	}
+
+
+	@Override
+	public void moveRight() {
+		
+		xValue += 5;
+
 		
 	}
 

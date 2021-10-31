@@ -1,11 +1,11 @@
 import Visitors.Visitor;
 
-public abstract class Entity {
+public abstract class Entity implements Movement {
 
 	protected int xValue;
 	protected int yValue;
 	protected Visitor visitor;
-	protected GraphicEntity myGraphicEntity;
+	protected String imageRoute;
 	
 	public void setXValue(int xValue) {
 		
@@ -32,6 +32,11 @@ public abstract class Entity {
 		return yValue;
 	}
 	
+	public String getImageRoute() {
+		
+		return imageRoute;
+	}
+	
 	public Visitor getVisitor() {
 		
 		return visitor;
@@ -39,9 +44,5 @@ public abstract class Entity {
 	
 	public abstract void accept(Visitor v);
 
-	public GraphicEntity getGraphicEntity() {
-		
-		return myGraphicEntity;
-	}
 	
 }

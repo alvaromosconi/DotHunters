@@ -1,6 +1,10 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,16 +17,20 @@ public class GUI extends JFrame {
 	private String backgroundUrl;
 	private ImageIcon backgroundImage;
 	private JPanel panel = new JPanel();
-	private JLabel player;
 	
+	private KeyListener keyListener;
+	private Map<Entity, JLabel> labelMap;
 
 	public GUI(Game game, String backgroundUrl) {
 		
 		this.game = game;
 		this.backgroundUrl = backgroundUrl;
-
+		labelMap = new HashMap<Entity, JLabel>();
+		
 		setupWindow();
 
+		addKeyListener();
+		
 		super.setVisible(true);
 		super.pack();	
 	}
@@ -30,7 +38,7 @@ public class GUI extends JFrame {
 	private void setupWindow() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(800, 800)); 
+        setMinimumSize(new Dimension(1072, 800)); 
         setLocationRelativeTo(null);
         
 		setContentPane(panel);
@@ -44,24 +52,53 @@ public class GUI extends JFrame {
 	public void setupBackground() {
 		
 		JLabel backgroundLabel = new JLabel("");
-		backgroundLabel.setBounds(0, 0, 800, 800);
+		backgroundLabel.setBounds(0, 0, 1024, 688);
 		backgroundImage = new ImageIcon(GUI.class.getResource(backgroundUrl));
-
 		backgroundLabel.setIcon(backgroundImage);
+		backgroundLabel.setLocation( (panel.getWidth() - backgroundLabel.getWidth()) / 2, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
 		this.add(backgroundLabel);
 	}
 
 	
-	public void addGraphicEntity(GraphicEntity graphicEntity) {
+	private void addKeyListener() {
 		
-	    player = new JLabel("");
-		player.setBounds(graphicEntity.getXValue(), graphicEntity.getYValue()+15, 50, 50);
-		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(graphicEntity.getImageRoute()));
-		player.setIcon(entityImage);
+		keyListener = new KeyListener() {
 
-		panel.add(player);
-		
-		setupBackground();
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				game.movePlayer(e);
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+		};
+
+		this.addKeyListener(keyListener);
 	}
+	
+	
+	public void addEntity(Entity entity) {
+		
+		JLabel entityLabel = new JLabel("");
+		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
+		entityLabel.setIcon(entityImage);
+		entityLabel.setBounds(entity.getXValue(), entity.getYValue(), entityImage.getIconWidth(), entityImage.getIconHeight());
+		
+		panel.add(entityLabel);
+		labelMap.put(entity, entityLabel);
+
+		setupBackground(); 
+	}
+	
+	public void refreshEntity(Entity entity) {
+	
+		labelMap.get(entity).setLocation(entity.getXValue(), entity.getYValue());
+	}
+	
 
 }
