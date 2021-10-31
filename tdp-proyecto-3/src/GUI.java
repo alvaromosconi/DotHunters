@@ -1,4 +1,7 @@
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,19 +13,18 @@ public class GUI extends JFrame {
 	private String backgroundUrl;
 	private ImageIcon backgroundImage;
 	private JPanel panel = new JPanel();
+	private JLabel player;
 	
 
 	public GUI(Game game, String backgroundUrl) {
 		
 		this.game = game;
 		this.backgroundUrl = backgroundUrl;
-		panel.setLayout(null);
+
 		setupWindow();
-		setupBackground();
-		
+
 		super.setVisible(true);
-		super.pack();
-		
+		super.pack();	
 	}
 	
 	private void setupWindow() {
@@ -30,35 +32,36 @@ public class GUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 800)); 
         setLocationRelativeTo(null);
-        setContentPane(panel);
+        
+		setContentPane(panel);
+		panel.setLayout(null);
+       
 		//setUndecorated(true);
 	    //setResizable(false);
 
 	}
 	
-	private void setupBackground() {
+	public void setupBackground() {
 		
 		JLabel backgroundLabel = new JLabel("");
 		backgroundLabel.setBounds(0, 0, 800, 800);
 		backgroundImage = new ImageIcon(GUI.class.getResource(backgroundUrl));
 
 		backgroundLabel.setIcon(backgroundImage);
-		panel.add(backgroundLabel);
-		setComponentZOrder(backgroundLabel, 1);
+		this.add(backgroundLabel);
 	}
 
+	
 	public void addGraphicEntity(GraphicEntity graphicEntity) {
 		
-		JLabel player = new JLabel("");
+	    player = new JLabel("");
+		player.setBounds(graphicEntity.getXValue(), graphicEntity.getYValue()+15, 50, 50);
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(graphicEntity.getImageRoute()));
 		player.setIcon(entityImage);
-		player.setBounds(graphicEntity.getXValue(), graphicEntity.getYValue(), 500, 500);
+
 		panel.add(player);
-		setComponentZOrder(player, 1);
 		
+		setupBackground();
 	}
-	
-	
-	
 
 }
