@@ -9,9 +9,10 @@ public class LevelBuilder implements Builder {
 	
 	private List<Entity> enemies;
 	private List<Entity> components;
+	private List<Entity> walls;
 	private Entity player;
 	private String backgroundUrl; 
-	private Entity wall;
+
 
 	@Override
 	public void createEnemies(List<Entity> enemies) {
@@ -40,13 +41,13 @@ public class LevelBuilder implements Builder {
 	@Override
 	public Level getResult() {
 		
-		return new Level(enemies, components, player, wall, backgroundUrl);
+		return new Level(enemies, components, player, walls, backgroundUrl);
 	}
 
 	@Override
-	public void createWall(Entity w) {
+	public void createWalls(List<Entity> walls) {
 		
-		wall = w;	
+		this.walls = walls;
 	}
 
 }

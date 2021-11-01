@@ -15,6 +15,6 @@ public interface Builder {
 	
 	public Level getResult();
 
-	public void createWall(Entity w1);
+	public void createWalls(List<Entity> walls);
 	
 }

@@ -22,15 +22,15 @@ public class Wall extends Entity {
 		return width;
 	}
 	
-	public int getHeigth() {
+	public int getHeight() {
 		
 		return heigth;
 	}
 	
 	@Override
 	public void accept(Visitor v) {
-		v.visitWall(this);
 		
+		v.visitWall(this);
 	}
 
 	@Override

@@ -3,14 +3,14 @@ package entities;
 import visitors.Visitor;
 import visitors.VisitorMainCharacter;
 
-public class MainCharacter extends Character {
+public class MainCharacter extends Entity {
 
-	public MainCharacter(int xValue, int yValue, int direction, String imageRoute) {
+	public MainCharacter(int xValue, int yValue, String imageRoute) {
 		
 		this.xValue = xValue;
 		this.yValue = yValue;
-		this.direction = direction;
 		this.imageRoute = imageRoute;
+		this.canMove = true;
 		
 		visitor = new VisitorMainCharacter(this);
 	}
@@ -25,30 +25,29 @@ public class MainCharacter extends Character {
 	@Override
 	public void moveUp() {
 		
-	//	direction = 2;
-		yValue -= 5;	
+		yValue -= 3;	
 	}
 
 
 	@Override
 	public void moveDown() {
 		
-		yValue += 5;	
+		yValue += 3;	
 	}
 
 
 	@Override
 	public void moveLeft() {
 		
-		if (canMove && direction == 1)
-			xValue -= 5;	
+		if (canMove)
+			xValue -= 3;	
 	}
 
 
 	@Override
 	public void moveRight() {
 		
-		xValue += 5;	
+		xValue += 3;	
 	}
 
 

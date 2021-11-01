@@ -7,7 +7,7 @@ public abstract class Entity implements Movement {
 	protected int yValue;
 	protected Visitor visitor;
 	protected String imageRoute;
-	protected boolean canMove = true;
+	protected boolean canMove;
 	
 	public void setXValue(int xValue) {
 		
@@ -18,6 +18,7 @@ public abstract class Entity implements Movement {
 		
 		this.yValue = yValue;
 	}
+	
 	
 	public void setVisitor(Visitor visitor) {
 		
@@ -52,13 +53,14 @@ public abstract class Entity implements Movement {
 	}
 
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return xValue; 
+		
 	}
 
-	public int getHeigth() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getHeight() {
+		return xValue;
+		
 	}
+	
 	
 }

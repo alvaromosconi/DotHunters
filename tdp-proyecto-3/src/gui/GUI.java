@@ -1,4 +1,5 @@
 package gui;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import entities.Entity;
 import logic.Game;
@@ -44,7 +46,7 @@ public class GUI extends JFrame {
 	private void setupWindow() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1072, 800)); 
+        setMinimumSize(new Dimension(1072, 700)); 
         setLocationRelativeTo(null);
         
 		setContentPane(panel);
@@ -58,10 +60,11 @@ public class GUI extends JFrame {
 	public void setupBackground() {
 		
 		JLabel backgroundLabel = new JLabel("");
-		backgroundLabel.setBounds(0, 0, 1024, 688);
+		backgroundLabel.setSize(1024, 688);
 		backgroundImage = new ImageIcon(GUI.class.getResource(backgroundUrl));
 		backgroundLabel.setIcon(backgroundImage);
-		backgroundLabel.setLocation( (panel.getWidth() - backgroundLabel.getWidth()) / 2, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
+		//backgroundLabel.setLocation( (panel.getWidth() - backgroundLabel.getWidth()) / 2, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
+		backgroundLabel.setLocation(0, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
 		this.add(backgroundLabel);
 	}
 
@@ -72,10 +75,13 @@ public class GUI extends JFrame {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				
+			
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+			
 				game.movePlayer(e);
 			}
 
@@ -92,13 +98,15 @@ public class GUI extends JFrame {
 		
 		JLabel entityLabel = new JLabel("");
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
+	
+
+		entityLabel.setOpaque(rootPaneCheckingEnabled);
+		entityLabel.setBackground(Color.BLUE);
+		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entityImage.getIconWidth()+20, entityImage.getIconHeight() );
 		entityLabel.setIcon(entityImage);
-		entityLabel.setBounds(entity.getXValue(), entity.getYValue(), entityImage.getIconWidth(), entityImage.getIconHeight());
-		
+		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(entityLabel);
 		labelMap.put(entity, entityLabel);
-
-	
 	}
 	
 	public void refreshEntity(Entity entity) {
@@ -109,10 +117,13 @@ public class GUI extends JFrame {
 	public void addWall(Entity w) {
 		
 		JLabel wallLabel = new JLabel("");
-		wallLabel.setBounds(24, 0, w.getWidth(), w.getHeigth());
+		wallLabel.setBounds(w.getXValue(), w.getYValue(), w.getWidth(), w.getHeight());
+		
+		wallLabel.setOpaque(rootPaneCheckingEnabled);
+		wallLabel.setBackground(Color.BLUE);
+
 		panel.add(wallLabel);
-		labelMap.put(w, wallLabel);
-		setupBackground(); 
+		labelMap.put(w, wallLabel);	
 	}
 
 	public JLabel getLabel(Entity e) {

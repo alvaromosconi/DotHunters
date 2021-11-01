@@ -1,7 +1,19 @@
 package entities;
 import visitors.Visitor;
+import visitors.VisitorEnemyTypeA;
+import visitors.VisitorMainCharacter;
 
 public class EnemyTypeA extends Enemy {
+	
+	public EnemyTypeA(int xValue, int yValue, String imageRoute) {
+		
+		this.xValue = xValue;
+		this.yValue = yValue;
+		this.imageRoute = imageRoute;
+		this.canMove = true;
+		
+		visitor = new VisitorEnemyTypeA(this);
+	}
 	
 	
 	@Override
