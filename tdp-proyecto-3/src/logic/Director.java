@@ -23,7 +23,7 @@ public void constructLevelOne(Builder b) {
 	
 	Entity w1 = new Wall(0, 0, 31, 356);
 	Entity w2 = new Wall(0, 0, 1024, 29);
-	Entity w3 = new Wall(67, 80, 266, 21);
+	Entity w3 = new Wall(66, 80, 275, 21);
 	walls.add(w1);
 	walls.add(w2);
 	walls.add(w3);

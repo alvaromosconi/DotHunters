@@ -26,7 +26,7 @@ public class Game {
 		myGUI.addEntity(player);
 		
 		this.walls = currentLevel.getWalls();
-		chargeZones();
+		chargeZonesWithWalls();
 		
 		myGUI.addEntity(currentLevel.enemies().get(0));
 		myGUI.setupBackground(); 
@@ -36,29 +36,46 @@ public class Game {
 		
 		myZones = new Zone[4][4];
 		
-		myZones[0][0] = new Zone(new Point(0,0), new Point (256, 0), new Point(0, 167) , new Point(256, 167));
+//		myZones[0][0] = new Zone(new Point(0,0), new Point (256, 0), new Point(0, 167) , new Point(256, 167));
+//		myZones[0][1] = new Zone(new Point(0,0), new Point (256, 0), new Point(0, 167) , new Point(256, 167));
+//		myZones[0][0] = new Zone(new Point(0,0), new Point (256, 0), new Point(0, 167) , new Point(256, 167));
 		
+		int k = 256;
+		int o = 167;
+		
+		int widthMultiplier = 0;
+		int heightMultiplier = 0;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) 
+				myZones[i][j] = new Zone(new Point(widthMultiplier, heightMultiplier), 
+						 	    		 new Point(widthMultiplier + k, heightMultiplier), 
+						 	    		 new Point(widthMultiplier, heightMultiplier + o),
+						 	    		 new Point(widthMultiplier + k, heightMultiplier + o));
+
+			
+			heightMultiplier += o;
+			widthMultiplier += k;
+		}
 	}
 	
-	private void chargeZones() {
+	private void chargeZonesWithWalls() {
 	
-		Point p;
-		Rectangle r;
+		Rectangle r1;
+		Rectangle r2;
 		
 		for (Entity e: walls) {
 			
-			p = new Point (e.getXValue(), e.getYValue());
+			r1 = new Rectangle(e.getXValue(), e.getYValue(), e.getWidth(), e.getHeight());
 			for (int i = 0; i < myZones.length ; i++ )
 				for (int j = 0; j < myZones[0].length ; j++) {
 					
 					if (myZones[i][j] != null) {
 						
-						r = new Rectangle (0, 0, myZones[i][j].getWidthOfZone(), myZones[i][j].getHeightOfZone() );
+						r2 = new Rectangle ((int) myZones[i][j].getUpperLeftVertex().getX() , (int) myZones[i][j].getUpperLeftVertex().getY(), myZones[i][j].getWidthOfZone(), myZones[i][j].getHeightOfZone() );
 	
-						if (r.contains(p)) {
+						if (r1.intersects(r2)) {
 							myGUI.addWall(e);
 							myZones[i][j].addEntity(e);
-				
 						}
 					}	
 				}
@@ -83,7 +100,23 @@ public class Game {
 		
 
 		Rectangle figure1, figure2;
+		boolean intersect = false;
+		figure1 = new Rectangle (myGUI.getLabel(player).getBounds());
+		
+		Zone z = getZone(player.getXValue(), player.getYValue());
+		
+		
 
+		if (z != null)
+			
+			for (Entity ent: z.getEntities()) {	
+	
+					figure2 = new Rectangle (myGUI.getLabel(ent).getBounds());
+					intersect = figure1.intersects(figure2);
+					if (intersect) 
+						ent.accept(player.getVisitor());
+
+			}
 		
 		switch (e.getKeyCode()) {
 		
@@ -91,32 +124,13 @@ public class Game {
 			case KeyEvent.VK_RIGHT : {player.moveRight(); break;}
 			case KeyEvent.VK_UP : {player.moveUp(); break;}
 			case KeyEvent.VK_DOWN : {player.moveDown(); break;}
-		
+	
 		}
 		
-
+				
 		myGUI.refreshEntity(player);
 		
 		
-		
-		figure1 = new Rectangle (myGUI.getLabel(player).getBounds());
-		Zone z = getZone(player.getXValue(), player.getYValue());
-		
-		if (z != null) {
-
-		for (Entity ent: z.getEntities()) {	
-
-			if (ent != null) {
-
-				figure2 = new Rectangle (myGUI.getLabel(ent).getBounds());
-				if (figure1.intersects(figure2)) {
-		
-					ent.accept(player.getVisitor());
-				}
-			}
-		}
-
-
 		//System.out.println("BOUNDS jugador: " + figure1.getBounds());
 		}
 //		System.out.println("BOUNDS wall: " + figure2.getBounds());
@@ -125,7 +139,7 @@ public class Game {
 		
 	//	System.out.println("INTERSECTARON ? : " + figure1.intersects(figure2));
 		
-	}
+	
 
 	private Zone getZone(int xValue, int yValue) {
 		

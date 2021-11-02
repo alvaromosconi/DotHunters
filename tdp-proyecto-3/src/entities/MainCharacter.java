@@ -24,14 +24,14 @@ public class MainCharacter extends Entity {
 
 	@Override
 	public void moveUp() {
-		
+		if (canMove)
 		yValue -= 3;	
 	}
 
 
 	@Override
 	public void moveDown() {
-		
+		if (canMove)
 		yValue += 3;	
 	}
 
@@ -46,7 +46,7 @@ public class MainCharacter extends Entity {
 
 	@Override
 	public void moveRight() {
-		
+		if (canMove)
 		xValue += 3;	
 	}
 

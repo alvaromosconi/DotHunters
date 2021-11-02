@@ -86,10 +86,8 @@ public class Zone {
 	public boolean inside(int x, int y) {
 		
 		return ( (x >= upperLeftVertex.getX() && x <= upperRightVertex.getX()) &&
-			(y >= upperLeftVertex.getY() && y <= bottomLeftVertex.getY()));
+			     (y >= upperLeftVertex.getY() && y <= bottomLeftVertex.getY()));
 
-		
-		
 	}
 	
 	

@@ -22,6 +22,7 @@ public class VisitorWall implements Visitor{
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
+		
 		m.blockMove();
 		
 	}

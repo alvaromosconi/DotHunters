@@ -46,7 +46,7 @@ public class GUI extends JFrame {
 	private void setupWindow() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1024, 730)); 
+        setMinimumSize(new Dimension(1024, 688)); 
         setLocationRelativeTo(null);
         
 		setContentPane(panel);
@@ -66,8 +66,8 @@ public class GUI extends JFrame {
 		backgroundLabel.setIcon(backgroundImage);
 		
 		//backgroundLabel.setLocation( (panel.getWidth() - backgroundLabel.getWidth()) / 2, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
-		backgroundLabel.setLocation(0, 15);
-		this.add(backgroundLabel);
+		backgroundLabel.setLocation(0, 0);
+		panel.add(backgroundLabel);
 	}
 
 	

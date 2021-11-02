@@ -61,6 +61,11 @@ public abstract class Entity implements Movement {
 		return xValue;
 		
 	}
+
+	public void freeMove() {
+		canMove = true;
+		
+	}
 	
 	
 }
