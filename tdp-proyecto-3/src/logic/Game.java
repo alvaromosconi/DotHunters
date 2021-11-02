@@ -26,10 +26,8 @@ public class Game {
 		myGUI.addEntity(player);
 		
 		this.walls = currentLevel.getWalls();
-		myGUI.addWall(currentLevel.getWalls().get(0));
-		//myGUI.addWall(currentLevel.getWalls().get(1));
-
-	
+		chargeZones();
+		
 		myGUI.addEntity(currentLevel.enemies().get(0));
 		myGUI.setupBackground(); 
 	}
@@ -40,7 +38,33 @@ public class Game {
 		
 		myZones[0][0] = new Zone(new Point(0,0), new Point (256, 0), new Point(0, 167) , new Point(256, 167));
 		
-		//myZones[0][0].addEntity(wall);
+	}
+	
+	private void chargeZones() {
+	
+		Point p;
+		Rectangle r;
+		
+		for (Entity e: walls) {
+			
+			p = new Point (e.getXValue(), e.getYValue());
+			for (int i = 0; i < myZones.length ; i++ )
+				for (int j = 0; j < myZones[0].length ; j++) {
+					
+					if (myZones[i][j] != null) {
+						
+						r = new Rectangle (0, 0, myZones[i][j].getWidthOfZone(), myZones[i][j].getHeightOfZone() );
+	
+						if (r.contains(p)) {
+							myGUI.addWall(e);
+							myZones[i][j].addEntity(e);
+				
+						}
+					}	
+				}
+		}
+		
+		
 	}
 
 	private void initializeLevel() {
@@ -73,27 +97,58 @@ public class Game {
 
 		myGUI.refreshEntity(player);
 		
-
-		figure1 = new Rectangle (myGUI.getLabel(player).getBounds());
-		figure2 = new Rectangle (myGUI.getLabel(walls.get(0)).getBounds());
-		//figure1.grow(14, 0);
-		System.out.println("BOUNDS jugador: " + figure1.getBounds());
-		System.out.println("BOUNDS wall: " + figure2.getBounds());
-	
-		if (figure1.intersects(figure2))
-			walls.get(0).accept(player.getVisitor());
 		
-		System.out.println("INTERSECTARON ? : " + figure1.intersects(figure2));
+		
+		figure1 = new Rectangle (myGUI.getLabel(player).getBounds());
+		Zone z = getZone(player.getXValue(), player.getYValue());
+		
+		if (z != null) {
+
+		for (Entity ent: z.getEntities()) {	
+
+			if (ent != null) {
+
+				figure2 = new Rectangle (myGUI.getLabel(ent).getBounds());
+				if (figure1.intersects(figure2)) {
+		
+					ent.accept(player.getVisitor());
+				}
+			}
+		}
+
+
+		//System.out.println("BOUNDS jugador: " + figure1.getBounds());
+		}
+//		System.out.println("BOUNDS wall: " + figure2.getBounds());
+	
+
+		
+	//	System.out.println("INTERSECTARON ? : " + figure1.intersects(figure2));
 		
 	}
+
+	private Zone getZone(int xValue, int yValue) {
+		
+		for (int i = 0; i < myZones.length; i++) 
+			for (int j = 0; j < myZones[0].length; j++)
+				if (myZones[i][j] != null)
+					if (myZones[i][j].inside(xValue, yValue))
+						return myZones[i][j];
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
+		return null;
+					
+		
+	}
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

@@ -46,25 +46,27 @@ public class GUI extends JFrame {
 	private void setupWindow() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1072, 700)); 
+        setMinimumSize(new Dimension(1024, 730)); 
         setLocationRelativeTo(null);
         
 		setContentPane(panel);
 		panel.setLayout(null);
        
-		//setUndecorated(true);
-	    //setResizable(false);
+		setUndecorated(true);
+	    setResizable(false);
 
 	}
 	
 	public void setupBackground() {
 		
+		
 		JLabel backgroundLabel = new JLabel("");
-		backgroundLabel.setSize(1024, 688);
+		backgroundLabel.setSize(new Dimension(1024, 688));
 		backgroundImage = new ImageIcon(GUI.class.getResource(backgroundUrl));
 		backgroundLabel.setIcon(backgroundImage);
+		
 		//backgroundLabel.setLocation( (panel.getWidth() - backgroundLabel.getWidth()) / 2, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
-		backgroundLabel.setLocation(0, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
+		backgroundLabel.setLocation(0, 15);
 		this.add(backgroundLabel);
 	}
 
@@ -100,9 +102,9 @@ public class GUI extends JFrame {
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
 	
 
-		entityLabel.setOpaque(rootPaneCheckingEnabled);
-		entityLabel.setBackground(Color.BLUE);
-		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entityImage.getIconWidth()+20, entityImage.getIconHeight() );
+	//	entityLabel.setOpaque(rootPaneCheckingEnabled);
+	//	entityLabel.setBackground(Color.BLUE);
+		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entityImage.getIconWidth() +7, entityImage.getIconHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(entityLabel);

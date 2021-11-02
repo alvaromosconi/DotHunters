@@ -8,8 +8,6 @@ import java.awt.Point;
 
 public class Zone {
 
-	
-	
 	private List<Entity> myEntities;
 	private Point upperLeftVertex;
 	private Point upperRightVertex;
@@ -25,6 +23,11 @@ public class Zone {
 		this.bottomLeftVertex = bottomLeftVertex;
 		this.bottomRightVertex = bottomRightVertex;
 		
+	}
+	
+	public List<Entity> getEntities() {
+		
+		return myEntities;
 	}
 	
 	public void addEntity(Entity entity) {
@@ -56,6 +59,40 @@ public class Zone {
 		
 		return bottomRightVertex;
 	}
+	
+	public Point getCenterOfRectangle() {
+		
+		int centerX;
+		int centerY;
+		
+		centerX = (int) (upperRightVertex.getX() + upperLeftVertex.getX()) / 2;
+		centerY = (int) (upperRightVertex.getY() + bottomRightVertex.getY()) / 2;
+		
+	    
+	    return new Point(centerX, centerY);
+		
+	}
+	
+	public int getWidthOfZone() {
+		
+		return  (int) (upperRightVertex.getX() - upperLeftVertex.getX());
+	}
+	
+	public int getHeightOfZone() {
+		
+		return 	(int) (bottomLeftVertex.getY() - upperRightVertex.getY());
+	}
+	
+	public boolean inside(int x, int y) {
+		
+		return ( (x >= upperLeftVertex.getX() && x <= upperRightVertex.getX()) &&
+			(y >= upperLeftVertex.getY() && y <= bottomLeftVertex.getY()));
+
+		
+		
+	}
+	
+	
 	
 	
 	
