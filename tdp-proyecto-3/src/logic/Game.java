@@ -39,8 +39,8 @@ public class Game {
 		
 		myZones = new Zone[4][4];
 		
-		int k = 256;
-		int o = 167;
+		int k = 297;
+		int o = 209;
 		
 		int widthMultiplier = 0;
 		int heightMultiplier = 0;
