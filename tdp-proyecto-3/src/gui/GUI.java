@@ -102,9 +102,9 @@ public class GUI extends JFrame {
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
 	
 
-	//	entityLabel.setOpaque(rootPaneCheckingEnabled);
-	//	entityLabel.setBackground(Color.BLUE);
-		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entityImage.getIconWidth() +7, entityImage.getIconHeight() );
+		entityLabel.setOpaque(rootPaneCheckingEnabled);
+		entityLabel.setBackground(Color.BLUE);
+		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entityImage.getIconWidth() + 19 , entityImage.getIconHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(entityLabel);

@@ -1,13 +1,16 @@
 package entities;
+import java.awt.Rectangle;
+
 import visitors.Visitor;
 
-public abstract class Entity implements Movement {
+public abstract class Entity {
 
 	protected int xValue;
 	protected int yValue;
 	protected Visitor visitor;
 	protected String imageRoute;
-	protected boolean canMove;
+	protected int xVelocity;
+	protected int yVelocity;
 	
 	public void setXValue(int xValue) {
 		
@@ -23,6 +26,16 @@ public abstract class Entity implements Movement {
 	public void setVisitor(Visitor visitor) {
 		
 		this.visitor = visitor;
+	}
+	
+	public void setXVelocity(int xVelocity) {
+		
+		this.xVelocity = xVelocity;
+	}
+	
+	public void setYVelocity(int yVelocity) {
+		
+		this.yVelocity = yVelocity;
 	}
 	
 	public int getXValue() {
@@ -47,10 +60,6 @@ public abstract class Entity implements Movement {
 	
 	public abstract void accept(Visitor v);
 
-	public void blockMove() {
-		
-		canMove = false;
-	}
 
 	public int getWidth() {
 		return xValue; 
@@ -61,15 +70,24 @@ public abstract class Entity implements Movement {
 		return xValue;
 		
 	}
-
-	public void freeMove() {
-		canMove = true;
+	
+	public int getXVelocity() {
 		
+		return yVelocity;
 	}
 	
-	public boolean getSatus() {
-		return canMove;
+	public int getYVelocity() {
+		
+		return xVelocity;
 	}
 	
-	
+	public void move() {
+		
+		xValue += xVelocity;
+		yValue += yVelocity;
+	}
+
+	public Rectangle getOffsetBounds() {
+	    return new Rectangle(xValue + xVelocity, yValue + yVelocity, 44, 44);
+	}	
 }

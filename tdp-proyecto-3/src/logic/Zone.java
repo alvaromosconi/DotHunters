@@ -5,6 +5,7 @@ import java.util.List;
 import entities.Entity;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 
 public class Zone {
 
@@ -100,7 +101,11 @@ public class Zone {
 		
 		return toReturn;
 	
-
+	}
+	
+	public Rectangle getRectangle() {
+		
+		return new Rectangle((int) upperLeftVertex.getX(), (int) upperLeftVertex.getY(), getWidthOfZone(), getHeightOfZone());
 	}
 	
 	

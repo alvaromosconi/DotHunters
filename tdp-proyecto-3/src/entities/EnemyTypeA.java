@@ -10,7 +10,6 @@ public class EnemyTypeA extends Enemy {
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
-		this.canMove = true;
 		
 		visitor = new VisitorEnemyTypeA(this);
 	}
@@ -22,28 +21,5 @@ public class EnemyTypeA extends Enemy {
 		
 	}
 
-	@Override
-	public void moveUp() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void moveDown() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void moveLeft() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void moveRight() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

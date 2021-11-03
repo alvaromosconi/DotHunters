@@ -1,5 +1,7 @@
 package entities;
 
+import java.awt.Rectangle;
+
 import visitors.Visitor;
 import visitors.VisitorMainCharacter;
 
@@ -10,7 +12,8 @@ public class MainCharacter extends Entity {
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
-		this.canMove = true;
+		this.xVelocity = 2;
+		this.yVelocity = 2;
 		
 		visitor = new VisitorMainCharacter(this);
 	}
@@ -19,36 +22,7 @@ public class MainCharacter extends Entity {
 	public void accept(Visitor v) {
 		
 		v.visitMainCharacter(this);
-		
-	}
-
-	@Override
-	public void moveUp() {
-		if (canMove)
-		yValue -= 3;	
-	}
-
-
-	@Override
-	public void moveDown() {
-		if (canMove)
-		yValue += 3;	
-	}
-
-
-	@Override
-	public void moveLeft() {
-		
-		if (canMove)
-			xValue -= 3;	
-	}
-
-
-	@Override
-	public void moveRight() {
-		if (canMove)
-		xValue += 3;	
-	}
+	}	
 
 
 }

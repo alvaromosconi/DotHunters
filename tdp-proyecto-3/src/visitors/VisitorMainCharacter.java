@@ -16,12 +16,9 @@ public class VisitorMainCharacter implements Visitor {
 	
 	@Override
 	public void visitWall(Wall w) {
-		
-		int myXValue = w.getXValue();
-		int myYValue = w.getYValue();
-		
-		if (myXValue <= player.getXValue())
-			player.setXValue(player.getXValue() + myXValue + 5);
+	//	player.setVelocity(-player.getVelocity());
+		player.setXVelocity(0);
+		player.setYVelocity(0);
 	}
 
 	@Override
