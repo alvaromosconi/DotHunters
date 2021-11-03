@@ -90,6 +90,20 @@ public class Zone {
 
 	}
 	
+	public Zone getCurrentZone(int x, int y) {
+		
+		Zone toReturn = null;
+		
+		if ( (x >= upperLeftVertex.getX() && x <= upperRightVertex.getX()) &&
+			     (y >= upperLeftVertex.getY() && y <= bottomLeftVertex.getY()))
+			toReturn = this;
+		
+		return toReturn;
+	
+
+	}
+	
+	
 	
 	
 	

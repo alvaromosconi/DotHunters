@@ -123,7 +123,7 @@ public class GUI extends JFrame {
 		
 		wallLabel.setOpaque(rootPaneCheckingEnabled);
 		wallLabel.setBackground(Color.BLUE);
-
+		
 		panel.add(wallLabel);
 		labelMap.put(w, wallLabel);	
 	}

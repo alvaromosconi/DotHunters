@@ -67,5 +67,9 @@ public abstract class Entity implements Movement {
 		
 	}
 	
+	public boolean getSatus() {
+		return canMove;
+	}
+	
 	
 }

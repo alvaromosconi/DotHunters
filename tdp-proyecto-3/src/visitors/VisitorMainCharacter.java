@@ -17,7 +17,11 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitWall(Wall w) {
 		
-		player.blockMove();
+		int myXValue = w.getXValue();
+		int myYValue = w.getYValue();
+		
+		if (myXValue <= player.getXValue())
+			player.setXValue(player.getXValue() + myXValue + 5);
 	}
 
 	@Override
