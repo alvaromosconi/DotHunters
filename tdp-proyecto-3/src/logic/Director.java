@@ -22,6 +22,7 @@ public void constructLevelOne(Builder b) {
 	Entity player = new MainCharacter(400, 400, "/assets/mario1.gif");
 	
 	
+	
 	Entity nw1 = new Wall(0, 0, 44, 396);
 	Entity nw2 = new Wall(44, 0, 550, 44);
 	Entity nw3 = new Wall(0, 352, 132, 44);
@@ -53,8 +54,8 @@ public void constructLevelOne(Builder b) {
 
 	for (int i = 0; i < components.size(); i++) {
 		
-		Component comp = new RegularDot();
-		components.add(comp);
+		//Component comp = new RegularDot();
+		//components.add(comp);
 	}
 	
 	Entity enemy1 = new EnemyTypeA(400, 500, "/assets/EnemyTypeA.gif");

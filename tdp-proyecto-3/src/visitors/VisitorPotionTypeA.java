@@ -9,20 +9,18 @@ import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
 
-public class VisitorMainCharacter implements Visitor {
-
-	private Entity player;
+public class VisitorPotionTypeA implements Visitor {
 	
-	public VisitorMainCharacter(MainCharacter player) {
-		
-		this.player = player;
+	private Entity potion;
+	
+	public VisitorPotionTypeA (Potion p) {
+		this.potion = p;
 	}
 	
 	@Override
 	public void visitWall(Wall w) {
-	//	player.setVelocity(-player.getVelocity());
-		player.setXVelocity(0);
-		player.setYVelocity(0);
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
