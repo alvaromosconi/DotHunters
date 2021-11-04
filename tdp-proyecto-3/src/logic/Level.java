@@ -8,6 +8,7 @@ public class Level {
 	
 	private List<Entity> enemies;
 	private List<Entity> walls;
+	private List<Entity> components;
 	private Entity player;
 	private String backgroundUrl; 
 
@@ -17,6 +18,7 @@ public class Level {
 		this.player = player;
 		this.backgroundUrl = backgroundUrl;
 		this.walls = walls;
+		this.components = components;
 	}
 
 	public String getBackgroundUrl() {
@@ -32,6 +34,11 @@ public class Level {
 	public List<Entity> getWalls() {
 		
 		return walls;
+	}
+	
+	public List<Entity> getComponents() {
+		
+		return components;
 	}
 	
 	public List<Entity> enemies() {

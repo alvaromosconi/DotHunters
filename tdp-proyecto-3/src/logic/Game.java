@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Component;
 import entities.Entity;
 import gui.GUI;
 
@@ -17,6 +18,8 @@ public class Game {
 	private Entity player;
 	private Zone[][] myZones;
 	private List<Entity> walls;
+	private List<Entity> components;
+	private List<Entity> allEntities = new ArrayList<Entity>();
 	
 	public Game () {
 			
@@ -27,6 +30,12 @@ public class Game {
 		myGUI = new GUI(this, currentLevel.getBackgroundUrl());	
 		
 		this.walls = currentLevel.getWalls();
+		this.components = currentLevel.getComponents();
+		
+
+		allEntities.add(player);
+		allEntities.addAll(components);
+		
 		
 		chargeZonesWithEntities();
 		chargeZonesWithWalls();
@@ -78,10 +87,7 @@ public class Game {
 				
 				for (int j = 0; j < myZones[0].length ; j++) {
 					
-						zoneRectangle = new Rectangle ((int) myZones[i][j].getUpperLeftVertex().getX(), 
-										    (int) myZones[i][j].getUpperLeftVertex().getY(), 
-										          myZones[i][j].getWidthOfZone(), 
-										          myZones[i][j].getHeightOfZone() );
+						zoneRectangle = myZones[i][j].getRectangle();
 				
 						if (wallRectangle.intersects(zoneRectangle)) {
 							myZones[i][j].addEntity(e);
@@ -99,28 +105,34 @@ public class Game {
 		
 		boolean entityInZone = false;
 		
-		Entity e = player;
-		entityRectangle = new Rectangle(e.getXValue(), e.getYValue(), e.getWidth(), e.getHeight());
+		for (Entity e : allEntities) {
+			System.out.println("xd");
+			entityRectangle = new Rectangle(e.getXValue(), e.getYValue(), e.getWidth(), e.getHeight());
 			
-		for (int i = 0; i < myZones.length ; i++ )
-				
-			for (int j = 0; j < myZones[0].length ; j++) {
+		
+			for (int i = 0; i < myZones.length ; i++ )
 					
-				if (myZones[i][j] != null) {
+				for (int j = 0; j < myZones[0].length ; j++) {
 						
-					zoneRectangle = myZones[i][j].getRectangle();
-						
-					if (entityRectangle.intersects(zoneRectangle) ) {
-						 
-						if (!entityInZone) {
-							myGUI.addEntity(e);
-							entityInZone = true;
-						}
+					if (myZones[i][j] != null) {
 							
-						myZones[i][j].addEntity(e);
-					}
-				}	
-			}
+						zoneRectangle = myZones[i][j].getRectangle();
+							
+						if (entityRectangle.intersects(zoneRectangle) ) {
+							 
+							if (!entityInZone ) {
+								myGUI.addEntity(e);
+								entityInZone = true;
+							}
+							
+							else if (e != player) 
+								myGUI.addEntity(e);
+							
+							myZones[i][j].addEntity(e);
+						}
+					}	
+				}
+		}
 	}
 
 	private void initializeLevel() {

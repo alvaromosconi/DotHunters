@@ -3,9 +3,9 @@ package entities;
 import visitors.Visitor;
 import visitors.VisitorPoweredDot;
 
-public class PoweredDot extends Dot{
+public class PoweredDot extends Dot {
 	
-	public PoweredDot(int xValue, int yValue,int v, String imageRoute) {
+	public PoweredDot(int xValue, int yValue, int v, String imageRoute) {
 		
 		this.xValue = xValue;
 		

@@ -7,6 +7,7 @@ import entities.Component;
 import entities.EnemyTypeA;
 import entities.Entity;
 import entities.MainCharacter;
+import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
 
@@ -14,14 +15,16 @@ public class Director {
 
 public void constructLevelOne(Builder b) {
 	
+	String poweredDotRoute = "/assets/poweredDot.png";
+	String potionTypeARoute = "/assets/potion1.png";
+	String potionTypeBRoute = "/assets/potion2.png";
+	
 	List<Entity> enemies = new ArrayList<Entity>(4);
-	List<Entity> components = new ArrayList<Entity>(200);
+	List<Entity> components = new ArrayList<Entity>();
 	List<Entity> walls = new ArrayList<Entity>();
 	
 	
 	Entity player = new MainCharacter(400, 400, "/assets/mario1.gif");
-	
-	
 	
 	Entity nw1 = new Wall(0, 0, 44, 396);
 	Entity nw2 = new Wall(44, 0, 550, 44);
@@ -47,11 +50,25 @@ public void constructLevelOne(Builder b) {
 	Entity sw11 = new Wall(220, 704, 308, 44);
 	Entity sw12 = new Wall(264, 660, 44, 44);
 	
-	
 	Entity ne1 = new Wall(550, 0, 596, 44);
 	
-	walls.addAll(Arrays.asList(nw1, nw2, nw3, nw4, nw5, nw6, nw7, nw8, nw9, nw10, sw1, sw2, sw3, sw4, sw5, sw6, sw7, sw8, sw9, sw10, sw11, sw12, ne1));	
+	walls.addAll(Arrays.asList(nw1, nw2, nw3, nw4, nw5, nw6, nw7, nw8, nw9, nw10, 
+							   sw1, sw2, sw3, sw4, sw5, sw6, sw7, sw8, sw9, sw10, sw11, sw12,
+							   ne1));	
 
+	Entity poweredDot1 = new PoweredDot(66, 66, 20, poweredDotRoute);
+	Entity poweredDot2 = new PoweredDot(1100, 66, 20, poweredDotRoute);
+	Entity poweredDot3 = new PoweredDot(66, 770, 20, poweredDotRoute);
+	Entity poweredDot4 = new PoweredDot(1100, 770, 20, poweredDotRoute);
+	
+
+	
+	Entity potion1 = new PoweredDot(330, 330, 30, potionTypeARoute);
+	Entity potion2 = new PoweredDot(836, 330, 30, potionTypeBRoute);
+	
+	components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2));	
+
+	
 	for (int i = 0; i < components.size(); i++) {
 		
 		//Component comp = new RegularDot();
