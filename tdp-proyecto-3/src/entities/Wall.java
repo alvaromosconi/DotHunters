@@ -35,7 +35,7 @@ public class Wall extends Entity {
 	
 	public boolean inside(int x, int y) {
 		
-		return ( (x >= xValue && x <= xValue + width) &&
+		return ( (x >= xValue && x <= xValue + width) ||
 			     (y >= yValue && y <= yValue + height));
 
 	}

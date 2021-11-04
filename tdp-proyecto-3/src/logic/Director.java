@@ -1,12 +1,12 @@
 package logic;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import entities.Component;
 import entities.EnemyTypeA;
+import entities.EnemyTypeB;
+import entities.EnemyTypeC;
+import entities.EnemyTypeD;
 import entities.Entity;
 import entities.FruitTypeA;
 import entities.MainCharacter;
@@ -16,13 +16,14 @@ import entities.Wall;
 
 public class Director {
 
+	String regularDotRoute = "/assets/regularDot.png";
+	String poweredDotRoute = "/assets/poweredDot.png";
+	String potionTypeARoute = "/assets/potion1.png";
+	String potionTypeBRoute = "/assets/potion2.png";
+	String fruitTypeARoute = "/assets/fruit1.png";
+	
 	public void constructLevelOne(Builder b) {
 		
-		String regularDotRoute = "/assets/regularDot.png";
-		String poweredDotRoute = "/assets/poweredDot.png";
-		String potionTypeARoute = "/assets/potion1.png";
-		String potionTypeBRoute = "/assets/potion2.png";
-		String fruitTypeARoute = "/assets/fruit1.png";
 		
 		List<Entity> enemies = new ArrayList<Entity>(4);
 		List<Entity> components = new ArrayList<Entity>();
@@ -103,11 +104,11 @@ public class Director {
 	
 	
 		Entity poweredDot1 = new PoweredDot(56, 56, 20, poweredDotRoute);
-		Entity poweredDot2 = new PoweredDot(1100, 56, 20, poweredDotRoute);
+		Entity poweredDot2 = new PoweredDot(1090, 56, 20, poweredDotRoute);
 		Entity poweredDot3 = new PoweredDot(56, 758, 20, poweredDotRoute);
 		Entity poweredDot4 = new PoweredDot(1100, 758, 20, poweredDotRoute);
 		
-		Entity potion1 = new PoweredDot(320, 320, 30, potionTypeARoute);
+		Entity potion1 = new PoweredDot(308, 308, 30, potionTypeARoute);
 		Entity potion2 = new PoweredDot(856, 330, 30, potionTypeBRoute);
 		
 		Entity fruit1 = new FruitTypeA(572, 408, 50, fruitTypeARoute);
@@ -122,21 +123,21 @@ public class Director {
 		for (int i = 1; i < 26; i++)
 			
 			for (int j = 1; j < 18; j++)  {
-	
+				
 					Entity regularDot = new RegularDot(i * 44, j * 44, 10, regularDotRoute);
 					components.add(regularDot);
-					
+					 
+				 
 			}
 			
-		
-			
-		Entity enemy1 = new EnemyTypeA(400, 500, "/assets/EnemyTypeA.gif");
-	//	Entity enemy2 = new EnemyTypeB();
-	//	Entity enemy3 = new EnemyTypeC();
-	//	Entity enemy4 = new EnemyTypeD();
-		enemies.add(enemy1);
 	
-	//	enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+		Entity enemy1 = new EnemyTypeA(484, 308, "/assets/EnemyTypeA.gif");
+		Entity enemy2 = new EnemyTypeB(528, 308, "/assets/EnemyTypeB.gif");
+		Entity enemy3 = new EnemyTypeC(572, 308, "/assets/EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(616, 308, "/assets/EnemyTypeD.gif");
+		
+		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+	
 		
 		b.createBackground("/assets/background.png");
 	    b.createEnemies(enemies);
@@ -226,26 +227,47 @@ public class Director {
 				   ne1, ne2, ne3, ne4, ne5, ne6, ne7, ne8, ne9, ne10,
 				   se1, se2, se3, se4, se5, se6, se7, se8, se9, se10));
 		
-		for (int i = 0; i < components.size(); i++) {
-			
-			//Component comp = new RegularDot();
-			//components.add(comp);
-		}
+		Entity poweredDot1 = new PoweredDot(56, 56, 20, poweredDotRoute);
+		Entity poweredDot2 = new PoweredDot(1090, 56, 20, poweredDotRoute);
+		Entity poweredDot3 = new PoweredDot(56, 758, 20, poweredDotRoute);
+		Entity poweredDot4 = new PoweredDot(1100, 758, 20, poweredDotRoute);
 		
-		Entity enemy1 = new EnemyTypeA(400, 500, "/assets/EnemyTypeA.gif");
-//		Entity enemy2 = new EnemyTypeB();
-//		Entity enemy3 = new EnemyTypeC();
-//		Entity enemy4 = new EnemyTypeD();
-		enemies.add(enemy1);
-
-//		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+		Entity potion1 = new PoweredDot(308, 308, 30, potionTypeARoute);
+		Entity potion2 = new PoweredDot(856, 330, 30, potionTypeBRoute);
+		
+		Entity fruit1 = new FruitTypeA(572, 571, 50, fruitTypeARoute);
+	
+		
+		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
+	
+	
+		//cantidad de celdas disponibles = cantidad de celdas totales - cantidad de celdas ocupadas por otros componentes / personajes
+		
+		
+		for (int i = 1; i < 26; i++)
+			
+			for (int j = 1; j < 18; j++)  {
+				
+					Entity regularDot = new RegularDot(i * 44, j * 44, 10, regularDotRoute);
+					components.add(regularDot);
+					 
+				 
+			}
+			
+	
+		Entity enemy1 = new EnemyTypeA(484, 220, "/assets/EnemyTypeA.gif");
+		Entity enemy2 = new EnemyTypeB(528, 220, "/assets/EnemyTypeB.gif");
+		Entity enemy3 = new EnemyTypeC(572, 220, "/assets/EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(616, 220, "/assets/EnemyTypeD.gif");
+		
+		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+	
 		
 		b.createBackground("/assets/background2.png");
 	    b.createEnemies(enemies);
+	    b.createWalls(walls);
 	    b.createComponents(components);
 	    b.createPlayer(player);
-	    b.createWalls(walls);
-		
 	}
 	
 	
@@ -324,25 +346,48 @@ public class Director {
 				   se1, se2, se3, se4, se5, se6
 				   ));
 		
-		for (int i = 0; i < components.size(); i++) {
-			
-			//Component comp = new RegularDot();
-			//components.add(comp);
-		}
 		
-		Entity enemy1 = new EnemyTypeA(400, 500, "/assets/EnemyTypeA.gif");
-//		Entity enemy2 = new EnemyTypeB();
-//		Entity enemy3 = new EnemyTypeC();
-//		Entity enemy4 = new EnemyTypeD();
-		enemies.add(enemy1);
-
-//		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+		Entity poweredDot1 = new PoweredDot(56, 88, 20, poweredDotRoute);
+		Entity poweredDot2 = new PoweredDot(1090, 88, 20, poweredDotRoute);
+		Entity poweredDot3 = new PoweredDot(56, 703, 20, poweredDotRoute);
+		Entity poweredDot4 = new PoweredDot(1090, 703, 20, poweredDotRoute);
+		
+		Entity potion1 = new PoweredDot(308, 308, 30, potionTypeARoute);
+		Entity potion2 = new PoweredDot(856, 330, 30, potionTypeBRoute);
+		
+		Entity fruit1 = new FruitTypeA(572, 703, 50, fruitTypeARoute);
+	
+		
+		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
+	
+	
+		//cantidad de celdas disponibles = cantidad de celdas totales - cantidad de celdas ocupadas por otros componentes / personajes
+		
+		
+		for (int i = 1; i < 26; i++)
+			
+			for (int j = 2; j < 17; j++)  {
+				
+					Entity regularDot = new RegularDot(i * 44, j * 44, 10, regularDotRoute);
+					components.add(regularDot);
+					 
+				 
+			}
+			
+	
+		Entity enemy1 = new EnemyTypeA(484, 352, "/assets/EnemyTypeA.gif");
+		Entity enemy2 = new EnemyTypeB(528, 352, "/assets/EnemyTypeB.gif");
+		Entity enemy3 = new EnemyTypeC(572, 352, "/assets/EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(616, 352, "/assets/EnemyTypeD.gif");
+		
+		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+	
 		
 		b.createBackground("/assets/background3.png");
 	    b.createEnemies(enemies);
+	    b.createWalls(walls);
 	    b.createComponents(components);
 	    b.createPlayer(player);
-	    b.createWalls(walls);
 		
 	}
 

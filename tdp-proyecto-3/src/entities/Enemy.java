@@ -1,7 +1,10 @@
 package entities;
 
 public abstract class Enemy extends Entity {
-
-	protected int width = 44;
-	protected int height = 44;
+	
+	public Enemy() {
+		
+		this.width = 44;
+		this.height = 44;
+	}
 }

@@ -25,6 +25,7 @@ public class Game {
 	private Zone[][] myZones;
 	private List<Entity> walls;
 	private List<Entity> components;
+	private List<Entity> enemies;
 	private List<Entity> allEntities = new ArrayList<Entity>();
 	
 	public Game () {
@@ -37,17 +38,19 @@ public class Game {
 		
 		this.walls = currentLevel.getWalls();
 		this.components = currentLevel.getComponents();
+		this.enemies = currentLevel.enemies();
 		
 
 		allEntities.add(player);
 		//allEntities.addAll(components);
+		allEntities.addAll(enemies);
 		
-		
+		chargeZonesWithComponents();
 		chargeZonesWithEntities();
 		chargeZonesWithWalls();
-		chargeZonesWithComponents();
 
-		myGUI.addEntity(currentLevel.enemies().get(0));
+
+
 		myGUI.setupBackground(); 
 	}
 	
@@ -120,6 +123,7 @@ public class Game {
 			
 				if (entityRectangle.intersects(wallRectangle))  {
 						myGUI.addEntity(e);
+						
 				}	
 			}
 
@@ -133,9 +137,9 @@ public class Game {
 		
 		boolean entityInZone = false;
 		
-		for (Entity e : allEntities) {
+		for (Entity entity : allEntities) {
 			System.out.println("xd");
-			entityRectangle = new Rectangle(e.getXValue(), e.getYValue(), e.getWidth(), e.getHeight());
+			entityRectangle = new Rectangle(entity.getXValue(), entity.getYValue(), entity.getWidth(), entity.getHeight());
 			
 		
 			for (int i = 0; i < myZones.length ; i++ )
@@ -149,14 +153,14 @@ public class Game {
 						if (entityRectangle.intersects(zoneRectangle) ) {
 							 
 							if (!entityInZone ) {
-								myGUI.addEntity(e);
+								myGUI.addEntity(entity);
 								entityInZone = true;
 							}
 							
-							else if (e != player) 
-								myGUI.addEntity(e);
+							else if (entity != player) 
+								myGUI.addEntity(entity);
 							
-							myZones[i][j].addEntity(e);
+							myZones[i][j].addEntity(entity);
 						}
 					}	
 				}
