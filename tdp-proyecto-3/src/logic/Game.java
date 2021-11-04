@@ -169,7 +169,9 @@ public class Game {
 		
 		LevelBuilder levelBuilder = new LevelBuilder();
 		
-		director.constructLevelOne(levelBuilder);
+		//director.constructLevelOne(levelBuilder);
+		//director.constructLevelTwo(levelBuilder);
+		director.constructLevelThree(levelBuilder);
 		
 		currentLevel = levelBuilder.getResult();
 		
