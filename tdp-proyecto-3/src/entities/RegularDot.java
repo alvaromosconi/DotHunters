@@ -13,6 +13,7 @@ public class RegularDot extends Dot {
 		this.imageRoute = imageRoute;
 		
 		this.value = v;
+	
 		
 		visitor = new VisitorRegularDot(this);
 	}

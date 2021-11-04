@@ -8,12 +8,16 @@ import visitors.VisitorMainCharacter;
 public class MainCharacter extends Entity {
 
 	public MainCharacter(int xValue, int yValue, String imageRoute) {
+	
 		
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
 		this.xVelocity = 2;
 		this.yVelocity = 2;
+		
+		this.width = 44;
+		this.height = 44;
 		
 		visitor = new VisitorMainCharacter(this);
 	}

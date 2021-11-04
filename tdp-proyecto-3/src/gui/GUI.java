@@ -102,9 +102,9 @@ public class GUI extends JFrame {
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
 	
 
-		entityLabel.setOpaque(rootPaneCheckingEnabled);
-		entityLabel.setBackground(Color.BLUE);
-		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entityImage.getIconWidth() + 19 , entityImage.getIconHeight() );
+		//entityLabel.setOpaque(rootPaneCheckingEnabled);
+		//entityLabel.setBackground(Color.BLUE);
+		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(entityLabel);
@@ -121,8 +121,8 @@ public class GUI extends JFrame {
 		JLabel wallLabel = new JLabel("");
 		wallLabel.setBounds(w.getXValue(), w.getYValue(), w.getWidth(), w.getHeight());
 		
-		wallLabel.setOpaque(rootPaneCheckingEnabled);
-		wallLabel.setBackground(Color.BLUE);
+	//	wallLabel.setOpaque(rootPaneCheckingEnabled);
+	//	wallLabel.setBackground(Color.BLUE);
 		
 		panel.add(wallLabel);
 		labelMap.put(w, wallLabel);	

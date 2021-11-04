@@ -32,6 +32,15 @@ public class Wall extends Entity {
 		
 		v.visitWall(this);
 	}
+	
+	public boolean inside(int x, int y) {
+		
+		return ( (x >= xValue && x <= xValue + width) &&
+			     (y >= yValue && y <= yValue + height));
+
+	}
+	
+
 
 
 }

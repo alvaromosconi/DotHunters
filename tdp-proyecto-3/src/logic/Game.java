@@ -1,14 +1,20 @@
 package logic;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.w3c.dom.css.Rect;
 
 import entities.Component;
 import entities.Entity;
+import entities.Wall;
 import gui.GUI;
 
 public class Game {
@@ -34,11 +40,12 @@ public class Game {
 		
 
 		allEntities.add(player);
-		allEntities.addAll(components);
+		//allEntities.addAll(components);
 		
 		
 		chargeZonesWithEntities();
 		chargeZonesWithWalls();
+		chargeZonesWithComponents();
 
 		myGUI.addEntity(currentLevel.enemies().get(0));
 		myGUI.setupBackground(); 
@@ -82,20 +89,41 @@ public class Game {
 		for (Entity e: walls) {
 			
 			wallRectangle = new Rectangle(e.getXValue(), e.getYValue(), e.getWidth(), e.getHeight());
-
+	
 			for (int i = 0; i < myZones.length ; i++)
 				
 				for (int j = 0; j < myZones[0].length ; j++) {
 					
 						zoneRectangle = myZones[i][j].getRectangle();
 				
-						if (wallRectangle.intersects(zoneRectangle)) {
+						if (wallRectangle.intersects(zoneRectangle) ) {
 							myZones[i][j].addEntity(e);
 							myGUI.addWall(e);
 						}
 				}	
 		}
 		
+	}
+	
+	private void chargeZonesWithComponents() {
+		
+		Rectangle entityRectangle;
+		Rectangle wallRectangle;
+
+		for (Entity e : components) {
+	
+			entityRectangle = new Rectangle(e.getXValue(), e.getYValue(), e.getWidth(), e.getHeight());
+	
+			for (Entity w: walls) {
+				
+				wallRectangle = new Rectangle(w.getXValue(), w.getYValue() , w.getWidth(), w.getHeight() );	
+			
+				if (entityRectangle.intersects(wallRectangle))  {
+						myGUI.addEntity(e);
+				}	
+			}
+
+		}
 	}
 	
 	private void chargeZonesWithEntities() {

@@ -1,7 +1,5 @@
 package entities;
 
-import visitors.*;
-
 public abstract class Fruit extends Component {
 	
 	public Fruit(int xValue, int yValue, String imageRoute) {	

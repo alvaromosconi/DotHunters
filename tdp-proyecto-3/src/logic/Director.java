@@ -1,4 +1,6 @@
 package logic;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -6,6 +8,7 @@ import java.util.List;
 import entities.Component;
 import entities.EnemyTypeA;
 import entities.Entity;
+import entities.FruitTypeA;
 import entities.MainCharacter;
 import entities.PoweredDot;
 import entities.RegularDot;
@@ -15,9 +18,11 @@ public class Director {
 
 public void constructLevelOne(Builder b) {
 	
+	String regularDotRoute = "/assets/regularDot.png";
 	String poweredDotRoute = "/assets/poweredDot.png";
 	String potionTypeARoute = "/assets/potion1.png";
 	String potionTypeBRoute = "/assets/potion2.png";
+	String fruitTypeARoute = "/assets/fruit1.png";
 	
 	List<Entity> enemies = new ArrayList<Entity>(4);
 	List<Entity> components = new ArrayList<Entity>();
@@ -88,8 +93,7 @@ public void constructLevelOne(Builder b) {
 	Entity se13 = new Wall(880, 660, 44, 44);
 	Entity se14 = new Wall(572, 792, 572, 44);
 	
-	
-	
+		
 	walls.addAll(Arrays.asList(nw1, nw2, nw3, nw4, nw5, nw6, nw7, nw8, nw9, nw10, 
 							   sw1, sw2, sw3, sw4, sw5, sw6, sw7, sw8, sw9, sw10, sw11, sw12, 
 							   n1, n2, n3, n4, n5, n6, n7,
@@ -98,24 +102,34 @@ public void constructLevelOne(Builder b) {
 							   se1, se2, se3, se4, se5, se6, se7, se8, se9, se10, se11, se12, se13,se14));
 
 
-	Entity poweredDot1 = new PoweredDot(66, 66, 20, poweredDotRoute);
-	Entity poweredDot2 = new PoweredDot(1100, 66, 20, poweredDotRoute);
-	Entity poweredDot3 = new PoweredDot(66, 770, 20, poweredDotRoute);
-	Entity poweredDot4 = new PoweredDot(1100, 770, 20, poweredDotRoute);
+	Entity poweredDot1 = new PoweredDot(56, 56, 20, poweredDotRoute);
+	Entity poweredDot2 = new PoweredDot(1100, 56, 20, poweredDotRoute);
+	Entity poweredDot3 = new PoweredDot(56, 758, 20, poweredDotRoute);
+	Entity poweredDot4 = new PoweredDot(1100, 758, 20, poweredDotRoute);
 	
+	Entity potion1 = new PoweredDot(320, 320, 30, potionTypeARoute);
+	Entity potion2 = new PoweredDot(856, 330, 30, potionTypeBRoute);
 	
-	Entity potion1 = new PoweredDot(330, 330, 30, potionTypeARoute);
-	Entity potion2 = new PoweredDot(836, 330, 30, potionTypeBRoute);
-	
-	components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2));	
+	Entity fruit1 = new FruitTypeA(572, 408, 50, fruitTypeARoute);
 
 	
-	for (int i = 0; i < components.size(); i++) {
-		
-		//Component comp = new RegularDot();
-		//components.add(comp);
-	}
+	components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
+
+
+	//cantidad de celdas disponibles = cantidad de celdas totales - cantidad de celdas ocupadas por otros componentes / personajes
 	
+	
+	for (int i = 1; i < 26; i++)
+		
+		for (int j = 1; j < 18; j++)  {
+
+				Entity regularDot = new RegularDot(i * 44, j * 44, 10, regularDotRoute);
+				components.add(regularDot);
+				
+		}
+		
+	
+		
 	Entity enemy1 = new EnemyTypeA(400, 500, "/assets/EnemyTypeA.gif");
 //	Entity enemy2 = new EnemyTypeB();
 //	Entity enemy3 = new EnemyTypeC();
@@ -126,9 +140,10 @@ public void constructLevelOne(Builder b) {
 	
 	b.createBackground("/assets/background.png");
     b.createEnemies(enemies);
+    b.createWalls(walls);
     b.createComponents(components);
     b.createPlayer(player);
-    b.createWalls(walls);
+
 	
 }
 

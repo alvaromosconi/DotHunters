@@ -11,6 +11,8 @@ public abstract class Entity {
 	protected String imageRoute;
 	protected int xVelocity;
 	protected int yVelocity;
+	protected int width;
+	protected int height;
 	
 	public void setXValue(int xValue) {
 		
@@ -21,7 +23,6 @@ public abstract class Entity {
 		
 		this.yValue = yValue;
 	}
-	
 	
 	public void setVisitor(Visitor visitor) {
 		
@@ -48,6 +49,16 @@ public abstract class Entity {
 		return yValue;
 	}
 	
+	public void setWidth(int width) {
+		
+		this.width = width;
+	}
+	
+	public void setHeight(int height) {
+		
+		this.height = height;
+	}
+	
 	public String getImageRoute() {
 		
 		return imageRoute;
@@ -62,12 +73,16 @@ public abstract class Entity {
 
 
 	public int getWidth() {
-		return xValue; 
+		
+		
+		return width;
 		
 	}
 
 	public int getHeight() {
-		return xValue;
+		
+		
+		return height;
 		
 	}
 	
