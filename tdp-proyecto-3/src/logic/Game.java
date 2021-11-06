@@ -45,8 +45,9 @@ public class Game {
 	    allEntities.addAll(components);
 		allEntities.addAll(enemies);
 		
-		chargeZonesWithEntities();
 		chargeZonesWithWalls();
+		chargeZonesWithEntities();
+	
 
 		myGUI.setupBackground(); 
 	}
@@ -110,7 +111,6 @@ public class Game {
 		Rectangle entityRectangle;
 		Rectangle zoneRectangle;
 		
-		boolean entityInZone = false;
 		
 		for (Entity entity : allEntities) {
 			
@@ -125,22 +125,19 @@ public class Game {
 							
 						zoneRectangle = myZones[i][j].getRectangle();
 							
-						if (entityRectangle.intersects(zoneRectangle) ) {
+						if (entityRectangle.intersects(zoneRectangle) && getZone(entity).size() == 0 ) {
 							 
-							if (!entityInZone ) {
 								myGUI.addEntity(entity);
-								entityInZone = true;
-							}
+								myZones[i][j].addEntity(entity);
+						}
 							
-							else if (entity != player) 
-								myGUI.addEntity(entity);
+			
 							
-							myZones[i][j].addEntity(entity);
 						}
 					}	
 				}
 		}
-	}
+	
 
 	private void initializeLevel() {
 		
@@ -148,9 +145,9 @@ public class Game {
 		
 		LevelBuilder levelBuilder = new LevelBuilder();
 		
-		//director.constructLevelOne(levelBuilder);
+		director.constructLevelOne(levelBuilder);
 		//director.constructLevelTwo(levelBuilder);
-		director.constructLevelThree(levelBuilder);
+		//director.constructLevelThree(levelBuilder);
 		
 		currentLevel = levelBuilder.getResult();
 		
@@ -182,13 +179,16 @@ public class Game {
 				
 				if (entity != player) {
 					
-					entityBRectangle = new Rectangle (myGUI.getLabel(entity).getBounds());
+					entityBRectangle = entity.getRectangle();
 					intersect = entityARectangle.intersects(entityBRectangle);
 					
 					if (intersect) {
+						System.out.println("entre");
 						entity.accept(player.getVisitor());
+						myGUI.refreshEntity(entity);
 						break;
 					}
+	
 				}
 			}
 		}
@@ -196,6 +196,7 @@ public class Game {
 		
 		updateZones(player);
 		myGUI.refreshEntity(player);
+
 		player.move();
 	
 	}

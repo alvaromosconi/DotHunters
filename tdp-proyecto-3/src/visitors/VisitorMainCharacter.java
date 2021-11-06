@@ -75,7 +75,11 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitRegulardDot(RegularDot p) {
-		// TODO Auto-generated method stub
+		
+		System.out.println("xd");
+		p.setXValue(0);
+		p.setYValue(0);
+		
 		
 	}
 

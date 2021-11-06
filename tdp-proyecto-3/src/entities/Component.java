@@ -4,8 +4,8 @@ public abstract class Component extends Entity {
 	
 	public Component() {
 		
-		this.width = 44;
-		this.height = 44;
+		this.width = 12;
+		this.height = 12;
 	}
 	
 	protected int value;

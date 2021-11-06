@@ -14,15 +14,6 @@ public class Wall extends Entity {
 		visitor = new VisitorWall(this);
 	}
 
-	public int getWidth() {
-		
-		return width;
-	}
-	
-	public int getHeight() {
-		
-		return height;
-	}
 	
 	@Override
 	public void accept(Visitor v) {

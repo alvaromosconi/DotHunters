@@ -16,8 +16,8 @@ public class MainCharacter extends Entity {
 		this.xVelocity = 2;
 		this.yVelocity = 2;
 		
-		this.width = 44;
-		this.height = 44;
+		this.width = 35;
+		this.height = 35;
 		
 		visitor = new VisitorMainCharacter(this);
 	}

@@ -129,7 +129,7 @@ public class Director {
 			for (int j = 1; j < 19; j++)  {
 				
 			
-				Entity regularDot = new RegularDot(i*44, j* 44, 10, regularDotRoute);
+				Entity regularDot = new RegularDot(i * 35-25, j * 44-25, 10, regularDotRoute);
 				components.add(regularDot);
 
 			}

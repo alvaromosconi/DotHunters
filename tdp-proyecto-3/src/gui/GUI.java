@@ -17,9 +17,6 @@ import logic.Game;
 
 public class GUI extends JFrame {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Game game;
 	private String backgroundUrl;
@@ -46,7 +43,7 @@ public class GUI extends JFrame {
 	private void setupWindow() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1188, 836)); 
+        setMinimumSize(new Dimension(1100, 665)); 
         setLocationRelativeTo(null);
         
 		setContentPane(panel);
@@ -61,7 +58,7 @@ public class GUI extends JFrame {
 		
 		
 		JLabel backgroundLabel = new JLabel("");
-		backgroundLabel.setSize(new Dimension(1188, 836));
+		backgroundLabel.setSize(new Dimension(1100, 665));
 		backgroundImage = new ImageIcon(GUI.class.getResource(backgroundUrl));
 		backgroundLabel.setIcon(backgroundImage);
 		
@@ -121,8 +118,8 @@ public class GUI extends JFrame {
 		JLabel wallLabel = new JLabel("");
 		wallLabel.setBounds(w.getXValue(), w.getYValue(), w.getWidth(), w.getHeight());
 		
-		//wallLabel.setOpaque(rootPaneCheckingEnabled);
-		//wallLabel.setBackground(Color.BLUE);
+		wallLabel.setOpaque(rootPaneCheckingEnabled);
+		wallLabel.setBackground(Color.BLUE);
 		
 		panel.add(wallLabel);
 		labelMap.put(w, wallLabel);	
