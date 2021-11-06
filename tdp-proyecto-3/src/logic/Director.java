@@ -1,6 +1,11 @@
 package logic;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import entities.EnemyTypeA;
@@ -116,21 +121,44 @@ public class Director {
 		
 		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
 	
+		
 	
-		//cantidad de celdas disponibles = cantidad de celdas totales - cantidad de celdas ocupadas por otros componentes / personajes
-		
-		
-		for (int i = 1; i < 26; i++)
+		// agrego los dots en todo el mapa
+		for (int i = 1; i < 26; i++) 
 			
-			for (int j = 1; j < 18; j++)  {
+			for (int j = 1; j < 19; j++)  {
 				
-					Entity regularDot = new RegularDot(i * 44, j * 44, 10, regularDotRoute);
-					components.add(regularDot);
-					 
-				 
-			}
 			
+				Entity regularDot = new RegularDot(i*44, j* 44, 10, regularDotRoute);
+				components.add(regularDot);
+
+			}
+		
+		
+		// elimino los que colisionan con la pared
+		Iterator<Entity> i1 = components.iterator();
+		Entity e1 = i1.next();
+		
+		while (i1.hasNext()) {
+				
+			Rectangle2D r1 = e1.getRectangle();
+
+			for (Entity w: walls) {
+					
+				Rectangle2D r2 = w.getRectangle();
+				if (r1.intersects(r2)) {
+					i1.remove();
+					break;
+				}
+					
+					
+			}
+				
+			e1 = i1.next();
+		}
 	
+		
+		
 		Entity enemy1 = new EnemyTypeA(484, 308, "/assets/EnemyTypeA.gif");
 		Entity enemy2 = new EnemyTypeB(528, 308, "/assets/EnemyTypeB.gif");
 		Entity enemy3 = new EnemyTypeC(572, 308, "/assets/EnemyTypeC.gif");
@@ -147,6 +175,8 @@ public class Director {
 	
 		
 	}
+	
+	
 	
 	public void constructLevelTwo(Builder b) {
 		

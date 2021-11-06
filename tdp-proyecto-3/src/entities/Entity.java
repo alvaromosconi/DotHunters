@@ -1,4 +1,5 @@
 package entities;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import visitors.Visitor;
@@ -105,4 +106,24 @@ public abstract class Entity {
 	public Rectangle getOffsetBounds() {
 	    return new Rectangle(xValue + xVelocity, yValue + yVelocity, 44, 44);
 	}	
+	
+	public Point getCenterOfRectangle() {
+		
+		int centerX;
+		int centerY;
+		
+		centerX = (int) (xValue + width) / 2;
+		centerY = (int) (yValue + height) / 2;
+		
+	    
+	    return new Point(centerX, centerY);
+		
+	}
+	
+	public Rectangle getRectangle() {
+		
+		return new Rectangle(xValue, yValue, width, height);
+	}
+	
+	
 }

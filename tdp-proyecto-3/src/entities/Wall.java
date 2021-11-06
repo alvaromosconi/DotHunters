@@ -4,15 +4,12 @@ import visitors.VisitorWall;
 
 public class Wall extends Entity {
 
-	private int width;
-	private int heigth;
-
-	public Wall(int xValue, int yValue, int width, int heigth) {
+	public Wall(int xValue, int yValue, int width, int height) {
 		
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.width = width;
-		this.heigth = heigth;
+		this.height = height;
 		
 		visitor = new VisitorWall(this);
 	}
@@ -24,7 +21,7 @@ public class Wall extends Entity {
 	
 	public int getHeight() {
 		
-		return heigth;
+		return height;
 	}
 	
 	@Override

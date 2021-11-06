@@ -42,14 +42,11 @@ public class Game {
 		
 
 		allEntities.add(player);
-		//allEntities.addAll(components);
+	    allEntities.addAll(components);
 		allEntities.addAll(enemies);
 		
-		chargeZonesWithComponents();
 		chargeZonesWithEntities();
 		chargeZonesWithWalls();
-
-
 
 		myGUI.setupBackground(); 
 	}
@@ -108,28 +105,6 @@ public class Game {
 		
 	}
 	
-	private void chargeZonesWithComponents() {
-		
-		Rectangle entityRectangle;
-		Rectangle wallRectangle;
-
-		for (Entity e : components) {
-	
-			entityRectangle = new Rectangle(e.getXValue(), e.getYValue(), e.getWidth(), e.getHeight());
-	
-			for (Entity w: walls) {
-				
-				wallRectangle = new Rectangle(w.getXValue(), w.getYValue() , w.getWidth(), w.getHeight() );	
-			
-				if (entityRectangle.intersects(wallRectangle))  {
-						myGUI.addEntity(e);
-						
-				}	
-			}
-
-		}
-	}
-	
 	private void chargeZonesWithEntities() {
 		
 		Rectangle entityRectangle;
@@ -138,7 +113,7 @@ public class Game {
 		boolean entityInZone = false;
 		
 		for (Entity entity : allEntities) {
-			System.out.println("xd");
+			
 			entityRectangle = new Rectangle(entity.getXValue(), entity.getYValue(), entity.getWidth(), entity.getHeight());
 			
 		
@@ -173,9 +148,9 @@ public class Game {
 		
 		LevelBuilder levelBuilder = new LevelBuilder();
 		
-		//director.constructLevelOne(levelBuilder);
+		director.constructLevelOne(levelBuilder);
 		//director.constructLevelTwo(levelBuilder);
-		director.constructLevelThree(levelBuilder);
+		//director.constructLevelThree(levelBuilder);
 		
 		currentLevel = levelBuilder.getResult();
 		
