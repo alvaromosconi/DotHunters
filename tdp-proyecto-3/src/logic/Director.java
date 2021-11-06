@@ -35,7 +35,7 @@ public class Director {
 		List<Entity> walls = new ArrayList<Entity>();
 		
 		
-		Entity player = new MainCharacter(400, 396, "/assets/mario1.gif");
+		Entity player = new MainCharacter(572, 396, "/assets/mario1.gif");
 		
 		Entity nw1 = new Wall(0, 0, 44, 396);
 		Entity nw2 = new Wall(44, 0, 550, 44);
@@ -135,23 +135,25 @@ public class Director {
 			}
 		
 		
+		Entity ZonaSinDots = new Wall(396, 220, 396, 220);
+		Rectangle2D sDots = ZonaSinDots.getRectangle();
+		
 		// elimino los que colisionan con la pared
 		Iterator<Entity> i1 = components.iterator();
 		Entity e1 = i1.next();
 		
 		while (i1.hasNext()) {
-				
+			
 			Rectangle2D r1 = e1.getRectangle();
 
 			for (Entity w: walls) {
 					
 				Rectangle2D r2 = w.getRectangle();
-				if (r1.intersects(r2)) {
+				if (r1.intersects(r2) || r1.intersects(sDots)) {
 					i1.remove();
 					break;
-				}
-					
-					
+				}	
+				
 			}
 				
 			e1 = i1.next();
@@ -161,8 +163,8 @@ public class Director {
 		
 		Entity enemy1 = new EnemyTypeA(484, 308, "/assets/EnemyTypeA.gif");
 		Entity enemy2 = new EnemyTypeB(528, 308, "/assets/EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(572, 308, "/assets/EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(616, 308, "/assets/EnemyTypeD.gif");
+		Entity enemy3 = new EnemyTypeC(616, 308, "/assets/EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(660, 308, "/assets/EnemyTypeD.gif");
 		
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
 	
@@ -274,21 +276,47 @@ public class Director {
 		//cantidad de celdas disponibles = cantidad de celdas totales - cantidad de celdas ocupadas por otros componentes / personajes
 		
 		
-		for (int i = 1; i < 26; i++)
-			
-			for (int j = 1; j < 18; j++)  {
+		// agrego los dots en todo el mapa
+				for (int i = 1; i < 26; i++) 
+					
+					for (int j = 1; j < 19; j++)  {
+						
+					
+						Entity regularDot = new RegularDot(i*44, j* 44, 10, regularDotRoute);
+						components.add(regularDot);
+
+					}
 				
-					Entity regularDot = new RegularDot(i * 44, j * 44, 10, regularDotRoute);
-					components.add(regularDot);
-					 
-				 
-			}
+				
+				Entity ZonaSinDots = new Wall(396, 132, 396, 220);
+				Rectangle2D sDots = ZonaSinDots.getRectangle();
+				
+				// elimino los que colisionan con la pared
+				Iterator<Entity> i1 = components.iterator();
+				Entity e1 = i1.next();
+				
+				while (i1.hasNext()) {
+					
+					Rectangle2D r1 = e1.getRectangle();
+
+					for (Entity w: walls) {
+							
+						Rectangle2D r2 = w.getRectangle();
+						if (r1.intersects(r2) || r1.intersects(sDots)) {
+							i1.remove();
+							break;
+						}	
+						
+					}
+						
+					e1 = i1.next();
+				}
 			
 	
 		Entity enemy1 = new EnemyTypeA(484, 220, "/assets/EnemyTypeA.gif");
 		Entity enemy2 = new EnemyTypeB(528, 220, "/assets/EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(572, 220, "/assets/EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(616, 220, "/assets/EnemyTypeD.gif");
+		Entity enemy3 = new EnemyTypeC(616, 220, "/assets/EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(660, 220, "/assets/EnemyTypeD.gif");
 		
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
 	
@@ -394,21 +422,47 @@ public class Director {
 		//cantidad de celdas disponibles = cantidad de celdas totales - cantidad de celdas ocupadas por otros componentes / personajes
 		
 		
-		for (int i = 1; i < 26; i++)
-			
-			for (int j = 2; j < 17; j++)  {
+		// agrego los dots en todo el mapa
+				for (int i = 1; i < 26; i++) 
+					
+					for (int j = 1; j < 19; j++)  {
+						
+					
+						Entity regularDot = new RegularDot(i*44, j* 44, 10, regularDotRoute);
+						components.add(regularDot);
+
+					}
 				
-					Entity regularDot = new RegularDot(i * 44, j * 44, 10, regularDotRoute);
-					components.add(regularDot);
-					 
-				 
-			}
-			
+				
+				Entity ZonaSinDots = new Wall(396, 264, 396, 220);
+				Rectangle2D sDots = ZonaSinDots.getRectangle();
+				
+				// elimino los que colisionan con la pared
+				Iterator<Entity> i1 = components.iterator();
+				Entity e1 = i1.next();
+				
+				while (i1.hasNext()) {
+					
+					Rectangle2D r1 = e1.getRectangle();
+
+					for (Entity w: walls) {
+							
+						Rectangle2D r2 = w.getRectangle();
+						if (r1.intersects(r2) || r1.intersects(sDots)) {
+							i1.remove();
+							break;
+						}	
+						
+					}
+						
+					e1 = i1.next();
+				}
+		
 	
 		Entity enemy1 = new EnemyTypeA(484, 352, "/assets/EnemyTypeA.gif");
 		Entity enemy2 = new EnemyTypeB(528, 352, "/assets/EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(572, 352, "/assets/EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(616, 352, "/assets/EnemyTypeD.gif");
+		Entity enemy3 = new EnemyTypeC(616, 352, "/assets/EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(660, 352, "/assets/EnemyTypeD.gif");
 		
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
 	
