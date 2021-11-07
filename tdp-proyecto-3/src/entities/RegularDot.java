@@ -13,6 +13,9 @@ public class RegularDot extends Dot {
 		this.imageRoute = imageRoute;
 		
 		this.value = v;
+		
+		this.width = 12;
+		this.height = 12;
 	
 		
 		visitor = new VisitorRegularDot(this);

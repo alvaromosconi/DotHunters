@@ -15,6 +15,9 @@ public class PoweredDot extends Dot {
 		
 		this.value = v;
 		
+		this.width = 24;
+		this.height = 24;
+		
 		visitor = new VisitorPoweredDot(this);
 	}
 	

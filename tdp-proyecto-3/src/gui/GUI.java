@@ -43,7 +43,7 @@ public class GUI extends JFrame {
 	private void setupWindow() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1100, 665)); 
+        setMinimumSize(new Dimension(1100, 684)); 
         setLocationRelativeTo(null);
         
 		setContentPane(panel);
@@ -58,7 +58,7 @@ public class GUI extends JFrame {
 		
 		
 		JLabel backgroundLabel = new JLabel("");
-		backgroundLabel.setSize(new Dimension(1100, 665));
+		backgroundLabel.setSize(new Dimension(1100, 684));
 		backgroundImage = new ImageIcon(GUI.class.getResource(backgroundUrl));
 		backgroundLabel.setIcon(backgroundImage);
 		
@@ -118,8 +118,8 @@ public class GUI extends JFrame {
 		JLabel wallLabel = new JLabel("");
 		wallLabel.setBounds(w.getXValue(), w.getYValue(), w.getWidth(), w.getHeight());
 		
-		wallLabel.setOpaque(rootPaneCheckingEnabled);
-		wallLabel.setBackground(Color.BLUE);
+	//	wallLabel.setOpaque(rootPaneCheckingEnabled);
+	//	wallLabel.setBackground(Color.BLUE);
 		
 		panel.add(wallLabel);
 		labelMap.put(w, wallLabel);	

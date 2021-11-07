@@ -104,7 +104,7 @@ public abstract class Entity {
 	}
 
 	public Rectangle getOffsetBounds() {
-	    return new Rectangle(xValue + xVelocity, yValue + yVelocity, 44, 44);
+	    return new Rectangle(xValue + xVelocity, yValue + yVelocity, 21, 36);
 	}	
 	
 	public Point getCenterOfRectangle() {

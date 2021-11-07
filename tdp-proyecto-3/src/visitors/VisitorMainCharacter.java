@@ -20,7 +20,7 @@ public class VisitorMainCharacter implements Visitor {
 	
 	@Override
 	public void visitWall(Wall w) {
-	//	player.setVelocity(-player.getVelocity());
+		
 		player.setXVelocity(0);
 		player.setYVelocity(0);
 	}

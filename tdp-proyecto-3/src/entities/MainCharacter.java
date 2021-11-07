@@ -13,11 +13,11 @@ public class MainCharacter extends Entity {
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
-		this.xVelocity = 2;
-		this.yVelocity = 2;
+		this.xVelocity = 0;
+		this.yVelocity = 0;
 		
-		this.width = 35;
-		this.height = 35;
+		this.width = 21;
+		this.height = 36;
 		
 		visitor = new VisitorMainCharacter(this);
 	}
