@@ -143,7 +143,7 @@ public class Director {
 		List<Entity> walls = new ArrayList<Entity>();
 		
 		
-		Entity player = new MainCharacter(13 * size, 11 * size, "/assets/mario1.gif");
+		Entity player = new MainCharacter(13 * size, 7 * size, "/assets/mario1.gif");
 		
 		
 		try {
@@ -201,7 +201,7 @@ public class Director {
 			}
 				
 				
-		Entity ZonaSinDots = new Wall(9 * size, 5 * size, 9 * size, 5 * size);
+		Entity ZonaSinDots = new Wall(9 * size, 3 * size, 9 * size, 5 * size);
 		Rectangle2D sDots = ZonaSinDots.getRectangle();
 			
 		// elimino los que colisionan con la pared
@@ -226,10 +226,10 @@ public class Director {
 		}
 						
 				
-		Entity enemy1 = new EnemyTypeA(11 * size, 7 * size, "/assets/EnemyTypeA.gif");
-		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, "/assets/EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, "/assets/EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, "/assets/EnemyTypeD.gif");
+		Entity enemy1 = new EnemyTypeA(11 * size, 5 * size, "/assets/EnemyTypeA.gif");
+		Entity enemy2 = new EnemyTypeB(12 * size, 5 * size, "/assets/EnemyTypeB.gif");
+		Entity enemy3 = new EnemyTypeC(14 * size, 5 * size, "/assets/EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(15 * size, 5 * size, "/assets/EnemyTypeD.gif");
 		
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
 	
