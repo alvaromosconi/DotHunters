@@ -37,20 +37,25 @@ public class Time extends Thread {
 		
 
 		while (this.running) {
-			try {
-				
-				do {
-				
-					Thread.sleep(step);
 
-					game.move();
 
+					
 						
-				} while (game.getPlayer().getXValue() % 56 != 0 && game.getPlayer().getYValue() % 56 != 0);
+					try {
+						if (game.getPlayer().getXValue() % 36 != 0 || game.getPlayer().getYValue() % 36 != 0) 
+							game.move();
+						Thread.sleep(step);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
-			} catch(InterruptedException e) {}
-		}
+				
+
+
+			
 		
+		}
 	}
 
 	public void setStep(int step) {

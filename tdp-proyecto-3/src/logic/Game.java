@@ -29,6 +29,7 @@ public class Game {
 	private List<Entity> components;
 	private List<Entity> enemies;
 	private List<Entity> allEntities = new ArrayList<Entity>();
+
 	
 	public Game () {
 
@@ -155,25 +156,24 @@ public class Game {
 
 	public synchronized void movePlayer(KeyEvent keyPressed) {
 		
-		if ((player.getXVelocity() != 0 || player.getYVelocity() != 0 || (player.getXVelocity() == 0 && player.getYVelocity() == 0))) {
+		if (player.getMoving() == false) {
+		switch (keyPressed.getKeyCode()) {
 			
-			switch (keyPressed.getKeyCode()) {
-			
-				case KeyEvent.VK_LEFT : {player.setXVelocity(-2); player.setYVelocity(0); break;}
-				case KeyEvent.VK_RIGHT : { player.setXVelocity(2); player.setYVelocity(0);  break;}
-				case KeyEvent.VK_UP : {player.setYVelocity(-2);  player.setXVelocity(0); break;}
-				case KeyEvent.VK_DOWN : {player.setYVelocity(2);  player.setXVelocity(0); break;}
+			case KeyEvent.VK_LEFT : { player.setXVelocity(-2); player.setYVelocity(0); break;}
+			case KeyEvent.VK_RIGHT : { player.setXVelocity(2); player.setYVelocity(0);  break;}
+			case KeyEvent.VK_UP : {player.setYVelocity(-2);  player.setXVelocity(0); break;}
+			case KeyEvent.VK_DOWN : {player.setYVelocity(2);  player.setXVelocity(0); break;}
 		
-			}	
-			
+		}	
+		}
+	
 			move();
 		
 	}
+
+
 	
-		
-		
 	
-	}
 	
 	public synchronized void move() {
 		
@@ -210,14 +210,15 @@ public class Game {
 		
 		updateZones(player);
 		myGUI.refreshEntity(player);
-
 		player.move();
+		
+
 	}
 	
 	public void calculateMoreAccuratePath() {
 
-		player.setXValue(player.getXValue() - (player.getXVelocity() / player.getXVelocity()) * player.getXValue() % 36);
-			player.setYValue(player.getYValue() - (player.getYVelocity() / player.getYVelocity()) * player.getYValue() % 36);
+		player.setXValue(player.getXValue() + (player.getXValue()) % 36);
+			player.setYValue(player.getYValue() + (player.getYValue()) % 36);
 		}
 		
 
