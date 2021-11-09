@@ -20,7 +20,6 @@ public class MainCharacter extends Entity {
 		this.height = 36;
 		
 		visitor = new VisitorMainCharacter(this);
-		this.moving = false;
 	}
 	
 	@Override

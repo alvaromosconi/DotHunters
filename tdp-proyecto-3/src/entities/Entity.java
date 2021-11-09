@@ -14,7 +14,6 @@ public abstract class Entity {
 	protected int yVelocity;
 	protected int width;
 	protected int height;
-	protected boolean moving;
 	
 	public void setXValue(int xValue) {
 		
@@ -126,13 +125,5 @@ public abstract class Entity {
 		return new Rectangle(xValue, yValue, width, height);
 	}
 	
-	public boolean getMoving() {
-		return moving;
-	}
-	
-	public void setMoving(boolean m) {
-		
-		this.moving = m;
-	}
 	
 }

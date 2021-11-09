@@ -156,25 +156,34 @@ public class Game {
 
 	public synchronized void movePlayer(KeyEvent keyPressed) {
 		
-		if (player.getMoving() == false) {
 		switch (keyPressed.getKeyCode()) {
 			
-			case KeyEvent.VK_LEFT : { player.setXVelocity(-2); player.setYVelocity(0); break;}
-			case KeyEvent.VK_RIGHT : { player.setXVelocity(2); player.setYVelocity(0);  break;}
-			case KeyEvent.VK_UP : {player.setYVelocity(-2);  player.setXVelocity(0); break;}
-			case KeyEvent.VK_DOWN : {player.setYVelocity(2);  player.setXVelocity(0); break;}
+			case KeyEvent.VK_LEFT : { 
+				player.setXVelocity(-2); 
+				player.setYVelocity(0); 
+				break;
+			}
+			case KeyEvent.VK_RIGHT : {
+				player.setXVelocity(2);
+				player.setYVelocity(0);  
+				break;
+			}
+			case KeyEvent.VK_UP : {
+				player.setYVelocity(-2);  
+				player.setXVelocity(0); 
+				break;
+			}
+			case KeyEvent.VK_DOWN : {
+				player.setYVelocity(2);  
+				player.setXVelocity(0); 
+				break;
+			}
 		
 		}	
-		}
-	
-			move();
 		
+		move();
 	}
 
-
-	
-	
-	
 	public synchronized void move() {
 		
 		Rectangle entityARectangle, entityBRectangle;
@@ -214,12 +223,6 @@ public class Game {
 		
 
 	}
-	
-	public void calculateMoreAccuratePath() {
-
-		player.setXValue(player.getXValue() + (player.getXValue()) % 36);
-			player.setYValue(player.getYValue() + (player.getYValue()) % 36);
-		}
 		
 
 	private List<Zone> getZone(Entity e) {
@@ -263,6 +266,7 @@ public class Game {
 			}
 	}
 
+	
 	public Entity getPlayer() {
 		
 		return player;
