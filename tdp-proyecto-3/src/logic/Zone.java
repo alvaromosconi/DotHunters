@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 public class Zone {
 
 	private List<Entity> myEntities;
+	private List<Entity> myWalls;
 	private Point upperLeftVertex;
 	private Point upperRightVertex;
 	private Point bottomLeftVertex;
@@ -18,7 +19,7 @@ public class Zone {
 	public Zone(Point upperLeftVertex, Point upperRightVertex, Point bottomLeftVertex, Point bottomRightVertex) {
 		
 		myEntities = new ArrayList<Entity>();
-		
+		myWalls = new ArrayList<Entity>();
 		this.upperLeftVertex = upperLeftVertex;
 		this.upperRightVertex = upperRightVertex;
 		this.bottomLeftVertex = bottomLeftVertex;
@@ -29,6 +30,16 @@ public class Zone {
 	public List<Entity> getEntities() {
 		
 		return myEntities;
+	}
+	
+	public List<Entity> getWalls() {
+		
+		return myWalls;
+	}
+	
+	public void addWall(Entity entity) {
+		
+		myWalls.add(entity);
 	}
 	
 	public void addEntity(Entity entity) {

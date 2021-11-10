@@ -30,7 +30,7 @@ public class Director {
 		List<Entity> components = new ArrayList<Entity>();
 		List<Entity> walls = new ArrayList<Entity>();
 				
-		Entity player = new MainCharacter(13 * size + 2, 9 * size, "/assets/mario1.gif");
+		Entity player = new MainCharacter(13 * size, 9 * size, "/assets/mario1.gif");
 		
 		
 		try {

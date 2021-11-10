@@ -14,6 +14,10 @@ public abstract class Entity {
 	protected int yVelocity;
 	protected int width;
 	protected int height;
+	protected boolean allowMovement = true;
+	
+	protected int nextXVelocity;
+	protected int nextYVelocity;
 	
 	public void setXValue(int xValue) {
 		
@@ -38,6 +42,16 @@ public abstract class Entity {
 	public void setYVelocity(int yVelocity) {
 		
 		this.yVelocity = yVelocity;
+	}
+	
+	public void setNextXVelocity(int nextXVelocity) {
+		
+		this.nextXVelocity = nextXVelocity;
+	}
+	
+	public void setNextYVelocity(int nextYVelocity) {
+		
+		this.nextYVelocity = nextYVelocity;
 	}
 	
 	public int getXValue() {
@@ -97,6 +111,16 @@ public abstract class Entity {
 		return xVelocity;
 	}
 	
+	public int getNextXVelocity() {
+		
+		return nextXVelocity;
+	}
+	
+	public int getNextYVelocity() {
+		
+		return nextYVelocity;
+	}
+	
 	public void move() {
 		
 		xValue += xVelocity;
@@ -124,6 +148,17 @@ public abstract class Entity {
 		
 		return new Rectangle(xValue, yValue, width, height);
 	}
+
+	public void allowMovement(boolean b) {
+		
+		allowMovement = b;
+		
+	}
 	
+	public boolean getAllowMovement() {
+		return this.allowMovement;
+	}
+	
+
 	
 }

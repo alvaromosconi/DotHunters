@@ -27,9 +27,8 @@ public class VisitorWall implements Visitor{
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
 		
-		System.out.println("1");
-		m.setXVelocity(0);
-		m.setYVelocity(0);
+//		m.setXVelocity(0);
+//		m.setYVelocity(0);
 		
 	}
 

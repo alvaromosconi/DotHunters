@@ -42,9 +42,28 @@ public class Time extends Thread {
 					
 						
 					try {
-						if (game.getPlayer().getXValue() % 36 != 0 || game.getPlayer().getYValue() % 36 != 0) 
-							game.move();
+						
+						
 						Thread.sleep(step);
+						
+					//	System.out.println("POST: " + game.getPlayer().getNextXVelocity() + ", " + game.getPlayer().getNextYVelocity());
+					
+						game.move();
+						
+					//	System.out.println("PRE: " + game.getPlayer().getXVelocity() + ", " + game.getPlayer().getYVelocity());
+						
+						if (game.getPlayer().getNextXVelocity() == 0 && game.getPlayer().getNextYVelocity() != 0 || game.getPlayer().getNextXVelocity() != 0 && game.getPlayer().getNextYVelocity() == 0 )
+							
+							if (!game.checkCollision(game.getPlayer().getNextXVelocity(), game.getPlayer().getNextYVelocity())) {
+							
+								game.getPlayer().setXVelocity(game.getPlayer().getNextXVelocity());
+								game.getPlayer().setYVelocity(game.getPlayer().getNextYVelocity());
+								game.getPlayer().setNextXVelocity(0);
+								game.getPlayer().setNextYVelocity(0);
+							
+							}
+
+						
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

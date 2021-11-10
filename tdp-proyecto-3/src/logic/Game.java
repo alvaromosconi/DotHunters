@@ -54,7 +54,7 @@ public class Game {
 		chargeZonesWithWalls();
 		chargeZonesWithEntities();
 	
-		myTime = new Time(this, 10);
+		myTime = new Time(this, 20);
 		myTime.start();
 		myGUI.setupBackground(); 
 
@@ -107,6 +107,7 @@ public class Game {
 				
 						if (wallRectangle.intersects(zoneRectangle) ) {
 							myZones[i][j].addEntity(e);
+							myZones[i][j].addWall(e);
 							myGUI.addWall(e);
 						}
 				}	
@@ -159,30 +160,108 @@ public class Game {
 		switch (keyPressed.getKeyCode()) {
 			
 			case KeyEvent.VK_LEFT : { 
-				player.setXVelocity(-2); 
-				player.setYVelocity(0); 
+				
+				if (!checkCollision(-2,0)) {
+				
+					player.setXVelocity(-2); 
+					player.setYVelocity(0); 
+					player.allowMovement(true);
+				
+				} else {
+						player.setNextXVelocity(-2);
+						player.setNextYVelocity(0);
+						player.allowMovement(false);
+				}
+			
 				break;
+				
 			}
+			
 			case KeyEvent.VK_RIGHT : {
-				player.setXVelocity(2);
-				player.setYVelocity(0);  
+				
+				if (!checkCollision(2, 0)) {
+					
+					player.setXVelocity(2);
+					player.setYVelocity(0);  
+					player.allowMovement(true);
+				
+				} else {
+					player.setNextXVelocity(2);
+					player.setNextYVelocity(0);  
+					player.allowMovement(false);
+				}
+		
 				break;
+				
 			}
 			case KeyEvent.VK_UP : {
-				player.setYVelocity(-2);  
-				player.setXVelocity(0); 
+				
+				if (!checkCollision(0, -2)) {
+					System.out.println("Entre aqui!");
+					player.setXVelocity(0); 
+					player.setYVelocity(-2);  
+					player.allowMovement(true);
+				
+				} 	else {
+					player.setNextXVelocity(0); 
+					player.setNextYVelocity(-2);  	
+					player.allowMovement(false);
+				}
+	
 				break;
+				
 			}
 			case KeyEvent.VK_DOWN : {
-				player.setYVelocity(2);  
-				player.setXVelocity(0); 
+				
+				if (!checkCollision(0, 2)) {
+					player.setXVelocity(0); 
+					player.setYVelocity(2);  
+					player.allowMovement(true);
+				}else {
+					player.setNextXVelocity(0); 
+					player.setNextYVelocity(2);  
+					player.allowMovement(false);
+				}
+				
 				break;
+				
 			}
+			
+	
 		
 		}	
 		
-		move();
+
 	}
+	
+	public synchronized boolean checkCollision(int xVelocity, int yVelocity) {
+		
+		Rectangle entityARectangle, entityBRectangle;
+		boolean intersect = false;
+		
+		entityARectangle = new Rectangle(player.getXValue() + xVelocity, player.getYValue() + yVelocity, player.getWidth(), player.getHeight());
+		
+		List<Zone> listOfZones = getZone(player);
+		
+		for (Zone zone : listOfZones) {
+			
+			for (Entity entity: zone.getWalls()) {	
+						
+				entityBRectangle = entity.getRectangle();
+				intersect = entityARectangle.intersects(entityBRectangle);
+		
+				if (intersect)
+					return true;
+	
+			}
+			
+			
+		}
+		
+		return false;	
+	}
+		
+	
 
 	public synchronized void move() {
 		
@@ -198,21 +277,17 @@ public class Game {
 			if (listOfZones != null)
 			
 			for (Entity entity: zone.getEntities()) {	
-				
-				if (entity != player) {
-				
-					entityBRectangle = entity.getRectangle();
-					intersect = entityARectangle.intersects(entityBRectangle);
-					
-					if (intersect) {
-			
-						entity.accept(player.getVisitor());
-						myGUI.refreshEntity(entity);	
-						break;
-					}
-				
 						
+				entityBRectangle = entity.getRectangle();
+				intersect = entityARectangle.intersects(entityBRectangle);
+					
+				if (intersect) {
+			
+					entity.accept(player.getVisitor());
+					myGUI.refreshEntity(entity);	
+					break;
 				}
+					
 			}
 		}
 		
@@ -221,7 +296,36 @@ public class Game {
 		myGUI.refreshEntity(player);
 		player.move();
 		
-
+	}
+	
+public synchronized boolean move(int x, int y) {
+		
+		Rectangle entityARectangle, entityBRectangle;
+		boolean intersect = false;
+		
+		entityARectangle = new Rectangle (player.getXValue() + x, player.getYValue()+ y, player.getWidth(), player.getHeight());
+		
+		List<Zone> listOfZones = getZone(player);
+		
+		for (Zone zone : listOfZones) {
+		
+			if (listOfZones != null)
+			
+			for (Entity entity: zone.getWalls()) {	
+						
+				entityBRectangle = entity.getRectangle();
+				intersect = entityARectangle.intersects(entityBRectangle);
+					
+				if (!intersect) {
+					return true;
+				}
+			
+			}
+		}
+		
+		
+		return false;
+		
 	}
 		
 
