@@ -2,6 +2,7 @@ package visitors;
 
 import entities.EnemyTypeA;
 import entities.Entity;
+import entities.Entity.Direction;
 import entities.Fruit;
 import entities.MainCharacter;
 import entities.Potion;
@@ -20,9 +21,10 @@ public class VisitorMainCharacter implements Visitor {
 	
 	@Override
 	public void visitWall(Wall w) {
+	
+		player.setDirection(Direction.STILL);
+		player.setVelocity(0, 0);
 
-		player.setXVelocity(0);
-		player.setYVelocity(0);
 	}
 
 	@Override

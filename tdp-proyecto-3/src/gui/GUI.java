@@ -51,7 +51,6 @@ public class GUI extends JFrame {
        
 		setUndecorated(true);
 	    setResizable(false);
-
 	}
 	
 	public void setupBackground() {
@@ -62,7 +61,7 @@ public class GUI extends JFrame {
 		backgroundImage = new ImageIcon(GUI.class.getResource(backgroundUrl));
 		backgroundLabel.setIcon(backgroundImage);
 		
-		//backgroundLabel.setLocation( (panel.getWidth() - backgroundLabel.getWidth()) / 2, (panel.getHeight() - backgroundLabel.getHeight()) / 2);
+
 		backgroundLabel.setLocation(0, 0);
 		panel.add(backgroundLabel);
 	}
@@ -109,8 +108,12 @@ public class GUI extends JFrame {
 	}
 	
 	public void refreshEntity(Entity entity) {
-	
+
 		labelMap.get(entity).setLocation(entity.getXValue(), entity.getYValue());
+	}
+	
+	public void refreshImage(Entity entity ) {
+		labelMap.get(entity).setIcon(new ImageIcon(GUI.class.getResource(entity.getImageRoute())));
 	}
 	
 	public void addWall(Entity w) {

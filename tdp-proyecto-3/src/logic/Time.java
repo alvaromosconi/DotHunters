@@ -1,5 +1,8 @@
 package logic;
 
+import entities.Entity;
+import entities.Entity.Direction;
+
 public class Time extends Thread {
 
 	private int milliseconds;
@@ -11,8 +14,9 @@ public class Time extends Thread {
 	private boolean running;
 	private Game game;
 	private int step;
+	private Entity player;
 	
-	public Time(Game game, int step) {
+	public Time(Game game, int step, Entity player) {
 	
 		this.milliseconds = 0;
 		this.seconds = 0;
@@ -23,6 +27,8 @@ public class Time extends Thread {
 		this.step = step;
 		this.secondsSpeed = seconds + 10;
 		this.startTime = System.currentTimeMillis();
+		
+		this.player = player;
 	}
 	
 	
@@ -37,37 +43,30 @@ public class Time extends Thread {
 		
 
 		while (this.running) {
-
-
-					
+				
+			try {
+										
+				Thread.sleep(step);
 						
-					try {
-						
-						
-						Thread.sleep(step);
-						
-					//	System.out.println("POST: " + game.getPlayer().getNextXVelocity() + ", " + game.getPlayer().getNextYVelocity());
-					
-						game.move();
-						
-					//	System.out.println("PRE: " + game.getPlayer().getXVelocity() + ", " + game.getPlayer().getYVelocity());
-						
-						if (game.getPlayer().getNextXVelocity() == 0 && game.getPlayer().getNextYVelocity() != 0 || game.getPlayer().getNextXVelocity() != 0 && game.getPlayer().getNextYVelocity() == 0 )
-							
-							if (!game.checkCollision(game.getPlayer().getNextXVelocity(), game.getPlayer().getNextYVelocity())) {
-							
-								game.getPlayer().setXVelocity(game.getPlayer().getNextXVelocity());
-								game.getPlayer().setYVelocity(game.getPlayer().getNextYVelocity());
-								game.getPlayer().setNextXVelocity(0);
-								game.getPlayer().setNextYVelocity(0);
-							
-							}
-
-						
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				game.move();
+				
+				if (player.getNextDirection() != Direction.STILL ) 
+				
+					if (!game.collideWithWall(player.getNextXVelocity(), player.getNextYVelocity())) {
+						player.setVelocity(player.getNextXVelocity(), player.getNextYVelocity());
+						player.setDirection(player.getNextDirection());
+						player.setNextVelocity(0, 0);
+						player.setNextDirection(Direction.STILL);
 					}
+				
+			
+			}
+
+						
+			 catch (InterruptedException e) {
+				
+					e.printStackTrace();
+			  }
 
 				
 

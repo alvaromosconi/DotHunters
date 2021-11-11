@@ -1,23 +1,46 @@
 package entities;
-import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Map;
 
+import entities.Entity.Direction;
 import visitors.Visitor;
 
 public abstract class Entity {
 
-	protected int xValue;
-	protected int yValue;
-	protected Visitor visitor;
-	protected String imageRoute;
-	protected int xVelocity;
-	protected int yVelocity;
 	protected int width;
 	protected int height;
-	protected boolean allowMovement = true;
-	
+	protected int xValue;
+	protected int yValue;
+
+	protected int xVelocity;
+	protected int yVelocity;
 	protected int nextXVelocity;
 	protected int nextYVelocity;
+	protected Direction currentDirection;
+	protected Direction nextDirection;
+
+	protected Visitor visitor;
+	protected String imageRoute;
+	protected Map<Direction, String> sprites;
+	
+	public enum Direction {
+		UP,
+		DOWN,
+		RIGHT,
+		LEFT,
+		STILL;	
+	}
+	
+	public void setVelocity(int xVelocity, int yVelocity) {
+		this.xVelocity = xVelocity;
+		this.yVelocity = yVelocity;
+	}
+	
+	public void setNextVelocity (int nextXVelocity, int nextYVelocity) {
+		
+		this.nextXVelocity = nextXVelocity;
+		this.nextYVelocity = nextYVelocity;
+	}
 	
 	public void setXValue(int xValue) {
 		
@@ -88,17 +111,13 @@ public abstract class Entity {
 
 
 	public int getWidth() {
-		
-		
-		return width;
-		
+			
+		return width;	
 	}
 
 	public int getHeight() {
 		
-		
-		return height;
-		
+		return height;	
 	}
 	
 	public int getXVelocity() {
@@ -122,7 +141,7 @@ public abstract class Entity {
 	}
 	
 	public void move() {
-		
+		this.imageRoute = sprites.get(currentDirection);
 		xValue += xVelocity;
 		yValue += yVelocity;
 	}
@@ -131,34 +150,40 @@ public abstract class Entity {
 	    return new Rectangle(xValue + xVelocity, yValue + yVelocity, width, height);
 	}	
 	
-	public Point getCenterOfRectangle() {
-		
-		int centerX;
-		int centerY;
-		
-		centerX = (int) (xValue + width) / 2;
-		centerY = (int) (yValue + height) / 2;
-		
-	    
-	    return new Point(centerX, centerY);
-		
-	}
-	
 	public Rectangle getRectangle() {
 		
 		return new Rectangle(xValue, yValue, width, height);
 	}
 
-	public void allowMovement(boolean b) {
-		
-		allowMovement = b;
-		
-	}
-	
-	public boolean getAllowMovement() {
-		return this.allowMovement;
-	}
-	
 
+	public void setDirection(Direction direction) {
+
+		this.currentDirection = direction;
+	}
 	
+	public void setNextDirection(Direction direction) {
+		
+		this.nextDirection = direction;
+		
+	}
+
+	public Direction getDirection() {
+		
+		return currentDirection;
+	}
+	
+	public Direction getNextDirection() {
+		
+		return nextDirection;
+	}	
+	
+	public void loadSprites(String upSprite, String downSprite, String rightSprite, String leftSprite) {
+		
+		sprites.put(Direction.UP, upSprite);
+		sprites.put(Direction.DOWN, downSprite);
+		sprites.put(Direction.RIGHT, rightSprite);
+		sprites.put(Direction.LEFT, leftSprite);
+		sprites.put(Direction.STILL, downSprite);
+	}
+
 }
