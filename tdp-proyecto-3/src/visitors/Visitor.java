@@ -11,7 +11,7 @@ import entities.Wall;
 public interface Visitor {
 	public void visitMainCharacter(MainCharacter m);
 	
-	public void visitorEnemyTypeA(EnemyTypeA e);
+	public void visitEnemyTypeA(EnemyTypeA e);
 	
 	public void visitFruitTypeA(Fruit f);
 	

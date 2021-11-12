@@ -48,18 +48,15 @@ public class Time extends Thread {
 										
 				Thread.sleep(step);
 						
-				game.move();
+				game.move(player);
 				
 				if (player.getNextDirection() != Direction.STILL ) 
 				
-					if (!game.collideWithWall(player.getNextXVelocity(), player.getNextYVelocity())) {
-						player.setVelocity(player.getNextXVelocity(), player.getNextYVelocity());
+					if (!game.collideWithWall(player.getNextXVelocity(), player.getNextYVelocity(), player)) {
 						player.setDirection(player.getNextDirection());
-						player.setNextVelocity(0, 0);
 						player.setNextDirection(Direction.STILL);
 					}
 				
-			
 			}
 
 						

@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import entities.Enemy;
 import entities.Entity;
 import entities.Entity.Direction;
+import entities.Wall;
 import gui.GUI;
 
 public class Game {
@@ -49,8 +51,88 @@ public class Game {
 		myTime.start();
 		
 		myGUI.setupBackground(); 
-		//myGUI.refreshImage(enemies.get(0));
+		
+		boolean k = true;
+		walls.add(new Wall(13*36, 6 * 36, 36, 36));
+		
+		ghostAi(k);
+		chargeZonesWithWalls();
+		
+		
+	}
 	
+	private synchronized void ghostAi(boolean k) {
+
+		  Thread thread = new Thread(){
+			  
+			  boolean l = false;
+			    
+			  public void run(){
+			    	
+			    while (k) {
+			    		
+
+	    			try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+				   
+	    			Enemy e = (Enemy) enemies.get(0);
+	    			
+	    			double min = Double.MAX_VALUE;
+	    			  	
+	    	
+	    			/*
+	    			 Pregunta si NO va a colisionar con todas las posiciones, si no va a colisionar setea en la variable min la distancia desde
+	    			 el fantasma hasta el pacman y setea la direccion en el sentido que pregunto en el collideWithWall.
+	    			 
+	    			 Al traspasar todos los if queda seteada la direccion en la que el recorrido en linea recta es mas corto
+	    			 
+	    			 Problema: Estas decisiones solo deberian tomarse en los cuadros donde hay mas de 1 direccion.
+	    			 Tambien, el fantasma no deberia ser capaz de retroceder a menos que hay quedado atrapado
+	    			 */
+	    			if (!collideWithWall(-2, 0, e)) 
+			    		if (distance(e.getXValue() - 2, player.getXValue(), e.getYValue(), player.getYValue()) < min) {
+			    				min = distance(e.getXValue() - 2, player.getXValue(), e.getYValue(), player.getYValue());
+			    				e.setDirection(Direction.LEFT);
+			    		}
+			    		
+		    		if (!collideWithWall(2, 0, e) ) 
+		    			if (distance(e.getXValue() + 2, player.getXValue(), e.getYValue(), player.getYValue()) < min) {
+		    					min = distance(e.getXValue() + 2, player.getXValue(), e.getYValue(), player.getYValue());
+		    					e.setDirection(Direction.RIGHT);
+		    			}
+		    			
+		    		if (!collideWithWall(0, -2, e) )
+		    			if (distance(e.getXValue(), player.getXValue(), e.getYValue() - 2, player.getYValue()) < min) {
+		    					min = distance(e.getXValue(), player.getXValue(), e.getYValue() - 2, player.getYValue());
+		    					e.setDirection(Direction.UP);
+		    			}
+	    			
+	    		
+		    		if (!collideWithWall(0, 2, e))
+		    			if (distance(e.getXValue(), player.getXValue(), e.getYValue() + 2, player.getYValue()) < min) {
+		    					min = distance(e.getXValue(), player.getXValue(), e.getYValue() + 2, player.getYValue());
+		    					e.setDirection(Direction.DOWN);
+		    			}
+	    			
+	    			
+	    			move(e);
+		    	}
+			 }
+		  };
+		  
+		  thread.start();
+	}
+		 
+	
+			  
+	// Calcula la distancia en linea recta entre el punto (x1,y1) e (x2,y2)
+	private double distance(int x1, int x2, int y1, int y2) {
+		
+		return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 	
 	private void initializeZones() {
@@ -153,62 +235,43 @@ public class Game {
 			
 			case KeyEvent.VK_LEFT : { 
 				
-				if (!collideWithWall(-2,0)) {
-					
-					player.setVelocity(-2, 0);
+				if (!collideWithWall(-2, 0, player)) 
 					player.setDirection(Direction.LEFT);
-				} 
-				
-				else  {
-					player.setNextVelocity(-2, 0);
+				else  
 					player.setNextDirection(Direction.LEFT);
-				}
+				
 				break;		
 			}
 			
 			case KeyEvent.VK_RIGHT : {
 				
-				if (!collideWithWall(2, 0)) {
-					
-					player.setVelocity(2, 0);
+				if (!collideWithWall(2, 0, player)) 	
 					player.setDirection(Direction.RIGHT);
-				} 
 				
-				else {
-					player.setNextVelocity(2, 0);
+				else 
 					player.setNextDirection(Direction.RIGHT);
-				}
 					
 				break;		
 			}
 			
 			case KeyEvent.VK_UP : {
 				
-				if (!collideWithWall(0, -2)) {
-					
-					player.setVelocity(0, -2);
+				if (!collideWithWall(0, -2, player)) 
 					player.setDirection(Direction.UP);
-				} 
-				
-				else {
-					player.setNextVelocity(0, -2);
+				else 
 					player.setNextDirection(Direction.UP);
-				}
+				
 				break;		
 			}
 			
 			case KeyEvent.VK_DOWN : {
 				
-				if (!collideWithWall(0, 2)) {
-					
-					player.setVelocity(0, 2);
+				if (!collideWithWall(0, 2, player)) 
 					player.setDirection(Direction.DOWN);
-				} 
 				
-				else {
-					player.setNextVelocity(0, 2);
+				else
 					player.setNextDirection(Direction.DOWN);
-				}
+				
 				break;		
 			}
 			
@@ -216,28 +279,28 @@ public class Game {
 	
 	}
 	
-	public boolean collideWithWall(int xVelocity, int yVelocity) {
+	public boolean collideWithWall(int xVelocity, int yVelocity, Entity entityA) {
 		
 		Rectangle entityARectangle, entityBRectangle;
 		boolean intersect = false;
 		
-		entityARectangle = new Rectangle(player.getXValue() + xVelocity, player.getYValue() + yVelocity, player.getWidth(), player.getHeight());
+		entityARectangle = new Rectangle(entityA.getXValue() + xVelocity, entityA.getYValue() + yVelocity, entityA.getWidth(), entityA.getHeight());
 		
-		List<Zone> listOfZones = getZones(player);
+		List<Zone> listOfZones = getZones(entityA);
 		
 		Iterator<Entity> zoneWallsIterator;
-		Entity entity;
+		Entity entityB;
 		
 		for (Zone zone : listOfZones) {
 			
 			zoneWallsIterator = zone.getWalls().iterator();
-			entity = zoneWallsIterator.next();
+			entityB = zoneWallsIterator.next();
 		
 			while (zoneWallsIterator.hasNext() && !intersect) {
 				
-				entityBRectangle = entity.getRectangle();
+				entityBRectangle = entityB.getRectangle();
 				intersect = entityARectangle.intersects(entityBRectangle);	
-				entity = zoneWallsIterator.next();
+				entityB = zoneWallsIterator.next();
 			}
 			
 		}
@@ -246,17 +309,17 @@ public class Game {
 	}
 	
 
-	public synchronized void move() {
+	public synchronized void move(Entity entityA) {
 		
 		Rectangle entityARectangle, entityBRectangle;
 		boolean intersect = false;
 		
-		entityARectangle = player.getOffsetBounds();
+		entityARectangle = entityA.getOffsetBounds();
 		
-		List<Zone> listOfZones = getZones(player);
+		List<Zone> listOfZones = getZones(entityA);
 		
 		Iterator<Entity> zoneEntitiesIterator;
-		Entity entity;
+		Entity entityB;
 		
 
 		for (Zone zone : listOfZones) {
@@ -265,23 +328,23 @@ public class Game {
 				
 			while (zoneEntitiesIterator.hasNext() ) {
 					
-				entity = zoneEntitiesIterator.next();
-				entityBRectangle = entity.getRectangle();
+				entityB = zoneEntitiesIterator.next();
+				entityBRectangle = entityB.getRectangle();
 				intersect = entityARectangle.intersects(entityBRectangle);	
 					
 				if (intersect) {
-					entity.accept(player.getVisitor());
-					myGUI.refreshEntity(entity);
+					entityB.accept(entityA.getVisitor());
+					myGUI.refreshEntity(entityB);
 					break;
 				} 
 				
 			}
 		}
 	
-		myGUI.refreshImage(player);
-		updateZones(player);
-		myGUI.refreshEntity(player);
-		player.move();
+		myGUI.refreshImage(entityA);
+		updateZones(entityA);
+		myGUI.refreshEntity(entityA);
+		entityA.move();
 
 	}
 	

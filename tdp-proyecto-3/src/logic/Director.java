@@ -47,7 +47,7 @@ public class Director {
 	
 		loadAllRegularDots(components, walls);
 		
-		Entity enemy1 = new EnemyTypeA(11 * size, 7 * size, "/assets/EnemyTypeA.gif");
+		Entity enemy1 = new EnemyTypeA(12 * size, 5 * size, "/assets/EnemyTypeA.gif");
 		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, "/assets/EnemyTypeB.gif");
 		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, "/assets/EnemyTypeC.gif");
 		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, "/assets/EnemyTypeD.gif");

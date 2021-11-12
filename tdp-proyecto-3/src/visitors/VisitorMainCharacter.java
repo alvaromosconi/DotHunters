@@ -34,7 +34,7 @@ public class VisitorMainCharacter implements Visitor {
 	}
 
 	@Override
-	public void visitorEnemyTypeA(EnemyTypeA e) {
+	public void visitEnemyTypeA(EnemyTypeA e) {
 		// TODO Auto-generated method stub
 		
 	}

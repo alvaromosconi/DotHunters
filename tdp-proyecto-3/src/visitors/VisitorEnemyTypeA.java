@@ -1,6 +1,7 @@
 package visitors;
 
 import entities.*;
+import entities.Entity.Direction;
 
 
 public class VisitorEnemyTypeA implements Visitor {
@@ -15,7 +16,8 @@ public class VisitorEnemyTypeA implements Visitor {
 	
 	@Override
 	public void visitWall(Wall w) {
-		// TODO Auto-generated method stub
+	
+		entity.setDirection(Direction.STILL);
 
 	}
 
@@ -26,7 +28,7 @@ public class VisitorEnemyTypeA implements Visitor {
 	}
 
 	@Override
-	public void visitorEnemyTypeA(EnemyTypeA e) {
+	public void visitEnemyTypeA(EnemyTypeA e) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -70,7 +72,7 @@ public class VisitorEnemyTypeA implements Visitor {
 
 	@Override
 	public void visitRegulardDot(RegularDot p) {
-		// TODO Auto-generated method stub
+	
 		
 	}
 

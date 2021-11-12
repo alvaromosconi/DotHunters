@@ -165,11 +165,77 @@ public abstract class Entity {
 	public void setDirection(Direction direction) {
 
 		this.currentDirection = direction;
+		
+		switch (direction) {
+			
+			case UP: {
+				this.xVelocity = 0;
+				this.yVelocity = -2;
+				break;
+			}
+			
+			case DOWN: {
+				this.xVelocity = 0;
+				this.yVelocity = 2;
+				break;
+			}
+			
+			case RIGHT: {
+				this.xVelocity = 2;
+				this.yVelocity = 0;
+				break;
+			}
+			
+			case LEFT: {
+				this.xVelocity = -2;
+				this.yVelocity = 0;
+				break;
+			}
+			
+			case STILL: {
+				this.xVelocity = 0;
+				this.yVelocity = 0;
+				break;
+			}		
+		}
 	}
 	
 	public void setNextDirection(Direction direction) {
 		
 		this.nextDirection = direction;
+		
+		switch (direction) {
+		
+		case UP: {
+			this.nextXVelocity = 0;
+			this.nextYVelocity = -2;
+			break;
+		}
+		
+		case DOWN: {
+			this.nextXVelocity = 0;
+			this.nextYVelocity = 2;
+			break;
+		}
+		
+		case RIGHT: {
+			this.nextXVelocity = 2;
+			this.nextYVelocity = 0;
+			break;
+		}
+		
+		case LEFT: {
+			this.nextXVelocity = -2;
+			this.nextYVelocity = 0;
+			break;
+		}
+		
+		case STILL: {
+			this.nextXVelocity = 0;
+			this.nextYVelocity = 0;
+			break;
+		}		
+	}
 		
 	}
 
