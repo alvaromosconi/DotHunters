@@ -52,7 +52,13 @@ public class Director {
 		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, "/assets/EnemyTypeC.gif");
 		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, "/assets/EnemyTypeD.gif");
 		
+		enemy1.loadSprites("/assets/EnemyTypeA.gif", "/assets/EnemyTypeA.gif", "/assets/EnemyTypeA.gif", "/assets/EnemyTypeA.gif");
+		enemy2.loadSprites("/assets/EnemyTypeB.gif", "/assets/EnemyTypeB.gif", "/assets/EnemyTypeB.gif", "/assets/EnemyTypeB.gif");
+		enemy3.loadSprites("/assets/EnemyTypeC.gif", "/assets/EnemyTypeC.gif", "/assets/EnemyTypeC.gif", "/assets/EnemyTypeC.gif");
+		enemy1.loadSprites("/assets/EnemyTypeD.gif", "/assets/EnemyTypeD.gif", "/assets/EnemyTypeD.gif", "/assets/EnemyTypeD.gif");
+		
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+	
 		
 		b.createBackground("/assets/MazeLevel1.png");
 	    b.createEnemies(enemies);

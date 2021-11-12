@@ -1,5 +1,6 @@
 package entities;
 import java.awt.Rectangle;
+import java.util.HashMap;
 import java.util.Map;
 
 import entities.Entity.Direction;
@@ -22,6 +23,10 @@ public abstract class Entity {
 	protected Visitor visitor;
 	protected String imageRoute;
 	protected Map<Direction, String> sprites;
+	
+	public Entity() {
+		this.sprites = new HashMap<Direction, String>();
+	}
 	
 	public enum Direction {
 		UP,

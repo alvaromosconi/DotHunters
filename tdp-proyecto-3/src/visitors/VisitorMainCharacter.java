@@ -78,7 +78,6 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitRegulardDot(RegularDot p) {
 		
-		System.out.println("xd");
 		p.setXValue(0);
 		p.setYValue(0);
 		

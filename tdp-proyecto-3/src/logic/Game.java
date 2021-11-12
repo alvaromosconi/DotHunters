@@ -49,6 +49,8 @@ public class Game {
 		myTime.start();
 		
 		myGUI.setupBackground(); 
+		//myGUI.refreshImage(enemies.get(0));
+	
 	}
 	
 	private void initializeZones() {
