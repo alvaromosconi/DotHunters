@@ -19,4 +19,22 @@ public class EnemyTypeB extends Enemy {
 		
 	}
 
+	@Override
+	public void chase() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void scatter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void frightened() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

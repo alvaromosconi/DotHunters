@@ -96,7 +96,6 @@ public class GUI extends JFrame {
 		
 		JLabel entityLabel = new JLabel("");
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
-	
 
 		//entityLabel.setOpaque(rootPaneCheckingEnabled);
 		//entityLabel.setBackground(Color.BLUE);

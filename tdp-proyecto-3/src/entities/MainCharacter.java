@@ -19,7 +19,6 @@ public class MainCharacter extends Entity {
 		this.nextYVelocity = 0;
 		this.currentDirection = Direction.STILL;
 		this.nextDirection = Direction.STILL;
-		this.sprites = new HashMap<Direction, String>();
 		this.width = 36;
 		this.height = 36;
 		
