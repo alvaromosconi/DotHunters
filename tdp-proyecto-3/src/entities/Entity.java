@@ -141,9 +141,10 @@ public abstract class Entity {
 	}
 	
 	public void move() {
-		this.imageRoute = sprites.get(currentDirection);
+	
 		xValue += xVelocity;
 		yValue += yVelocity;
+		this.imageRoute = sprites.get(currentDirection);
 	}
 
 	public Rectangle getOffsetBounds() {
