@@ -17,7 +17,7 @@ import entities.*;
 public class Director {
 	
 	private String domainRoute = "/assets/MarioAssets/";
-	private String regularDotRoute = "/assets/regularDot.png";
+	private String regularDotRoute = domainRoute +"regularDot.png";
 	private String poweredDotRoute = domainRoute +"poweredDot.png";
 	private String potionTypeARoute = domainRoute +"potion1.png";
 	private String potionTypeBRoute = domainRoute +"potion2.png";
@@ -57,7 +57,7 @@ public class Director {
 		enemy1.loadSprites(domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif");
 		enemy2.loadSprites(domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif");
 		enemy3.loadSprites(domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif");
-		enemy1.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
+		enemy4.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
 		
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
 	
