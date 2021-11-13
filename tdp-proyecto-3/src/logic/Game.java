@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import entities.ActivePotionTypeA;
 import entities.Enemy;
+import entities.EnemyTypeB;
 import entities.Entity;
 import entities.Entity.Direction;
+import entities.MainCharacter;
+import entities.RegularDot;
 import entities.Wall;
 import gui.GUI;
 
@@ -18,7 +22,7 @@ public class Game {
 	private GUI myGUI;
 	private Zone[][] myZones;
 	private Time myTime;
-	
+
 	private Entity player;
 
 	private List<Entity> walls;
@@ -392,7 +396,21 @@ public class Game {
 		return player;
 	}
 	
-
+	public void potionTypeAEvent() {
+		MainCharacter aux = (MainCharacter) player;
+		List<Zone> listOfZones = getZones(aux);
+		if (aux.getPotionTypeA()){
+			Entity power = new ActivePotionTypeA(2*36,36,"/assets/MarioAssets/EnemyTypeB.gif");
+			allEntities.add(power);
+			//for (Zone zone : listOfZones) {
+				//zone.addEntity(power);
+			//}		
+			System.out.println("asd");
+			//myGUI.addEntity(power);
+			//myGUI.refreshImage(power);
+			chargeZonesWithEntities();
+		}
+	}
 	
 }
 	

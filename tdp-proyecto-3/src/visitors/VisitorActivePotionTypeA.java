@@ -10,20 +10,14 @@ import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
 
-public class VisitorFruitTypeC implements Visitor {
+public class VisitorActivePotionTypeA implements Visitor {
 	
-	private Entity fruit;
+	private Entity activePotionTypeA;
 	
-	public VisitorFruitTypeC(Fruit fruit) {
-		this.fruit = fruit;
+	public VisitorActivePotionTypeA (ActivePotionTypeA a) {
+		this.activePotionTypeA = a;
 	}
-	
-	
-	@Override
-	public void visitWall(Wall w) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
@@ -73,13 +67,17 @@ public class VisitorFruitTypeC implements Visitor {
 		
 	}
 
-
 	@Override
 	public void visitRegulardDot(RegularDot p) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public void visitWall(Wall w) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {

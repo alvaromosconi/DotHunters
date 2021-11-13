@@ -44,7 +44,7 @@ public class Director {
 		Entity potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute);
 		
 		Entity fruit1 = new FruitTypeA(572, 408, 50, fruitTypeARoute);
-	
+		
 		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
 	
 		loadAllRegularDots(components, walls);

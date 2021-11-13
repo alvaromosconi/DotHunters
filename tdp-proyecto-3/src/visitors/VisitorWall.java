@@ -1,5 +1,6 @@
 package visitors;
 
+import entities.ActivePotionTypeA;
 import entities.EnemyTypeA;
 import entities.Entity;
 import entities.Fruit;
@@ -76,6 +77,12 @@ public class VisitorWall implements Visitor{
 
 	@Override
 	public void visitRegulardDot(RegularDot p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitActivePotionTypeA(ActivePotionTypeA a) {
 		// TODO Auto-generated method stub
 		
 	}

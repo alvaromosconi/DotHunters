@@ -1,5 +1,6 @@
 package visitors;
 
+import entities.ActivePotionTypeA;
 import entities.EnemyTypeA;
 import entities.Entity;
 import entities.Entity.Direction;
@@ -12,7 +13,7 @@ import entities.Wall;
 
 public class VisitorMainCharacter implements Visitor {
 
-	private Entity player;
+	private MainCharacter player;
 	
 	public VisitorMainCharacter(MainCharacter player) {
 		
@@ -59,8 +60,9 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitPotionTypeA(Potion p) {
-		// TODO Auto-generated method stub
-		
+		p.setXValue(0);
+		p.setYValue(0);	
+		player.setPotionTypeA(true);		
 	}
 
 	@Override
@@ -81,6 +83,12 @@ public class VisitorMainCharacter implements Visitor {
 		p.setXValue(0);
 		p.setYValue(0);
 		
+		
+	}
+
+	@Override
+	public void visitActivePotionTypeA(ActivePotionTypeA a) {
+		// TODO Auto-generated method stub
 		
 	}
 

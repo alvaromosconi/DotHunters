@@ -79,8 +79,11 @@ public class GUI extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-			
-				game.movePlayer(e);
+				if (e.getKeyCode() == KeyEvent.VK_P){
+				   game.potionTypeAEvent();
+				}else{
+				   game.movePlayer(e);
+				}
 			}
 
 			@Override
@@ -97,8 +100,8 @@ public class GUI extends JFrame {
 		JLabel entityLabel = new JLabel("");
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
 
-		//entityLabel.setOpaque(rootPaneCheckingEnabled);
-		//entityLabel.setBackground(Color.BLUE);
+		entityLabel.setOpaque(rootPaneCheckingEnabled);
+		entityLabel.setBackground(Color.BLUE);
 		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);

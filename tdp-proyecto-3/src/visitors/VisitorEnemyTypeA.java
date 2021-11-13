@@ -76,4 +76,10 @@ public class VisitorEnemyTypeA implements Visitor {
 		
 	}
 
+	@Override
+	public void visitActivePotionTypeA(ActivePotionTypeA a) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
