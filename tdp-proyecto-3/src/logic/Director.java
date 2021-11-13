@@ -15,13 +15,15 @@ import java.util.StringTokenizer;
 import entities.*;
 
 public class Director {
-
+	
+	private String domainRoute = "/assets/MarioAssets/";
 	private String regularDotRoute = "/assets/regularDot.png";
-	private String poweredDotRoute = "/assets/poweredDot.png";
-	private String potionTypeARoute = "/assets/potion1.png";
-	private String potionTypeBRoute = "/assets/potion2.png";
-	private String fruitTypeARoute = "/assets/fruit1.png";
+	private String poweredDotRoute = domainRoute +"poweredDot.png";
+	private String potionTypeARoute = domainRoute +"potion1.png";
+	private String potionTypeBRoute = domainRoute +"potion2.png";
+	private String fruitTypeARoute = domainRoute +"fruit1.png";
 	private String routeOfMaze = "/assets/MazeLevel1.txt";
+	
 	private int size = 36;
 	
 	public void constructLevelOne(Builder b) {
@@ -30,8 +32,8 @@ public class Director {
 		List<Entity> components = new ArrayList<Entity>();
 		List<Entity> walls = loadAllWalls(routeOfMaze);
 				
-		Entity player = new MainCharacter(13 * size, 9 * size, "/assets/mario1.gif");
-		player.loadSprites("/assets/mario2.gif", "/assets/mario3.gif", "/assets/mario4.gif", "/assets/mario1.gif");
+		Entity player = new MainCharacter(13 * size, 9 * size, domainRoute +"PlayerDown.gif");
+		player.loadSprites(domainRoute +"PlayerUP.gif", domainRoute +"PlayerDown.gif", domainRoute +"PlayerRight.gif", domainRoute +"PlayerLeft.gif");
 		
 		Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute);
 		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute);
@@ -47,20 +49,20 @@ public class Director {
 	
 		loadAllRegularDots(components, walls);
 		
-		Entity enemy1 = new EnemyTypeA(12 * size, 5 * size, "/assets/EnemyTypeA.gif");
-		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, "/assets/EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, "/assets/EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, "/assets/EnemyTypeD.gif");
+		Entity enemy1 = new EnemyTypeA(12 * size, 5 * size, domainRoute +"EnemyTypeA.gif");
+		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute +"EnemyTypeB.gif");
+		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute +"EnemyTypeC.gif");
+		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute +"EnemyTypeD.gif");
 		
-		enemy1.loadSprites("/assets/EnemyTypeA.gif", "/assets/EnemyTypeA.gif", "/assets/EnemyTypeA.gif", "/assets/EnemyTypeA.gif");
-		enemy2.loadSprites("/assets/EnemyTypeB.gif", "/assets/EnemyTypeB.gif", "/assets/EnemyTypeB.gif", "/assets/EnemyTypeB.gif");
-		enemy3.loadSprites("/assets/EnemyTypeC.gif", "/assets/EnemyTypeC.gif", "/assets/EnemyTypeC.gif", "/assets/EnemyTypeC.gif");
-		enemy1.loadSprites("/assets/EnemyTypeD.gif", "/assets/EnemyTypeD.gif", "/assets/EnemyTypeD.gif", "/assets/EnemyTypeD.gif");
+		enemy1.loadSprites(domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif");
+		enemy2.loadSprites(domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif");
+		enemy3.loadSprites(domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif");
+		enemy1.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
 		
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
 	
 		
-		b.createBackground("/assets/MazeLevel1.png");
+		b.createBackground(domainRoute +"MazeLevel1.png");
 	    b.createEnemies(enemies);
 	    b.createWalls(walls);
 	    b.createComponents(components);
