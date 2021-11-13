@@ -93,31 +93,32 @@ public class Game {
 	    			 Problema: Estas decisiones solo deberian tomarse en los cuadros donde hay mas de 1 direccion.
 	    			 Tambien, el fantasma no deberia ser capaz de retroceder a menos que hay quedado atrapado
 	    			 */
-	    			if (!collideWithWall(-2, 0, e)) 
+	    			if (!collideWithWall(-2, 0, e) && e.getNextDirection() != Direction.RIGHT) 
 			    		if (distance(e.getXValue() - 2, player.getXValue(), e.getYValue(), player.getYValue()) < min) {
 			    				min = distance(e.getXValue() - 2, player.getXValue(), e.getYValue(), player.getYValue());
 			    				e.setDirection(Direction.LEFT);
 			    		}
 			    		
-		    		if (!collideWithWall(2, 0, e) ) 
+		    		if (!collideWithWall(2, 0, e) && e.getNextDirection() != Direction.LEFT) 
 		    			if (distance(e.getXValue() + 2, player.getXValue(), e.getYValue(), player.getYValue()) < min) {
 		    					min = distance(e.getXValue() + 2, player.getXValue(), e.getYValue(), player.getYValue());
 		    					e.setDirection(Direction.RIGHT);
 		    			}
 		    			
-		    		if (!collideWithWall(0, -2, e) )
+		    		if (!collideWithWall(0, -2, e) && e.getNextDirection() != Direction.DOWN )
 		    			if (distance(e.getXValue(), player.getXValue(), e.getYValue() - 2, player.getYValue()) < min) {
 		    					min = distance(e.getXValue(), player.getXValue(), e.getYValue() - 2, player.getYValue());
 		    					e.setDirection(Direction.UP);
 		    			}
 	    			
 	    		
-		    		if (!collideWithWall(0, 2, e))
+		    		if (!collideWithWall(0, 2, e) && e.getNextDirection() != Direction.UP)
 		    			if (distance(e.getXValue(), player.getXValue(), e.getYValue() + 2, player.getYValue()) < min) {
 		    					min = distance(e.getXValue(), player.getXValue(), e.getYValue() + 2, player.getYValue());
 		    					e.setDirection(Direction.DOWN);
 		    			}
 	    			
+		    		e.setNextDirection(e.getDirection());
 	    			
 	    			move(e);
 		    	}

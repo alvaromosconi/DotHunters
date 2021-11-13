@@ -23,6 +23,8 @@ public abstract class Entity {
 	protected Visitor visitor;
 	protected String imageRoute;
 	protected Map<Direction, String> sprites;
+	public boolean canMoveH;
+	public boolean canMoveV;
 	
 	public Entity() {
 		this.sprites = new HashMap<Direction, String>();
