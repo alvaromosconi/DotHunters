@@ -84,7 +84,15 @@ public class VisitorEnemyTypeA implements Visitor {
 
 	@Override
 	public void visitDoorway(Doorway doorway) {
-		// TODO Auto-generated method stub
+		int size = 36;
+		int xPosition = entity.getXValue();
+		if (xPosition < 0) {
+			entity.setXValue(26 * size);
+		}
+		if( xPosition > 26 * size) {
+			
+			entity.setXValue(0);
+		}
 		
 	}
 
