@@ -18,6 +18,7 @@ import gui.GUI;
 
 public class Game {
 	
+	private int size = 36;
 	private Level currentLevel ;
 	private GUI myGUI;
 	private Zone[][] myZones;
@@ -29,6 +30,7 @@ public class Game {
 	private List<Entity> components;
 	private List<Entity> enemies;
 	private List<Entity> allEntities;
+	private List<Entity> doorways;
 
 	public Game () {
 
@@ -42,6 +44,7 @@ public class Game {
 		this.walls = currentLevel.getWalls();
 		this.components = currentLevel.getComponents();
 		this.enemies = currentLevel.enemies();
+		this.doorways = currentLevel.getDoorWays();
 		
 		allEntities = new ArrayList<Entity>();
 		allEntities.add(player);
@@ -50,6 +53,7 @@ public class Game {
 		
 		chargeZonesWithWalls();
 		chargeZonesWithEntities();
+		chargeZonesWithDoorWays();
 	
 		myTime = new Time(this, 10, player);
 		myTime.start();
@@ -57,7 +61,7 @@ public class Game {
 		myGUI.setupBackground(); 
 		
 		boolean k = true;
-		walls.add(new Wall(13*36, 6 * 36, 36, 36));
+		walls.add(new Wall(13 * size, 6 * size, size, size));
 		
 		ghostAi(k);
 		chargeZonesWithWalls();
@@ -219,6 +223,30 @@ public class Game {
 		
 	}
 	
+	private void chargeZonesWithDoorWays() {
+		
+		Rectangle doorWayRectangle;
+		Rectangle zoneRectangle;
+		
+		for (Entity doorWay: doorways) {
+			
+			doorWayRectangle = doorWay.getRectangle();
+	
+			for (int i = 0; i < myZones.length ; i++)
+				
+				for (int j = 0; j < myZones[0].length ; j++) {
+					
+					zoneRectangle = myZones[i][j].getRectangle();
+				
+					if (doorWayRectangle.intersects(zoneRectangle) ) {
+							
+						myZones[i][j].addEntity(doorWay);
+						myZones[i][j].addDoorWay(doorWay);
+						myGUI.addDoorWay(doorWay);
+					}
+				}	
+		}
+	}
 
 	private void initializeLevel() {
 		
@@ -410,6 +438,10 @@ public class Game {
 			//myGUI.refreshImage(power);
 			chargeZonesWithEntities();
 		}
+	}
+
+	public int getSize() {
+		return size;
 	}
 	
 }

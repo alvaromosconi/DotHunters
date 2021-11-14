@@ -15,11 +15,13 @@ public class Zone {
 	private Point upperRightVertex;
 	private Point bottomLeftVertex;
 	private Point bottomRightVertex;
+	private List<Entity> myDoorWays;
 	
 	public Zone(Point upperLeftVertex, Point upperRightVertex, Point bottomLeftVertex, Point bottomRightVertex) {
 		
 		myEntities = new ArrayList<Entity>();
 		myWalls = new ArrayList<Entity>();
+		myDoorWays = new ArrayList<Entity>();
 		this.upperLeftVertex = upperLeftVertex;
 		this.upperRightVertex = upperRightVertex;
 		this.bottomLeftVertex = bottomLeftVertex;
@@ -117,6 +119,12 @@ public class Zone {
 	public Rectangle getRectangle() {
 		
 		return new Rectangle((int) upperLeftVertex.getX(), (int) upperLeftVertex.getY(), getWidthOfZone(), getHeightOfZone());
+	}
+
+	public void addDoorWay(Entity entity) {
+		
+		myDoorWays.add(entity);
+		
 	}
 	
 	

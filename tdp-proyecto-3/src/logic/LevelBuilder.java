@@ -12,6 +12,7 @@ public class LevelBuilder implements Builder {
 	private List<Entity> walls;
 	private Entity player;
 	private String backgroundUrl; 
+	private List<Entity> doorways;
 
 
 	@Override
@@ -41,13 +42,20 @@ public class LevelBuilder implements Builder {
 	@Override
 	public Level getResult() {
 		
-		return new Level(enemies, components, player, walls, backgroundUrl);
+		return new Level(enemies, components, player, walls, backgroundUrl, doorways);
 	}
 
 	@Override
 	public void createWalls(List<Entity> walls) {
 		
 		this.walls = walls;
+	}
+
+	@Override
+	public void createDoorways(List<Entity> doorways) {
+		// TODO Auto-generated method stub
+		this.doorways = doorways;
+		
 	}
 
 }

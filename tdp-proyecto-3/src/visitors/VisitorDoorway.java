@@ -1,85 +1,85 @@
 package visitors;
 
-import entities.*;
-import entities.Entity.Direction;
+import entities.ActivePotionTypeA;
+import entities.Doorway;
+import entities.EnemyTypeA;
+import entities.Fruit;
+import entities.MainCharacter;
+import entities.Potion;
+import entities.PoweredDot;
+import entities.RegularDot;
+import entities.Wall;
 
+public class VisitorDoorway implements Visitor {
+	private int size = 36; // Game?
 
-public class VisitorEnemyTypeA implements Visitor {
-
-	
-	private Entity entity;
-	
-	public VisitorEnemyTypeA(Entity entity) {
-		
-		this.entity = entity;
-	}
-	
-	@Override
-	public void visitWall(Wall w) {
-	
-		entity.setDirection(Direction.STILL);
-
+	public VisitorDoorway(Doorway doorway) {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visitEnemyTypeA(EnemyTypeA e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void visitFruitTypeA(Fruit f) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visitFruitTypeB(Fruit f) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visitFruitTypeC(Fruit f) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visitPotionTypeA(Potion p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visitPotionTypeB(Potion p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visitPoweredDot(PoweredDot p) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void visitRegulardDot(RegularDot p) {
-	
-		
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visitWall(Wall w) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -87,5 +87,6 @@ public class VisitorEnemyTypeA implements Visitor {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

@@ -1,6 +1,7 @@
 package visitors;
 
 import entities.ActivePotionTypeA;
+import entities.Doorway;
 import entities.EnemyTypeA;
 import entities.Entity;
 import entities.Entity.Direction;
@@ -89,6 +90,20 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitDoorway(Doorway doorway) {
+		int size = 36;
+		int xPosition = player.getXValue();
+		if (xPosition < 0) {
+			player.setXValue(26 * size);
+		}
+		if( xPosition > 26 * size) {
+			
+			player.setXValue(0);
+		}
 		
 	}
 

@@ -23,14 +23,15 @@ public class Director {
 	private String potionTypeBRoute = domainRoute +"potion2.png";
 	private String fruitTypeARoute = domainRoute +"fruit1.png";
 	private String routeOfMaze = "/assets/MazeLevel1.txt";
-	
 	private int size = 36;
 	
 	public void constructLevelOne(Builder b) {
 		
+		
 		List<Entity> enemies = new ArrayList<Entity>(4);
 		List<Entity> components = new ArrayList<Entity>();
 		List<Entity> walls = loadAllWalls(routeOfMaze);
+		List<Entity> doorways = new ArrayList<Entity>(2);
 				
 		Entity player = new MainCharacter(13 * size, 9 * size, domainRoute +"PlayerDown.gif");
 		player.loadSprites(domainRoute +"PlayerUP.gif", domainRoute +"PlayerDown.gif", domainRoute +"PlayerRight.gif", domainRoute +"PlayerLeft.gif");
@@ -44,6 +45,10 @@ public class Director {
 		Entity potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute);
 		
 		Entity fruit1 = new FruitTypeA(572, 408, 50, fruitTypeARoute);
+		
+		Entity doorway1 = new Doorway(0 * size, 9 * size);
+		Entity doorway2 = new Doorway(26 * size, 9 * size);
+		doorways.addAll(Arrays.asList(doorway1,doorway2));
 		
 		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
 	
@@ -67,6 +72,7 @@ public class Director {
 	    b.createWalls(walls);
 	    b.createComponents(components);
 	    b.createPlayer(player);
+	    b.createDoorways(doorways);
 	
 	}
 
@@ -156,7 +162,7 @@ public class Director {
 	
 	private void loadAllRegularDots(List<Entity> components, List<Entity> walls) {
 		
-		for (int i = 1; i < 27; i++) 
+		for (int i = 2; i < 27; i++) 
 			
 			for (int j = 1; j < 19; j++)  {
 				

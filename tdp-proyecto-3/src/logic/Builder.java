@@ -17,4 +17,6 @@ public interface Builder {
 
 	public void createWalls(List<Entity> walls);
 	
+	public void createDoorways(List<Entity> doorways);
+	
 }

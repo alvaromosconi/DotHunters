@@ -1,6 +1,7 @@
 package gui;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -123,8 +124,8 @@ public class GUI extends JFrame {
 		JLabel wallLabel = new JLabel("");
 		wallLabel.setBounds(w.getXValue(), w.getYValue(), w.getWidth(), w.getHeight());
 		
-	//	wallLabel.setOpaque(rootPaneCheckingEnabled);
-	//	wallLabel.setBackground(Color.BLUE);
+//		wallLabel.setOpaque(rootPaneCheckingEnabled);
+//		wallLabel.setBackground(Color.BLUE);
 		
 		panel.add(wallLabel);
 		labelMap.put(w, wallLabel);	
@@ -133,6 +134,18 @@ public class GUI extends JFrame {
 	public JLabel getLabel(Entity e) {
 		
 		return labelMap.get(e);
+	}
+
+	public void addDoorWay(Entity d) {
+		JLabel doorWayLabel = new JLabel("");
+		doorWayLabel.setBounds(d.getXValue(), d.getYValue(), d.getWidth(), d.getHeight());
+		
+		doorWayLabel.setOpaque(rootPaneCheckingEnabled);
+		doorWayLabel.setBackground(Color.BLUE);
+		
+		panel.add(doorWayLabel);
+		labelMap.put(d, doorWayLabel);
+		
 	}
 	
 
