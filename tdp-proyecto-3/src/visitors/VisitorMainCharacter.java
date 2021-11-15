@@ -104,7 +104,9 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {
-		// TODO Auto-generated method stub
+		
+		a.setImageRoute("/assets/MarioAssets/explosion.gif");
+		a.getGame().getGUI().refreshImage(a);
 		
 	}
 

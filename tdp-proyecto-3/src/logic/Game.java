@@ -59,9 +59,7 @@ public class Game {
 	
 		myTime = new Time(this, 10, player);
 		myTime.start();
-		
-
-		
+			
 		ghostAi();
 		
 		walls.add(new Wall(13 * 36, 6 * 36, 36, 36, this));
@@ -450,19 +448,22 @@ public class Game {
 	public void potionTypeAEvent() {
 	
 		MainCharacter aux = (MainCharacter) player;
-		List<Zone> listOfZones = getZones(aux);
-		
+	
 		if (aux.getPotionTypeA()){
+		
 			Entity power = new ActivePotionTypeA(2*36,36,"/assets/MarioAssets/EnemyTypeB.gif", this);
 			allEntities.add(power);
-			//for (Zone zone : listOfZones) {
-				//zone.addEntity(power);
-			//}		
-			System.out.println("asd");
-			//myGUI.addEntity(power);
-			//myGUI.refreshImage(power);
+	
+			myGUI.addEntity(power);
+			myGUI.refreshImage(power);
 			chargeZonesWithEntities();
+		
 		}
+	}
+	
+	public GUI getGUI() {
+		
+		return myGUI;
 	}
 
 	
@@ -472,8 +473,7 @@ public class Game {
 	
 	public void activeFrightenedMode() {
 		
-		((Enemy)enemies.get(0)).enableFrightenedMode();
-		
+		((Enemy)enemies.get(0)).enableFrightenedMode();		
 
 	}
 
@@ -491,6 +491,7 @@ public class Game {
 	
 		}
 	
+		initializeLevel();
 	}
 	
 }

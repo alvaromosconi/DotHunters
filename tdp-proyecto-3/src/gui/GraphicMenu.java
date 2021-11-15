@@ -35,7 +35,7 @@ public class GraphicMenu extends JFrame {
 		setupWindow();
 		
 		super.setVisible(true);
-		super.pack();
+	
 	}
 	
 	

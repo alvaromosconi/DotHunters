@@ -27,4 +27,12 @@ public class ActivePotionTypeA extends Entity {
 		v.visitActivePotionTypeA(this);
 	}
 
+
+
+	public void setImageRoute(String string) {
+		
+		this.imageRoute = string;
+		
+	}
+
 }

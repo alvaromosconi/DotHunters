@@ -64,7 +64,8 @@ public class GUI extends JFrame {
 		
 
 		backgroundLabel.setLocation(0, 0);
-		panel.add(backgroundLabel);
+		add(backgroundLabel);
+
 	}
 
 	
@@ -80,6 +81,7 @@ public class GUI extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				
 				if (e.getKeyCode() == KeyEvent.VK_P){
 				   game.potionTypeAEvent();
 				}else{
@@ -106,13 +108,17 @@ public class GUI extends JFrame {
 		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(entityLabel);
+
 		labelMap.put(entity, entityLabel);
+		panel.add(entityLabel);
+		panel.setComponentZOrder(labelMap.get(entity), 0);
+		
 	}
 	
 	public void refreshEntity(Entity entity) {
 
 		labelMap.get(entity).setLocation(entity.getXValue(), entity.getYValue());
+
 	}
 	
 	public void refreshImage(Entity entity ) {
@@ -137,6 +143,7 @@ public class GUI extends JFrame {
 	}
 
 	public void addDoorWay(Entity d) {
+	
 		JLabel doorWayLabel = new JLabel("");
 		doorWayLabel.setBounds(d.getXValue(), d.getYValue(), d.getWidth(), d.getHeight());
 		
@@ -146,6 +153,11 @@ public class GUI extends JFrame {
 		panel.add(doorWayLabel);
 		labelMap.put(d, doorWayLabel);
 		
+	}
+	
+	public void tray(Entity e) {
+		
+		panel.setComponentZOrder(labelMap.get(e), 0);
 	}
 	
 
