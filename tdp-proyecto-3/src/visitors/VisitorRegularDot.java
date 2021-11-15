@@ -27,7 +27,6 @@ public class VisitorRegularDot implements Visitor {
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
-		// TODO Auto-generated method stub
 		
 	}
 

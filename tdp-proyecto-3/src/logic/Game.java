@@ -133,9 +133,9 @@ public class Game {
 		int widthMultiplier = 0;
 		int heightMultiplier = 0;
 		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < myZones.length; i++) {
 			
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < myZones[0].length; j++) {
 				
 				myZones[i][j] = new Zone(new Point(widthMultiplier, heightMultiplier), 
 						 	    		 new Point(widthMultiplier + gapX, heightMultiplier), 
@@ -143,6 +143,7 @@ public class Game {
 						 	    		 new Point(widthMultiplier + gapX, heightMultiplier + gapY));
 
 				widthMultiplier += gapX;
+			
 			}
 			
 			widthMultiplier = 0;
@@ -150,6 +151,7 @@ public class Game {
 	
 		}
 		
+
 	}
 	
 	/*
@@ -380,7 +382,6 @@ public class Game {
 				if (intersect) {
 					entityB.accept(entityA.getVisitor());
 					myGUI.refreshEntity(entityB);
-					break;
 				} 
 				
 			}
@@ -392,7 +393,6 @@ public class Game {
 		updateZones(entityA);
 		myGUI.refreshEntity(entityA);
 		entityA.move();
-
 	}
 	
 	
@@ -401,7 +401,7 @@ public class Game {
 	 * @param entidad de la cual se quieren obtener las zonas
 	 * @return zonas a la que pertenece la entidad
 	 */
-	private List<Zone> getZones(Entity entity) {
+	List<Zone> getZones(Entity entity) {
 		
 		List<Zone> listOfZones = new ArrayList<Zone>();
 	
@@ -425,7 +425,7 @@ public class Game {
 		Rectangle entityRectangle;
 		Rectangle zoneRectangle;
 		
-		entityRectangle = entity.getOffsetBounds();
+		entityRectangle = entity.getRectangle();
 			
 		for (int i = 0; i < myZones.length ; i++ )
 			
@@ -436,7 +436,7 @@ public class Game {
 				if (entityRectangle.intersects(zoneRectangle)) 
 					myZones[i][j].addEntity(entity);
 					
-				else if (myZones[i][j].getEntities().contains(entity))
+				else if (myZones[i][j].getEntities().contains(entity) && !entityRectangle.intersects(zoneRectangle) )
 					myZones[i][j].getEntities().remove(entity);
 							
 			}	

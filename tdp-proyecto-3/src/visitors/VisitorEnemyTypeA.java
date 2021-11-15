@@ -7,9 +7,9 @@ import entities.Entity.Direction;
 public class VisitorEnemyTypeA implements Visitor {
 
 	
-	private Entity entity;
+	private EnemyTypeA entity;
 	
-	public VisitorEnemyTypeA(Entity entity) {
+	public VisitorEnemyTypeA(EnemyTypeA entity) {
 		
 		this.entity = entity;
 	}
@@ -18,13 +18,23 @@ public class VisitorEnemyTypeA implements Visitor {
 	public void visitWall(Wall w) {
 	
 		entity.setDirection(Direction.STILL);
+		
 
 	}
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
-		// TODO Auto-generated method stub
-
+		
+		if (entity.getFrightenedMode()) {
+			entity.disableFrightenedMode();
+			entity.setXValue(12 * 36);
+			entity.setYValue(5 * 36);
+			entity.setDirection(Direction.LEFT);
+			entity.setNextDirection(Direction.LEFT);
+		}
+		else {
+			m.getGame().gameOver();
+		}
 	}
 
 	@Override

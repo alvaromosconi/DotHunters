@@ -45,7 +45,8 @@ public class Time extends Thread {
 		while (this.running) {
 				
 			try {
-										
+						
+				System.out.println(game.getZones(player).get(0).getBottomLeftVertex().getX());
 				Thread.sleep(step);
 						
 				game.move(player);
