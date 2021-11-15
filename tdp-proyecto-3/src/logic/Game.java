@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import entities.ActivePotionTypeA;
 import entities.Enemy;
@@ -18,11 +19,12 @@ import gui.GUI;
 
 public class Game {
 	
-	private int size = 36;
 	private Level currentLevel ;
 	private GUI myGUI;
 	private Zone[][] myZones;
 	private Time myTime;
+	
+	private boolean gameOver = false;
 
 	private Entity player;
 
@@ -58,78 +60,49 @@ public class Game {
 		myTime = new Time(this, 10, player);
 		myTime.start();
 		
-		myGUI.setupBackground(); 
+
 		
-		boolean k = true;
-		walls.add(new Wall(13 * size, 6 * size, size, size));
+		ghostAi();
 		
-		ghostAi(k);
+		walls.add(new Wall(13 * 36, 6 * 36, 36, 36, this));
 		chargeZonesWithWalls();
-		
-		
+			
+		myGUI.setupBackground(); 
 	}
+
 	
-	private synchronized void ghostAi(boolean k) {
+	/* 
+	 * Crea el hilo que controla a los fantasmas
+	 */
+	
+	private synchronized void ghostAi() {
 
 		  Thread thread = new Thread(){
-			  
-			  boolean l = false;
 			    
-			  public void run(){
+			  public void run() {
 			    	
-			    while (k) {
+			    while (!gameOver) {
 			    		
 
 	    			try {
+	    				
 						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						
+			  			Enemy e = (Enemy) enemies.get(0);
+						
+						if (e.getFrightenedMode())
+		    				e.frightened();
+		    			else
+		    				e.chase();
+						
+					} 
+	    			
+	    			catch (InterruptedException e) {
 						e.printStackTrace();
 					} 
-				   
-	    			Enemy e = (Enemy) enemies.get(0);
-	    			
-	    			double min = Double.MAX_VALUE;
-	    			  	
-	    	
-	    			/*
-	    			 Pregunta si NO va a colisionar con todas las posiciones, si no va a colisionar setea en la variable min la distancia desde
-	    			 el fantasma hasta el pacman y setea la direccion en el sentido que pregunto en el collideWithWall.
-	    			 
-	    			 Al traspasar todos los if queda seteada la direccion en la que el recorrido en linea recta es mas corto
-	    			 
-	    			 Problema: Estas decisiones solo deberian tomarse en los cuadros donde hay mas de 1 direccion.
-	    			 Tambien, el fantasma no deberia ser capaz de retroceder a menos que hay quedado atrapado
-	    			 */
-	    			if (!collideWithWall(-2, 0, e) && e.getNextDirection() != Direction.RIGHT) 
-			    		if (distance(e.getXValue() - 2, player.getXValue(), e.getYValue(), player.getYValue()) < min) {
-			    				min = distance(e.getXValue() - 2, player.getXValue(), e.getYValue(), player.getYValue());
-			    				e.setDirection(Direction.LEFT);
-			    		}
-			    		
-		    		if (!collideWithWall(2, 0, e) && e.getNextDirection() != Direction.LEFT) 
-		    			if (distance(e.getXValue() + 2, player.getXValue(), e.getYValue(), player.getYValue()) < min) {
-		    					min = distance(e.getXValue() + 2, player.getXValue(), e.getYValue(), player.getYValue());
-		    					e.setDirection(Direction.RIGHT);
-		    			}
-		    			
-		    		if (!collideWithWall(0, -2, e) && e.getNextDirection() != Direction.DOWN )
-		    			if (distance(e.getXValue(), player.getXValue(), e.getYValue() - 2, player.getYValue()) < min) {
-		    					min = distance(e.getXValue(), player.getXValue(), e.getYValue() - 2, player.getYValue());
-		    					e.setDirection(Direction.UP);
-		    			}
-	    			
-	    		
-		    		if (!collideWithWall(0, 2, e) && e.getNextDirection() != Direction.UP)
-		    			if (distance(e.getXValue(), player.getXValue(), e.getYValue() + 2, player.getYValue()) < min) {
-		    					min = distance(e.getXValue(), player.getXValue(), e.getYValue() + 2, player.getYValue());
-		    					e.setDirection(Direction.DOWN);
-		    			}
-	    			
-		    		e.setNextDirection(e.getDirection());
-	    			
-	    			move(e);
-		    	}
+				    
+			    }
+			
 			 }
 		  };
 		  
@@ -138,12 +111,18 @@ public class Game {
 		 
 	
 			  
-	// Calcula la distancia en linea recta entre el punto (x1,y1) e (x2,y2)
-	private double distance(int x1, int x2, int y1, int y2) {
+	/*
+	 * Calcula la distancia en linea recta entre el punto (x1,y1) e (x2,y2)
+	 */
+	
+	public double distance(int x1, int x2, int y1, int y2) {
 		
 		return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 	
+	/*
+	 * Inicializa las zonas del juego con su tamaño y ubicacion correspondiente, usando el tamaño del mapa como referencia.
+	 */
 	private void initializeZones() {
 		
 		myZones = new Zone[4][4];
@@ -173,6 +152,10 @@ public class Game {
 		
 	}
 	
+	/*
+	 * Se añaden las paredes a la o las zonas que correspondan.
+	 */
+	
 	private void chargeZonesWithWalls() {
 	
 		Rectangle wallRectangle;
@@ -198,6 +181,9 @@ public class Game {
 		}
 	}
 	
+	/*
+	 * Se añaden las entidades a la o las zonas que correspondan.
+	 */
 	private void chargeZonesWithEntities() {
 		
 		Rectangle entityRectangle;
@@ -223,6 +209,9 @@ public class Game {
 		
 	}
 	
+	/*
+	 * Se añaden los portales a la o las zonas que correspondan.
+	 */
 	private void chargeZonesWithDoorWays() {
 		
 		Rectangle doorWayRectangle;
@@ -248,9 +237,12 @@ public class Game {
 		}
 	}
 
+	/*
+	 * Se inicializa el nivel, obteniendolo del director.
+	 */
 	private void initializeLevel() {
 		
-		Director director = new Director();
+		Director director = new Director(this);
 		
 		LevelBuilder levelBuilder = new LevelBuilder();
 		
@@ -262,55 +254,71 @@ public class Game {
 		
 	}
 
+	
+	/*
+	 * Recibe el input que detecto la GUI y responde acorde al movimiento requerido, guardando la direccion actual y la siguiente
+	 *  para evitar colisiones con paredes en los casos que no sean necesarios (como por ejemplo cuando se esta viajando por un pasillo horizontal
+	 *  y se presiona la tecla hacia arriba) 
+	 */
 	public synchronized void movePlayer(KeyEvent keyPressed) {
-		
-		switch (keyPressed.getKeyCode()) {
+				
+		if (!gameOver)
 			
-			case KeyEvent.VK_LEFT : { 
+			switch (keyPressed.getKeyCode()) {
 				
-				if (!collideWithWall(-2, 0, player)) 
-					player.setDirection(Direction.LEFT);
-				else  
-					player.setNextDirection(Direction.LEFT);
-				
-				break;		
-			}
-			
-			case KeyEvent.VK_RIGHT : {
-				
-				if (!collideWithWall(2, 0, player)) 	
-					player.setDirection(Direction.RIGHT);
-				
-				else 
-					player.setNextDirection(Direction.RIGHT);
+				case KeyEvent.VK_LEFT : { 
 					
-				break;		
-			}
-			
-			case KeyEvent.VK_UP : {
+					if (!collideWithWall(-2, 0, player)) 
+						player.setDirection(Direction.LEFT);
+					else  
+						player.setNextDirection(Direction.LEFT);
+					
+					break;		
+				}
 				
-				if (!collideWithWall(0, -2, player)) 
-					player.setDirection(Direction.UP);
-				else 
-					player.setNextDirection(Direction.UP);
+				case KeyEvent.VK_RIGHT : {
+					
+					if (!collideWithWall(2, 0, player)) 	
+						player.setDirection(Direction.RIGHT);
+					
+					else 
+						player.setNextDirection(Direction.RIGHT);
+						
+					break;		
+				}
 				
-				break;		
-			}
-			
-			case KeyEvent.VK_DOWN : {
+				case KeyEvent.VK_UP : {
+					
+					if (!collideWithWall(0, -2, player)) 
+						player.setDirection(Direction.UP);
+					else 
+						player.setNextDirection(Direction.UP);
+					
+					break;		
+				}
 				
-				if (!collideWithWall(0, 2, player)) 
-					player.setDirection(Direction.DOWN);
+				case KeyEvent.VK_DOWN : {
+					
+					if (!collideWithWall(0, 2, player)) 
+						player.setDirection(Direction.DOWN);
+					
+					else
+						player.setNextDirection(Direction.DOWN);
+					
+					break;		
+				}
 				
-				else
-					player.setNextDirection(Direction.DOWN);
-				
-				break;		
-			}
-			
-		}	
+			}	
 	
 	}
+	
+	/*
+	 * Detecta colisiones en la direccion recibida.
+	 * @param xVelocity velocidad horizontal que se le quiere añadir a el valor de x actual de la entidad.
+	 * @param yVelocity velocidad vertal que se le quiere añadir a el valor y actual de la entidad.
+	 * @param entityA entidad que requiere hacer el movimiento.
+	 * @return verdadero si colisiono con una pared en la direccion requerida, falso en caso contrario. 
+	 */
 	
 	public boolean collideWithWall(int xVelocity, int yVelocity, Entity entityA) {
 		
@@ -342,6 +350,10 @@ public class Game {
 	}
 	
 
+	/*
+	 * Realiza el movimiento y la colision en funcion del movimiento que se establecio
+	 * @param entityA entidad que efectua el mvoimiento 
+	 */
 	public synchronized void move(Entity entityA) {
 		
 		Rectangle entityARectangle, entityBRectangle;
@@ -374,6 +386,8 @@ public class Game {
 			}
 		}
 	
+		// Actualizaciones graficas y/o actualizacion de zonas y posiciones
+		
 		myGUI.refreshImage(entityA);
 		updateZones(entityA);
 		myGUI.refreshEntity(entityA);
@@ -382,6 +396,11 @@ public class Game {
 	}
 	
 	
+	/*
+	 * Verifica que zonas contienen a la entidad actualmente
+	 * @param entidad de la cual se quieren obtener las zonas
+	 * @return zonas a la que pertenece la entidad
+	 */
 	private List<Zone> getZones(Entity entity) {
 		
 		List<Zone> listOfZones = new ArrayList<Zone>();
@@ -397,6 +416,10 @@ public class Game {
 	}
 	
 
+	/* 
+	 * Actualiza las zonas en funcion de un movimiento realizado
+	 * @param entity entidad que necesita ser agregada en otra zona u eliminada de la zona actual
+	 */
 	private void updateZones(Entity entity) {
 		
 		Rectangle entityRectangle;
@@ -425,10 +448,12 @@ public class Game {
 	}
 	
 	public void potionTypeAEvent() {
+	
 		MainCharacter aux = (MainCharacter) player;
 		List<Zone> listOfZones = getZones(aux);
+		
 		if (aux.getPotionTypeA()){
-			Entity power = new ActivePotionTypeA(2*36,36,"/assets/MarioAssets/EnemyTypeB.gif");
+			Entity power = new ActivePotionTypeA(2*36,36,"/assets/MarioAssets/EnemyTypeB.gif", this);
 			allEntities.add(power);
 			//for (Zone zone : listOfZones) {
 				//zone.addEntity(power);
@@ -440,8 +465,32 @@ public class Game {
 		}
 	}
 
-	public int getSize() {
-		return size;
+	
+	/*
+	 * Activa el modo vulnerable de todos los enemigos
+	 */
+	
+	public void activeFrightenedMode() {
+		
+		((Enemy)enemies.get(0)).enableFrightenedMode();
+		
+
+	}
+
+	/*
+	 * Cambia el estado del juego a perdido.
+	 */
+	
+	public void gameOver() {
+	
+		gameOver = true;
+		
+		for (Entity e: allEntities) {
+			
+			e.setDirection(Direction.STILL);
+	
+		}
+	
 	}
 	
 }

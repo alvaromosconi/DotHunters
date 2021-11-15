@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entities.Entity.Direction;
+import logic.Game;
 import visitors.Visitor;
 
 public abstract class Entity {
 
+	protected Game game;
+	
 	protected int width;
 	protected int height;
 	protected int xValue;
@@ -23,11 +26,10 @@ public abstract class Entity {
 	protected Visitor visitor;
 	protected String imageRoute;
 	protected Map<Direction, String> sprites;
-	public boolean canMoveH;
-	public boolean canMoveV;
 	
-	public Entity() {
+	public Entity(Game game) {
 		this.sprites = new HashMap<Direction, String>();
+		this.game = game;
 	}
 	
 	public enum Direction {
@@ -39,6 +41,7 @@ public abstract class Entity {
 	}
 	
 	public void setVelocity(int xVelocity, int yVelocity) {
+		
 		this.xVelocity = xVelocity;
 		this.yVelocity = yVelocity;
 	}
@@ -151,18 +154,22 @@ public abstract class Entity {
 	
 		xValue += xVelocity;
 		yValue += yVelocity;
+		// Cambio de imagen a la correspondiente con la direccion actual
 		this.imageRoute = sprites.get(currentDirection);
 	}
 
+	/*
+	 * Genera un rectangulo para predecir colisiones
+	 */
 	public Rectangle getOffsetBounds() {
-	    return new Rectangle(xValue + xVelocity, yValue + yVelocity, width, height);
+	    
+		return new Rectangle(xValue + xVelocity, yValue + yVelocity, width, height);
 	}	
 	
 	public Rectangle getRectangle() {
 		
 		return new Rectangle(xValue, yValue, width, height);
 	}
-
 
 	public void setDirection(Direction direction) {
 
@@ -260,4 +267,7 @@ public abstract class Entity {
 		sprites.put(Direction.STILL, downSprite);
 	}
 
+	public Game getGame() {
+		return game;
+	}
 }

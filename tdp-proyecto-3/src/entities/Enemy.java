@@ -3,10 +3,16 @@ package entities;
 import enemies.ChaseBehaviour;
 import enemies.FrightenedBehaviour;
 import enemies.ScatterBehaviour;
+import logic.Game;
 
 public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBehaviour, FrightenedBehaviour {
 	
-	public Enemy() {
+	protected boolean frightenedMode;
+	
+	public Enemy(Game game) {
+	
+		super(game);
+		frightenedMode = false;
 		this.width = 36;
 		this.height = 36;
 	}
@@ -26,5 +32,40 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
 
         return difference / 36;
     }
+    
+    public boolean getFrightenedMode() {
+    	
+    	return frightenedMode;
+    }
+    
+    public void enableFrightenedMode() {
+    	
+    	loadSprites("/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedBack.gif", "/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedFront.gif");
+    	frightenedMode = true;
+    }
+    
+    public void disableFrightenedMode() {
+    	loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
+    	frightenedMode = false;
+    }
+    
 	
+    public void frightened() {
+
+		if (!game.collideWithWall(-2, 0, this) && this.getDirection() != Direction.RIGHT) 	    				
+    		this.setNextDirection(Direction.LEFT);
+    	
+		if (!game.collideWithWall(2, 0, this) && this.getDirection() != Direction.LEFT) 
+			this.setNextDirection(Direction.RIGHT);
+			
+		if (!game.collideWithWall(0, -2, this) && this.getDirection() != Direction.DOWN)
+    			this.setNextDirection(Direction.UP);
+
+		if (!game.collideWithWall(0, 2, this) && this.getDirection() != Direction.UP)
+    			this.setNextDirection(Direction.DOWN);
+		
+		this.setDirection(nextDirection);
+		game.move(this);
+		
+    }
 }

@@ -1,11 +1,13 @@
 package entities;
 
+import logic.Game;
 import visitors.*;
 
 public class FruitTypeB extends Fruit {
 
-	public FruitTypeB(int xValue, int yValue,int v, String imageRoute) {
-		super(xValue, yValue, imageRoute);
+	public FruitTypeB(int xValue, int yValue,int v, String imageRoute, Game game) {
+		
+		super(xValue, yValue, imageRoute, game);
 		
 		this.value = v;
 		

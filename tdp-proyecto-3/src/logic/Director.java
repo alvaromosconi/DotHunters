@@ -16,190 +16,214 @@ import entities.*;
 
 public class Director {
 	
+	private Game game;
+	
+	// Declaracion de rutas
 	private String domainRoute = "/assets/MarioAssets/";
-	private String regularDotRoute = domainRoute +"regularDot.png";
-	private String poweredDotRoute = domainRoute +"poweredDot.png";
-	private String potionTypeARoute = domainRoute +"potion1.png";
-	private String potionTypeBRoute = domainRoute +"potion2.png";
-	private String fruitTypeARoute = domainRoute +"fruit1.png";
+	private String regularDotRoute = domainRoute + "regularDot.png";
+	private String poweredDotRoute = domainRoute + "poweredDot.png";
+	private String potionTypeARoute = domainRoute + "potion1.png";
+	private String potionTypeBRoute = domainRoute + "potion2.png";
+	private String fruitTypeARoute = domainRoute + "fruit1.png";
 	private String routeOfMaze;
+	
+	// Tamaño estandar de las entidades del juego (puede variar)
 	private int size = 36;
 	
+	/*
+	 * Constructor clase Director
+	 * @param game 
+	 */
+	public Director(Game game) {
+		this.game = game;
+	}
+
+	/*
+	 * Crea todas las entidades del juego.
+	 */
 	public void constructLevelOne(Builder b) {
 		
+		routeOfMaze = "/assets/MazeLevel1.txt";
+		
+		// Obtencion de las walls a traves de un archivo
+		List<Entity> walls = loadAllWalls(routeOfMaze);
 		
 		List<Entity> enemies = new ArrayList<Entity>(4);
 		List<Entity> components = new ArrayList<Entity>();
-		routeOfMaze = "/assets/MazeLevel1.txt";
-		List<Entity> walls = loadAllWalls(routeOfMaze);
 		List<Entity> doorways = new ArrayList<Entity>(2);
-				
-		Entity player = new MainCharacter(13 * size, 9 * size, domainRoute +"PlayerDown.gif");
-		player.loadSprites(domainRoute +"PlayerUP.gif", domainRoute +"PlayerDown.gif", domainRoute +"PlayerRight.gif", domainRoute +"PlayerLeft.gif");
 		
-		Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute);
-		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute);
-		Entity poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute);
-		Entity poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute);
+		// Creacion del jugador
+		Entity player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", game);
+		player.loadSprites(domainRoute + "PlayerUP.gif", domainRoute + "PlayerDown.gif", domainRoute + "PlayerRight.gif", domainRoute + "PlayerLeft.gif");
 		
-		Entity potion1 = new PotionTypeA(7 * size + 6, 7 * size + 6, 30, potionTypeARoute);
-		Entity potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute);
+		// Creacion de los dots
+		Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute, game);
+		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute, game);
+		Entity poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute, game);
+		Entity poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute, game);
 		
-		Entity fruit1 = new FruitTypeA(size * 15 + 30, size * 12 + 15, 50, fruitTypeARoute);
+		// Creacion de las potions
+		Entity potion1 = new PotionTypeA(7 * size + 6, 7 * size + 6, 30, potionTypeARoute, game);
+		Entity potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute, game);
 		
-		Entity doorway1 = new Doorway(0 * size, 9 * size);
-		Entity doorway2 = new Doorway(26 * size, 9 * size);
-		doorways.addAll(Arrays.asList(doorway1,doorway2));
+		// Creacion de las frutas
+		Entity fruit1 = new FruitTypeA(size * 11 , size * 13 , 50, fruitTypeARoute, game);
 		
+		// Creacion de los portales
+		Entity doorway1 = new Doorway(0 * size, 9 * size, game);
+		Entity doorway2 = new Doorway(26 * size, 9 * size, game);
+		
+		// Creacion de los enemigos
+		Entity enemy1 = new EnemyTypeA(12 * size, 5 * size, domainRoute + "EnemyTypeA.gif", game);
+		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute + "EnemyTypeB.gif", game);
+		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute + "EnemyTypeC.gif", game);
+		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute + "EnemyTypeD.gif", game);
+
+		enemy1.loadSprites(domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif");
+		enemy2.loadSprites(domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif");
+		enemy3.loadSprites(domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif");
+		enemy4.loadSprites(domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif");
+		
+		// Cargado de listas
+		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+		doorways.addAll(Arrays.asList(doorway1,doorway2));		
 		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
-	
+		
+		// Creacion de todos los regular dots (Se crean en donde NO haya paredes)
 		loadAllRegularDots(components, walls);
 		
-		Entity enemy1 = new EnemyTypeA(12 * size, 5 * size, domainRoute +"EnemyTypeA.gif");
-		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute +"EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute +"EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute +"EnemyTypeD.gif");
 		
-		enemy1.loadSprites(domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif");
-		enemy2.loadSprites(domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif");
-		enemy3.loadSprites(domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif");
-		enemy4.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
-		
-		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
-	
-		
-		b.createBackground(domainRoute +"MazeLevel1.png");
+		b.createBackground(domainRoute + "MazeLevel1.png");
 	    b.createEnemies(enemies);
 	    b.createWalls(walls);
 	    b.createComponents(components);
 	    b.createPlayer(player);
 	    b.createDoorways(doorways);
-	
 	}
 
 	
 	
-	public void constructLevelTwo(Builder b) {
-		
-		List<Entity> enemies = new ArrayList<Entity>(4);
-		List<Entity> components = new ArrayList<Entity>(200);
-		routeOfMaze = "/assets/MazeLevel2.txt";
-		List<Entity> walls = loadAllWalls(routeOfMaze);
-		List<Entity> doorways = new ArrayList<Entity>(4);
-		
-		
-		Entity player = new MainCharacter(13 * size, 7 * size, domainRoute +"PlayerDown.gif");
-		player.loadSprites(domainRoute +"PlayerUP.gif", domainRoute +"PlayerDown.gif", domainRoute +"PlayerRight.gif", domainRoute +"PlayerLeft.gif");
-
-		Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute);
-		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute);
-		Entity poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute);
-		Entity poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute);
-		
-		Entity potion1 = new PotionTypeA(7 * size + 6, 7 * size + 6, 30, potionTypeARoute);
-		Entity potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute);
-		
-		Entity fruit1 = new FruitTypeA(size * 15 + 30, size * 12 + 15, 50, fruitTypeARoute);
-		
-		Entity doorway1 = new Doorway(0 * size, 3 * size);
-		Entity doorway2 = new Doorway(0 * size, 15 * size);
-		Entity doorway3 = new Doorway(26 * size, 3 * size);
-		Entity doorway4 = new Doorway(26 * size, 15 * size);
-		doorways.addAll(Arrays.asList(doorway1, doorway2, doorway3, doorway4));
-	    
-		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
-	
-		loadAllRegularDots(components, walls);
-		
-		Entity enemy1 = new EnemyTypeA(13 * size, 3 * size, domainRoute +"EnemyTypeA.gif");
-		Entity enemy2 = new EnemyTypeB(12 * size, 5 * size, domainRoute +"EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(14 * size, 5 * size, domainRoute +"EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(15 * size, 5 * size, domainRoute +"EnemyTypeD.gif");
-		
-		enemy1.loadSprites(domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif");
-		enemy2.loadSprites(domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif");
-		enemy3.loadSprites(domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif");
-		enemy4.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
-		
-		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
-	
-		
-		b.createBackground(domainRoute +"MazeLevel2.png");
-	    b.createEnemies(enemies);
-	    b.createWalls(walls);
-	    b.createComponents(components);
-	    b.createPlayer(player);
-	    b.createDoorways(doorways);
-	}
-	
-	
-	public void constructLevelThree(Builder b) {
-		
-		List<Entity> enemies = new ArrayList<Entity>(4);
-		List<Entity> components = new ArrayList<Entity>(200);
-		routeOfMaze = "/assets/MazeLevel3.txt";
-		List<Entity> walls = loadAllWalls(routeOfMaze);
-		List<Entity> doorways = new ArrayList<Entity>(4);
-		
-		
-		Entity player = new MainCharacter(13 * size, 11 * size, domainRoute +"PlayerDown.gif");
-		player.loadSprites(domainRoute +"PlayerUP.gif", domainRoute +"PlayerDown.gif", domainRoute +"PlayerRight.gif", domainRoute +"PlayerLeft.gif");
-			    
-	    Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute);
-		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute);
-		Entity poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute);
-		Entity poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute);
-		
-		Entity potion1 = new PotionTypeA(8 * size + 6, 8 * size + 6, 30, potionTypeARoute);
-		Entity potion2 = new PotionTypeB(18 * size + 12, 8 * size + 12, 30, potionTypeBRoute);
-		
-		Entity fruit1 = new FruitTypeA(size * 15 + 20, size * 15 + 15, 50, fruitTypeARoute);
-		
-		Entity doorway1 = new Doorway(0 * size, 4 * size);
-		Entity doorway2 = new Doorway(0 * size, 14 * size);
-		Entity doorway3 = new Doorway(26 * size, 4 * size);
-		Entity doorway4 = new Doorway(26 * size, 14 * size);
-		doorways.addAll(Arrays.asList(doorway1, doorway2, doorway3, doorway4));
-	    
-		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
-	
-		loadAllRegularDots(components, walls);
-		
-		Entity enemy1 = new EnemyTypeA(13 * size, 5 * size, domainRoute +"EnemyTypeA.gif");
-		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute +"EnemyTypeB.gif");
-		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute +"EnemyTypeC.gif");
-		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute +"EnemyTypeD.gif");
-		
-		enemy1.loadSprites(domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif");
-		enemy2.loadSprites(domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif");
-		enemy3.loadSprites(domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif");
-		enemy4.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
-		
-		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
-	
-		
-		b.createBackground(domainRoute +"MazeLevel3.png");
-	    b.createEnemies(enemies);
-	    b.createWalls(walls);
-	    b.createComponents(components);
-	    b.createPlayer(player);
-	    b.createDoorways(doorways);
-		
-	}
-	
-	
+//	public void constructLevelTwo(Builder b) {
+//		
+//		List<Entity> enemies = new ArrayList<Entity>(4);
+//		List<Entity> components = new ArrayList<Entity>(200);
+//		routeOfMaze = "/assets/MazeLevel2.txt";
+//		List<Entity> walls = loadAllWalls(routeOfMaze);
+//		List<Entity> doorways = new ArrayList<Entity>(4);
+//		
+//		
+//		Entity player = new MainCharacter(13 * size, 7 * size, domainRoute +"PlayerDown.gif");
+//		player.loadSprites(domainRoute +"PlayerUP.gif", domainRoute +"PlayerDown.gif", domainRoute +"PlayerRight.gif", domainRoute +"PlayerLeft.gif");
+//
+//		Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute);
+//		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute);
+//		Entity poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute);
+//		Entity poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute);
+//		
+//		Entity potion1 = new PotionTypeA(7 * size + 6, 7 * size + 6, 30, potionTypeARoute);
+//		Entity potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute);
+//		
+//		Entity fruit1 = new FruitTypeA(size * 15 + 30, size * 12 + 15, 50, fruitTypeARoute);
+//		
+//		Entity doorway1 = new Doorway(0 * size, 3 * size);
+//		Entity doorway2 = new Doorway(0 * size, 15 * size);
+//		Entity doorway3 = new Doorway(26 * size, 3 * size);
+//		Entity doorway4 = new Doorway(26 * size, 15 * size);
+//		doorways.addAll(Arrays.asList(doorway1, doorway2, doorway3, doorway4));
+//	    
+//		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
+//	
+//		loadAllRegularDots(components, walls);
+//		
+//		Entity enemy1 = new EnemyTypeA(13 * size, 3 * size, domainRoute +"EnemyTypeA.gif");
+//		Entity enemy2 = new EnemyTypeB(12 * size, 5 * size, domainRoute +"EnemyTypeB.gif");
+//		Entity enemy3 = new EnemyTypeC(14 * size, 5 * size, domainRoute +"EnemyTypeC.gif");
+//		Entity enemy4 = new EnemyTypeD(15 * size, 5 * size, domainRoute +"EnemyTypeD.gif");
+//		
+//		enemy1.loadSprites(domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif");
+//		enemy2.loadSprites(domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif");
+//		enemy3.loadSprites(domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif");
+//		enemy4.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
+//		
+//		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+//	
+//		
+//		b.createBackground(domainRoute +"MazeLevel2.png");
+//	    b.createEnemies(enemies);
+//	    b.createWalls(walls);
+//	    b.createComponents(components);
+//	    b.createPlayer(player);
+//	    b.createDoorways(doorways);
+//	}
+//	
+//	
+//	public void constructLevelThree(Builder b) {
+//		
+//		List<Entity> enemies = new ArrayList<Entity>(4);
+//		List<Entity> components = new ArrayList<Entity>(200);
+//		routeOfMaze = "/assets/MazeLevel3.txt";
+//		List<Entity> walls = loadAllWalls(routeOfMaze);
+//		List<Entity> doorways = new ArrayList<Entity>(4);
+//		
+//		
+//		Entity player = new MainCharacter(13 * size, 11 * size, domainRoute +"PlayerDown.gif");
+//		player.loadSprites(domainRoute +"PlayerUP.gif", domainRoute +"PlayerDown.gif", domainRoute +"PlayerRight.gif", domainRoute +"PlayerLeft.gif");
+//			    
+//	    Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute);
+//		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute);
+//		Entity poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute);
+//		Entity poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute);
+//		
+//		Entity potion1 = new PotionTypeA(8 * size + 6, 8 * size + 6, 30, potionTypeARoute);
+//		Entity potion2 = new PotionTypeB(18 * size + 12, 8 * size + 12, 30, potionTypeBRoute);
+//		
+//		Entity fruit1 = new FruitTypeA(size * 15 + 20, size * 15 + 15, 50, fruitTypeARoute);
+//		
+//		Entity doorway1 = new Doorway(0 * size, 4 * size);
+//		Entity doorway2 = new Doorway(0 * size, 14 * size);
+//		Entity doorway3 = new Doorway(26 * size, 4 * size);
+//		Entity doorway4 = new Doorway(26 * size, 14 * size);
+//		doorways.addAll(Arrays.asList(doorway1, doorway2, doorway3, doorway4));
+//	    
+//		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
+//	
+//		loadAllRegularDots(components, walls);
+//		
+//		Entity enemy1 = new EnemyTypeA(13 * size, 5 * size, domainRoute +"EnemyTypeA.gif");
+//		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute +"EnemyTypeB.gif");
+//		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute +"EnemyTypeC.gif");
+//		Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute +"EnemyTypeD.gif");
+//		
+//		enemy1.loadSprites(domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif", domainRoute +"EnemyTypeA.gif");
+//		enemy2.loadSprites(domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif", domainRoute +"EnemyTypeB.gif");
+//		enemy3.loadSprites(domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif", domainRoute +"EnemyTypeC.gif");
+//		enemy4.loadSprites(domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif", domainRoute +"EnemyTypeD.gif");
+//		
+//		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+//	
+//		
+//		b.createBackground(domainRoute +"MazeLevel3.png");
+//	    b.createEnemies(enemies);
+//	    b.createWalls(walls);
+//	    b.createComponents(components);
+//	    b.createPlayer(player);
+//	    b.createDoorways(doorways);
+//		
+//	}
+//	
+//	
 	private void loadAllRegularDots(List<Entity> components, List<Entity> walls) {
 		
 		for (int i = 2; i < 27; i++) 
 			
 			for (int j = 1; j < 19; j++)  {
 				
-				Entity regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute);
+				Entity regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
 				components.add(regularDot);
 			}
 		
 		
-		Entity ZonaSinDots = new Wall(9 * size, 5 * size, 9 * size, 5 * size);
+		Entity ZonaSinDots = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
 		Rectangle2D sDots = ZonaSinDots.getRectangle();
 		
 		// elimino los que colisionan con la pared
@@ -247,7 +271,7 @@ public class Director {
 					 width = Integer.parseInt(tokens.nextToken());
 					 height = Integer.parseInt(tokens.nextToken());
 					 
-					 Entity w = new Wall(posX * size, posY * size, width * size, height * size);
+					 Entity w = new Wall(posX * size, posY * size, width * size, height * size, game);
 					 walls.add(w);
 					 
 				}

@@ -1,21 +1,24 @@
 package entities;
+import entities.Entity.Direction;
+import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorEnemyTypeA;
 import visitors.VisitorMainCharacter;
 
 public class EnemyTypeA extends Enemy {
 	
-	public EnemyTypeA(int xValue, int yValue, String imageRoute) {
+	public EnemyTypeA(int xValue, int yValue, String imageRoute, Game game) {
 		
+		super(game);
 		this.xValue = xValue;
 		this.yValue = yValue;
 		
-		
 		this.currentDirection = Direction.LEFT;
 		this.nextDirection = Direction.LEFT;
+		
 		this.imageRoute = imageRoute;
+
 		visitor = new VisitorEnemyTypeA(this);
-		System.out.println(necessaryVerticalMovements(36)+","+necessaryHorizontalMovements(900));
 		
 	}
 	
@@ -29,8 +32,37 @@ public class EnemyTypeA extends Enemy {
 
 	@Override
 	public void chase() {
+
+		Entity player = game.getPlayer();
+		double min = Double.MAX_VALUE;
 		
+		if (!game.collideWithWall(-2, 0, this) && currentDirection != Direction.RIGHT) 
+    		if (game.distance(xValue - 2, player.getXValue(), yValue, player.getYValue()) < min) {
+    				min = game.distance(xValue - 2, player.getXValue(), yValue, player.getYValue());
+    				setNextDirection(Direction.LEFT);
+    		}
+    		
+		if (!game.collideWithWall(2, 0, this) && currentDirection != Direction.LEFT) 
+			if (game.distance(xValue + 2, player.getXValue(), yValue, player.getYValue()) < min) {
+					min = game.distance(xValue + 2, player.getXValue(), yValue, player.getYValue());
+					setNextDirection(Direction.RIGHT);
+			}
+			
+		if (!game.collideWithWall(0, -2, this) && currentDirection != Direction.DOWN )
+			if (game.distance(xValue, player.getXValue(), yValue - 2, player.getYValue()) < min) {
+					min = game.distance(xValue, player.getXValue(), yValue - 2, player.getYValue());
+					setNextDirection(Direction.UP);
+			}
 		
+		if (!game.collideWithWall(0, 2, this) && currentDirection != Direction.UP)
+			if (game.distance(xValue, player.getXValue(), yValue + 2, player.getYValue()) < min) {
+					min = game.distance(xValue, player.getXValue(), yValue + 2, player.getYValue());
+					setNextDirection(Direction.DOWN);
+			}
+		
+		setDirection(nextDirection);
+		
+		game.move(this);
 		
 	}
 
@@ -42,13 +74,10 @@ public class EnemyTypeA extends Enemy {
 		
 		
 	}
+	
 
 
-	@Override
-	public void frightened() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 
 }

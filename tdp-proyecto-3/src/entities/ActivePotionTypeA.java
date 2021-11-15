@@ -1,12 +1,15 @@
 package entities;
 
+import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorActivePotionTypeA;
 import visitors.VisitorPotionTypeA;
 
 public class ActivePotionTypeA extends Entity {
 
-	public ActivePotionTypeA(int xValue, int yValue, String imageRoute) {
+	public ActivePotionTypeA(int xValue, int yValue, String imageRoute, Game game) {
+	
+		super(game);
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;

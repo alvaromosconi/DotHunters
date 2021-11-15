@@ -11,6 +11,7 @@ import entities.Potion;
 import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
+import logic.Game;
 
 public class VisitorMainCharacter implements Visitor {
 
@@ -37,13 +38,26 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitEnemyTypeA(EnemyTypeA e) {
-		// TODO Auto-generated method stub
+		
+		if (e.getFrightenedMode()) {
+			e.disableFrightenedMode();
+			e.setXValue(12 * 36);
+			e.setYValue(5 * 36);
+			e.setDirection(Direction.LEFT);
+			e.setNextDirection(Direction.LEFT);
+		}
+		else {
+			player.getGame().gameOver();
+		}
 		
 	}
 
 	@Override
 	public void visitFruitTypeA(Fruit f) {
-		// TODO Auto-generated method stub
+
+		f.setXValue(-36);
+		f.setYValue(-36);
+		f.getGame().activeFrightenedMode();
 		
 	}
 
@@ -61,6 +75,7 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitPotionTypeA(Potion p) {
+		
 		p.setXValue(0);
 		p.setYValue(0);	
 		player.setPotionTypeA(true);		

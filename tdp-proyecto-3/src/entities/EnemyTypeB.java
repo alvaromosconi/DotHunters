@@ -1,11 +1,12 @@
 package entities;
+import logic.Game;
 import visitors.Visitor;
 
 public class EnemyTypeB extends Enemy {
 
-	public EnemyTypeB(int xValue, int yValue, String imageRoute) {
+	public EnemyTypeB(int xValue, int yValue, String imageRoute, Game game) {
 		
-
+		super(game);
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
