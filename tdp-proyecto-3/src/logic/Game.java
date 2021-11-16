@@ -16,6 +16,7 @@ import entities.MainCharacter;
 import entities.RegularDot;
 import entities.Wall;
 import gui.GUI;
+import gui.GameOverGUI;
 
 public class Game {
 	
@@ -24,6 +25,7 @@ public class Game {
 	private Zone[][] myZones;
 	private Time myTime;
 	private int score;
+	private GameOverGUI myGameOverGUI;
 
 	private boolean gameOver = false;
 
@@ -489,8 +491,9 @@ public class Game {
 			e.setDirection(Direction.STILL);
 	
 		}
-	
-		initializeLevel();
+		myGUI.dispose();
+		myGameOverGUI = new GameOverGUI(this);
+		myTime.stop();
 	}
 	
 	public int getScore() {

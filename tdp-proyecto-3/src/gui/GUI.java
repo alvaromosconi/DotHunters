@@ -165,8 +165,8 @@ public class GUI extends JFrame {
 		JLabel doorWayLabel = new JLabel("");
 		doorWayLabel.setBounds(d.getXValue(), d.getYValue(), d.getWidth(), d.getHeight());
 		
-		doorWayLabel.setOpaque(rootPaneCheckingEnabled);
-		doorWayLabel.setBackground(Color.BLUE);
+		//doorWayLabel.setOpaque(rootPaneCheckingEnabled);
+		//doorWayLabel.setBackground(Color.BLUE);
 		
 		panel.add(doorWayLabel);
 		labelMap.put(d, doorWayLabel);
