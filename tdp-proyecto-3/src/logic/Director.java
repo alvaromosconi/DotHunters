@@ -51,6 +51,7 @@ public class Director {
 		List<Entity> enemies = new ArrayList<Entity>(4);
 		List<Entity> components = new ArrayList<Entity>();
 		List<Entity> doorways = new ArrayList<Entity>(2);
+		List<Entity> zonaSinDots = new ArrayList<Entity>();
 		
 		// Creacion del jugador
 		Entity player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", game);
@@ -87,10 +88,15 @@ public class Director {
 		// Cargado de listas
 		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
 		doorways.addAll(Arrays.asList(doorway1,doorway2));		
-		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
+		//components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
 		
-		// Creacion de todos los regular dots (Se crean en donde NO haya paredes)
-		loadAllRegularDots(components, walls);
+		Entity contornoCasaEnemies = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
+		zonaSinDots.addAll(Arrays.asList(contornoCasaEnemies, poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
+				
+		// Creacion de todos los regular dots (Se crean en donde NO haya paredes y otros componentes)
+		loadAllRegularDots(components, walls, zonaSinDots);
+//		loadAllRegularDots(components, walls);
+		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
 		
 		
 		b.createBackground(domainRoute + "MazeLevel1.png");
@@ -212,7 +218,8 @@ public class Director {
 //	}
 //	
 //	
-	private void loadAllRegularDots(List<Entity> components, List<Entity> walls) {
+private void loadAllRegularDots(List<Entity> components, List<Entity> walls, List<Entity> zonaSinDots) {
+		
 		
 		for (int i = 2; i < 27; i++) 
 			
@@ -221,10 +228,6 @@ public class Director {
 				Entity regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
 				components.add(regularDot);
 			}
-		
-		
-		Entity ZonaSinDots = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
-		Rectangle2D sDots = ZonaSinDots.getRectangle();
 		
 		// elimino los que colisionan con la pared
 		Iterator<Entity> i1 = components.iterator();
@@ -239,7 +242,7 @@ public class Director {
 			for (Entity w: walls) {
 					
 				Rectangle2D r2 = w.getRectangle();
-				if (r1.intersects(r2) || r1.intersects(sDots)) {
+				if (r1.intersects(r2)) {
 					i1.remove();
 					break;
 				}	
@@ -247,7 +250,66 @@ public class Director {
 			}
 				
 		}
+		
+		// elimino los que colisionan con la zona de la casa de los enemies , powerDots, potions y fruits
+				Iterator<Entity> i2 = components.iterator();
+				Entity e2;
+				
+				while (i2.hasNext()) {
+					
+					e2 = i2.next();
+					
+					Rectangle2D r1 = e2.getRectangle();
+
+					for (Entity c: zonaSinDots) {
+							
+						Rectangle2D r2 = c.getRectangle();
+						if (r1.intersects(r2)) {
+							i2.remove();
+							break;
+						}	
+						
+					}
+						
+				}
 	}
+
+//	private void loadAllRegularDots(List<Entity> components, List<Entity> walls) {
+//		
+//		for (int i = 2; i < 27; i++) 
+//			
+//			for (int j = 1; j < 19; j++)  {
+//				
+//				Entity regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
+//				components.add(regularDot);
+//			}
+//		
+//		
+//		Entity ZonaSinDots = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
+//		Rectangle2D sDots = ZonaSinDots.getRectangle();
+//		
+//		// elimino los que colisionan con la pared
+//		Iterator<Entity> i1 = components.iterator();
+//		Entity e1;
+//		
+//		while (i1.hasNext()) {
+//			
+//			e1 = i1.next();
+//			
+//			Rectangle2D r1 = e1.getRectangle();
+//
+//			for (Entity w: walls) {
+//					
+//				Rectangle2D r2 = w.getRectangle();
+//				if (r1.intersects(r2) || r1.intersects(sDots)) {
+//					i1.remove();
+//					break;
+//				}	
+//				
+//			}
+//				
+//		}
+//	}
 
 	private List<Entity> loadAllWalls(String routeOfMaze) {
 		

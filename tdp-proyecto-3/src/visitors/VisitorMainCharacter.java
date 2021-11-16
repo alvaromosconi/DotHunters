@@ -16,6 +16,7 @@ import logic.Game;
 public class VisitorMainCharacter implements Visitor {
 
 	private MainCharacter player;
+	private int size = 36;
 	
 	public VisitorMainCharacter(MainCharacter player) {
 		
@@ -40,8 +41,8 @@ public class VisitorMainCharacter implements Visitor {
 	public void visitEnemyTypeA(EnemyTypeA e) {		
 		if (e.getFrightenedMode()) {
 			e.disableFrightenedMode();
-			e.setXValue(12 * 36);
-			e.setYValue(5 * 36);
+			e.setXValue(12 * size);
+			e.setYValue(5 * size);
 			e.setDirection(Direction.LEFT);
 			e.setNextDirection(Direction.LEFT);
 		}
@@ -53,8 +54,8 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitFruitTypeA(Fruit f) {
 
-		f.setXValue(-36);
-		f.setYValue(-36);
+		f.setXValue(-size);
+		f.setYValue(-size);
 		f.getGame().activeFrightenedMode();
 		
 	}
@@ -74,28 +75,30 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitPotionTypeA(Potion p) {
 		
-		p.setXValue(0);
-		p.setYValue(0);	
+		p.setXValue(-size);
+		p.setYValue(-size);	
 		player.setPotionTypeA(true);		
 	}
 
 	@Override
 	public void visitPotionTypeB(Potion p) {
-		// TODO Auto-generated method stub
+		p.setXValue(-size);
+		p.setYValue(-size);
 		
 	}
 
 	@Override
 	public void visitPoweredDot(PoweredDot p) {
-		// TODO Auto-generated method stub
+		p.setXValue(-size);
+		p.setYValue(-size);
 		
 	}
 
 	@Override
 	public void visitRegulardDot(RegularDot p) {
 		
-		p.setXValue(0);
-		p.setYValue(0);
+		p.setXValue(-size);
+		p.setYValue(-size);
 		
 		
 	}
