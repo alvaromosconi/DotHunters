@@ -445,19 +445,14 @@ public class Game {
 		return player;
 	}
 	
-	public void potionTypeAEvent() {
-	
-		MainCharacter aux = (MainCharacter) player;
-	
-		if (aux.getPotionTypeA()){
-		
-			Entity power = new ActivePotionTypeA(2*36,36,"/assets/MarioAssets/EnemyTypeB.gif", this);
+	public void potionTypeAEvent() {	
+		MainCharacter aux = (MainCharacter) player;	
+		if (aux.getPotionTypeA()){		
+			Entity power = new ActivePotionTypeA(aux.getXValue(),aux.getYValue(),"/assets/MarioAssets/bomb.png", this);
 			allEntities.add(power);
-	
-			myGUI.addEntity(power);
-			myGUI.refreshImage(power);
+			//myGUI.addEntity(power);
+			//myGUI.refreshImage(power);	
 			chargeZonesWithEntities();
-		
 		}
 	}
 	

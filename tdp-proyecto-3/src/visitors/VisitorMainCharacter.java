@@ -37,8 +37,7 @@ public class VisitorMainCharacter implements Visitor {
 	}
 
 	@Override
-	public void visitEnemyTypeA(EnemyTypeA e) {
-		
+	public void visitEnemyTypeA(EnemyTypeA e) {		
 		if (e.getFrightenedMode()) {
 			e.disableFrightenedMode();
 			e.setXValue(12 * 36);
@@ -47,9 +46,8 @@ public class VisitorMainCharacter implements Visitor {
 			e.setNextDirection(Direction.LEFT);
 		}
 		else {
-			player.getGame().gameOver();
-		}
-		
+			//player.getGame().gameOver();
+		}		
 	}
 
 	@Override
@@ -103,10 +101,7 @@ public class VisitorMainCharacter implements Visitor {
 	}
 
 	@Override
-	public void visitActivePotionTypeA(ActivePotionTypeA a) {
-		
-		a.setImageRoute("/assets/MarioAssets/explosion.gif");
-		a.getGame().getGUI().refreshImage(a);
+	public void visitActivePotionTypeA(ActivePotionTypeA a) {		
 		
 	}
 
