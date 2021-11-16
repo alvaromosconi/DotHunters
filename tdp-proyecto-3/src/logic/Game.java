@@ -472,6 +472,7 @@ public class Game {
 	public void activeFrightenedMode() {
 		
 		((Enemy)enemies.get(0)).enableFrightenedMode();		
+		
 
 	}
 

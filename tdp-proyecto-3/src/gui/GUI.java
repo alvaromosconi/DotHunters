@@ -2,6 +2,8 @@ package gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -13,7 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
+import entities.ActivePotionTypeA;
 import entities.Entity;
 import logic.Game;
 import java.awt.Font;
@@ -172,5 +176,24 @@ public class GUI extends JFrame {
 	public void tray(Entity e) {
 		
 		panel.setComponentZOrder(labelMap.get(e), 0);
+	}
+
+	public void deleteEntity(Entity a) {
+		
+	    Timer timer = new Timer(1700, (ActionListener) new ActionListener() {
+
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				panel.remove(labelMap.get(a));
+				
+			}
+        });
+        // start Tick-Tack
+        timer.start();
+
+
+	
 	}
 }

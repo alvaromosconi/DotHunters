@@ -88,13 +88,20 @@ public class VisitorEnemyTypeA implements Visitor {
 
 	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {
+		
+		entity.setDirection(Direction.STILL);
+		a.getGame().getGUI().deleteEntity(a);
 		entity.disableFrightenedMode();
 		entity.setXValue(12 * 36);
 		entity.setYValue(5 * 36);
 		entity.setDirection(Direction.LEFT);
 		entity.setNextDirection(Direction.LEFT);
 		a.setImageRoute("/assets/MarioAssets/explosion.gif");
+		
 		a.getGame().getGUI().refreshImage(a);
+		
+
+
 	}
 
 	@Override

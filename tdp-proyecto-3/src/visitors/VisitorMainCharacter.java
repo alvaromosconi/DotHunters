@@ -57,7 +57,6 @@ public class VisitorMainCharacter implements Visitor {
 
 		f.setXValue(-size);
 		f.setYValue(-size);
-		f.getGame().activeFrightenedMode();
 		modifyScore(100);
 		
 	}
@@ -91,6 +90,7 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitPoweredDot(PoweredDot p) {
+		p.getGame().activeFrightenedMode();
 		p.setXValue(-size);
 		p.setYValue(-size);
 		modifyScore(50);
