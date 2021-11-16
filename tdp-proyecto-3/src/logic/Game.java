@@ -23,7 +23,8 @@ public class Game {
 	private GUI myGUI;
 	private Zone[][] myZones;
 	private Time myTime;
-	
+	private int score;
+
 	private boolean gameOver = false;
 
 	private Entity player;
@@ -241,6 +242,8 @@ public class Game {
 	 * Se inicializa el nivel, obteniendolo del director.
 	 */
 	private void initializeLevel() {
+		
+		this.score = 0;
 		
 		Director director = new Director(this);
 		
@@ -487,6 +490,15 @@ public class Game {
 		}
 	
 		initializeLevel();
+	}
+	
+	public int getScore() {
+		return score;
+	}
+
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 }

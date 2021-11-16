@@ -45,9 +45,10 @@ public class VisitorMainCharacter implements Visitor {
 			e.setYValue(5 * size);
 			e.setDirection(Direction.LEFT);
 			e.setNextDirection(Direction.LEFT);
+			modifyScore(200);
 		}
 		else {
-			//player.getGame().gameOver();
+			player.getGame().gameOver();
 		}		
 	}
 
@@ -57,6 +58,7 @@ public class VisitorMainCharacter implements Visitor {
 		f.setXValue(-size);
 		f.setYValue(-size);
 		f.getGame().activeFrightenedMode();
+		modifyScore(100);
 		
 	}
 
@@ -91,6 +93,7 @@ public class VisitorMainCharacter implements Visitor {
 	public void visitPoweredDot(PoweredDot p) {
 		p.setXValue(-size);
 		p.setYValue(-size);
+		modifyScore(50);
 		
 	}
 
@@ -99,6 +102,7 @@ public class VisitorMainCharacter implements Visitor {
 		
 		p.setXValue(-size);
 		p.setYValue(-size);
+		modifyScore(10);
 		
 		
 	}
@@ -120,6 +124,11 @@ public class VisitorMainCharacter implements Visitor {
 			player.setXValue(0);
 		}
 		
+	}
+	
+	private void modifyScore(int plus) {
+		int newScore = player.getGame().getScore() + plus;
+		player.getGame().setScore(newScore);
 	}
 
 }

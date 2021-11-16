@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import javax.swing.SwingConstants;
 
 import entities.Entity;
 import logic.Game;
+import java.awt.Font;
 
 public class GUI extends JFrame {
 	
@@ -23,6 +25,7 @@ public class GUI extends JFrame {
 	private String backgroundUrl;
 	private ImageIcon backgroundImage;
 	private JPanel panel = new JPanel();
+	private JLabel lblScoreNumber;
 	
 	private KeyListener keyListener;
 	private Map<Entity, JLabel> labelMap;
@@ -45,10 +48,20 @@ public class GUI extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(1100, 684)); 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);        
         
 		setContentPane(panel);
 		panel.setLayout(null);
+		
+		JLabel lblScoreWord = new JLabel("Score:");
+		lblScoreWord.setFont(new Font("OCR A Extended", Font.BOLD, 18));
+		lblScoreWord.setBounds(983, 11, 107, 23);
+		panel.add(lblScoreWord);
+		
+		lblScoreNumber = new JLabel(""+game.getScore());
+		lblScoreNumber.setFont(new Font("OCR A Extended", Font.BOLD, 18));
+		lblScoreNumber.setBounds(983, 45, 107, 23);
+		panel.add(lblScoreNumber);
        
 		setUndecorated(true);
 	    setResizable(false);
@@ -64,7 +77,7 @@ public class GUI extends JFrame {
 		
 
 		backgroundLabel.setLocation(0, 0);
-		add(backgroundLabel);
+		getContentPane().add(backgroundLabel);
 
 	}
 
@@ -123,6 +136,7 @@ public class GUI extends JFrame {
 	
 	public void refreshImage(Entity entity ) {
 		labelMap.get(entity).setIcon(new ImageIcon(GUI.class.getResource(entity.getImageRoute())));
+		lblScoreNumber.setText(""+game.getScore());
 	}
 	
 	public void addWall(Entity w) {
@@ -159,6 +173,4 @@ public class GUI extends JFrame {
 		
 		panel.setComponentZOrder(labelMap.get(e), 0);
 	}
-	
-
 }
