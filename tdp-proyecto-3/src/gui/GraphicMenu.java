@@ -17,7 +17,7 @@ public class GraphicMenu extends JFrame {
 
 
 	public GraphicMenu() {
-		
+	
 		
 		getContentPane().setLayout(null);
 		
@@ -31,6 +31,18 @@ public class GraphicMenu extends JFrame {
 	
 		btnStartGame.setBounds(164, 101, 119, 47);
 		getContentPane().add(btnStartGame);
+		
+		
+		JButton btnHighScore = new JButton("High Scores");
+		btnHighScore.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				HighScores hs = new HighScores();
+			}
+		});
+	
+		btnHighScore.setBounds(164, 170, 119, 47);
+		getContentPane().add(btnHighScore);
 		
 		setupWindow();
 		
