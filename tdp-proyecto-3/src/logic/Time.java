@@ -47,8 +47,9 @@ public class Time extends Thread {
 			try {
 						
 				//System.out.println(game.getZones(player).get(0).getBottomLeftVertex().getX());
+			
 				Thread.sleep(step);
-						
+				
 				game.move(player);
 				
 				if (player.getNextDirection() != Direction.STILL ) 
@@ -57,6 +58,7 @@ public class Time extends Thread {
 						player.setDirection(player.getNextDirection());
 						player.setNextDirection(Direction.STILL);
 					}
+				
 				
 			}
 

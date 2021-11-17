@@ -2,6 +2,7 @@ package visitors;
 
 import entities.ActivePotionTypeA;
 import entities.Doorway;
+import entities.Enemy;
 import entities.EnemyTypeA;
 import entities.EnemyTypeB;
 import entities.EnemyTypeC;
@@ -29,12 +30,6 @@ public class VisitorRegularDot implements Visitor {
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
-		
-	}
-
-	@Override
-	public void visitEnemyTypeA(EnemyTypeA e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -93,15 +88,8 @@ public class VisitorRegularDot implements Visitor {
 	}
 
 	@Override
-	public void visitEnemyTypeB(EnemyTypeB e) {
+	public void visitEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void visitEnemyTypeC(EnemyTypeC enemyTypeC) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

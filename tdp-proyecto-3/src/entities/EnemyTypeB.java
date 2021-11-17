@@ -1,7 +1,7 @@
 package entities;
 import logic.Game;
 import visitors.Visitor;
-import visitors.VisitorEnemyTypeB;
+import visitors.VisitorEnemy;
 
 public class EnemyTypeB extends Enemy {
 
@@ -12,22 +12,23 @@ public class EnemyTypeB extends Enemy {
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
 
-		visitor = new VisitorEnemyTypeB(this);
+		visitor = new VisitorEnemy(this);
 		isInsideHouse = true;
 	}
 	
 	@Override
 	public void accept(Visitor v) {
 	
-		v.visitEnemyTypeB(this);
+		v.visitEnemy(this);
 	}
 
 	@Override
 	public void chase() {
 		
 		Entity enemyA = game.getEnemyTypeA();
-
-		switch(enemyA.currentDirection) {
+		
+		
+		switch(enemyA.nextDirection) {
 		
 			case UP: {
 				
@@ -61,21 +62,25 @@ public class EnemyTypeB extends Enemy {
 				break;
 			}
 			
-			default: {
-			
-				if (!game.collideWithWall(0, -2, this))
-					setNextDirection(Direction.UP);
-				else if (!game.collideWithWall(2, 0, this))
-					setNextDirection(Direction.RIGHT);
-				else if (!game.collideWithWall(-2, 0, this))
-					setNextDirection(Direction.LEFT);	
-				else
-					setNextDirection(Direction.DOWN);	
-			
+			default: 
+		
 				break;
-			}
+				
+				
 				
 		}
+		
+		if (game.collideWithWall(nextXVelocity, nextYVelocity, this))
+			if (!game.collideWithWall(0, -2, this))
+				setNextDirection(Direction.UP);
+			else
+				if (!game.collideWithWall(-2, 0, this))
+					setNextDirection(Direction.LEFT);
+			else
+				if (!game.collideWithWall(0, 2, this))
+					setNextDirection(Direction.DOWN);
+					
+		
 		
 		setDirection(nextDirection);
 		

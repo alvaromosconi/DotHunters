@@ -60,17 +60,55 @@ public class Game {
 		chargeZonesWithEntities();
 		chargeZonesWithDoorWays();
 	
-		myTime = new Time(this, 10, player);
-		myTime.start();
-			
+		
+		automaticMovement();
 		ghostAi();
 		
-//		walls.add(new Wall(13 * 36, 6 * 36, 36, 36, this));
-//		chargeZonesWithWalls();
-//			
 		myGUI.setupBackground(); 
 	}
 
+	
+	/*
+	 * Crea el hilo que controla el movimiento automatico del jugador
+	 */
+	private synchronized void automaticMovement() {
+		
+		 Thread thread = new Thread() {
+			    
+			  public void run() {
+			    	
+			    while (!gameOver) {
+			    		
+
+	    			try {
+	    				
+	    				Thread.sleep(15);
+	    							
+	    				if (player.getNextDirection() != Direction.STILL ) 
+	    				
+	    					if (!collideWithWall(player.getNextXVelocity(), player.getNextYVelocity(), player)) {
+	    						player.setDirection(player.getNextDirection());
+	    						player.setNextDirection(Direction.STILL);
+	    					}
+			  			 
+	    			
+	    				move(player);
+	    			}
+	    			
+	    			catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				    
+			    }
+			
+			 }
+		  };
+		  
+		  thread.start();
+		
+	}
+	
+	
 	
 	/* 
 	 * Crea el hilo que controla a los fantasmas
@@ -87,32 +125,22 @@ public class Game {
 
 	    			try {
 	    				
-						Thread.sleep(10);
+						Thread.sleep(15);
 						
-					
-			  			Enemy e = (Enemy) enemies.get(0);
-			  			Enemy e1 = (Enemy) enemies.get(1);
-			  			Enemy e2 = (Enemy) enemies.get(2);
-			  			
-			  			if (e1.IsInsideHouse())
-			  				e1.exitHouse();
-			  			
-			  			if (e2.IsInsideHouse())
-			  				e2.exitHouse();
-			  			
-			  			else {
-			  			
-			  				if (e.getFrightenedMode()) {
-			  					e.frightened();
-			  					e1.frightened();
-			  					e2.frightened();
-			  				}
-			  				else {
-			  					e.chase();
-			  					e1.chase();
-			  					e2.chase();
-			  				}
-			  			} 
+						for (Entity e : enemies) {
+							
+							Enemy e1 = (Enemy) e;
+							if (e1.IsInsideHouse())
+								e1.exitHouse();
+							else if (e1.getFrightenedMode()) {
+								e1.frightened();
+							}
+							else
+								e1.chase();
+								
+						}
+			  		
+			  			 
 	    			}
 	    			
 	    			catch (InterruptedException e) {
@@ -282,7 +310,7 @@ public class Game {
 	 *  para evitar colisiones con paredes en los casos que no sean necesarios (como por ejemplo cuando se esta viajando por un pasillo horizontal
 	 *  y se presiona la tecla hacia arriba) 
 	 */
-	public synchronized void movePlayer(KeyEvent keyPressed) {
+	public void movePlayer(KeyEvent keyPressed) {
 				
 		if (!gameOver)
 			
@@ -329,7 +357,10 @@ public class Game {
 					
 					break;		
 				}
+			
+				default:
 				
+					break;
 			}	
 	
 	}
@@ -342,7 +373,7 @@ public class Game {
 	 * @return verdadero si colisiono con una pared en la direccion requerida, falso en caso contrario. 
 	 */
 	
-	public boolean collideWithWall(int xVelocity, int yVelocity, Entity entityA) {
+	public synchronized boolean collideWithWall(int xVelocity, int yVelocity, Entity entityA) {
 		
 		Rectangle entityARectangle, entityBRectangle;
 		boolean intersect = false;
@@ -510,9 +541,9 @@ public class Game {
 			e.setDirection(Direction.STILL);
 	
 		}
+		
 		myGUI.dispose();
 		myGameOverGUI = new GameOverGUI(this);
-		myTime.stop();
 	}
 	
 	public int getScore() {

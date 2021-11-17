@@ -1,7 +1,7 @@
 package entities;
 import logic.Game;
 import visitors.Visitor;
-import visitors.VisitorEnemyTypeA;
+import visitors.VisitorEnemy;
 
 public class EnemyTypeA extends Enemy {
 	
@@ -17,7 +17,8 @@ public class EnemyTypeA extends Enemy {
 		
 		this.imageRoute = imageRoute;
 
-		visitor = new VisitorEnemyTypeA(this);
+		isInsideHouse=false;
+		visitor = new VisitorEnemy(this);
 		
 	}
 	
@@ -25,7 +26,7 @@ public class EnemyTypeA extends Enemy {
 	@Override
 	public void accept(Visitor v) {
 		
-		v.visitEnemyTypeA(this);
+		v.visitEnemy(this);
 	}
 
 

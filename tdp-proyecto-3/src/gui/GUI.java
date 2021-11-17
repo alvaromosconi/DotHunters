@@ -148,8 +148,8 @@ public class GUI extends JFrame {
 		JLabel wallLabel = new JLabel("");
 		wallLabel.setBounds(w.getXValue(), w.getYValue(), w.getWidth(), w.getHeight());
 		
-//		wallLabel.setOpaque(rootPaneCheckingEnabled);
-//		wallLabel.setBackground(Color.BLUE);
+		//wallLabel.setOpaque(rootPaneCheckingEnabled);
+		//wallLabel.setBackground(Color.BLUE);
 		
 		panel.add(wallLabel);
 		labelMap.put(w, wallLabel);	

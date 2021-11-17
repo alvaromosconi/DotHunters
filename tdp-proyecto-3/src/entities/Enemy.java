@@ -42,8 +42,9 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
     
     public void enableFrightenedMode() {
     	
+     	frightenedMode = true;
     	loadSprites("/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedBack.gif", "/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedFront.gif");
-    	frightenedMode = true;
+   
     }
     
     public void disableFrightenedMode() {
@@ -80,8 +81,5 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
     	return isInsideHouse;
     }
     
-    public void isInsideHouse(boolean b) {
-    	
-    	isInsideHouse = b;
-    }
+
 }

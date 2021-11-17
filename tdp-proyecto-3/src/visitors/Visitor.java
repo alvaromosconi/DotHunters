@@ -1,6 +1,7 @@
 package visitors;
 import entities.ActivePotionTypeA;
 import entities.Doorway;
+import entities.Enemy;
 import entities.EnemyTypeA;
 import entities.EnemyTypeB;
 import entities.EnemyTypeC;
@@ -15,9 +16,7 @@ import entities.Wall;
 public interface Visitor {
 	public void visitMainCharacter(MainCharacter m);
 	
-	public void visitEnemyTypeA(EnemyTypeA e);
-	
-	public void visitEnemyTypeB(EnemyTypeB e);
+	public void visitEnemy(Enemy enemy);
 	
 	public void visitFruitTypeA(Fruit f);
 	
@@ -39,6 +38,5 @@ public interface Visitor {
 
 	public void visitDoorway(Doorway doorway);
 
-	public void visitEnemyTypeC(EnemyTypeC enemyTypeC);
 	
 }

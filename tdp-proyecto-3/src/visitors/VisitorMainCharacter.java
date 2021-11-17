@@ -2,6 +2,7 @@ package visitors;
 
 import entities.ActivePotionTypeA;
 import entities.Doorway;
+import entities.Enemy;
 import entities.EnemyTypeA;
 import entities.EnemyTypeB;
 import entities.EnemyTypeC;
@@ -29,7 +30,6 @@ public class VisitorMainCharacter implements Visitor {
 	public void visitWall(Wall w) {
 	
 		player.setDirection(Direction.STILL);
-		player.setVelocity(0, 0);
 
 	}
 
@@ -37,21 +37,6 @@ public class VisitorMainCharacter implements Visitor {
 	public void visitMainCharacter(MainCharacter m) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void visitEnemyTypeA(EnemyTypeA e) {		
-		if (e.getFrightenedMode()) {
-			e.disableFrightenedMode();
-			e.setXValue(12 * size);
-			e.setYValue(5 * size);
-			e.setDirection(Direction.LEFT);
-			e.setNextDirection(Direction.LEFT);
-			modifyScore(200);
-		}
-		else {
-			player.getGame().gameOver();
-		}		
 	}
 
 	@Override
@@ -92,9 +77,12 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitPoweredDot(PoweredDot p) {
+		
 		p.getGame().activeFrightenedMode();
+		
 		p.setXValue(-size);
 		p.setYValue(-size);
+		
 		modifyScore(50);
 		
 	}
@@ -133,33 +121,20 @@ public class VisitorMainCharacter implements Visitor {
 		player.getGame().setScore(newScore);
 	}
 
-	@Override
-	public void visitEnemyTypeB(EnemyTypeB e) {
-	
-			if (e.getFrightenedMode()) {
-				e.disableFrightenedMode();
-				e.setXValue(12 * size);
-				e.setYValue(5 * size);
-				modifyScore(200);
-			}
-			else {
-				player.getGame().gameOver();
-			}		
-		
-	}
 
 	@Override
-	public void visitEnemyTypeC(EnemyTypeC e) {
-	
-		if (e.getFrightenedMode()) {
-			e.disableFrightenedMode();
-			e.setXValue(12 * size);
-			e.setYValue(5 * size);
+	public void visitEnemy(Enemy enemy) {
+		
+		if (enemy.getFrightenedMode()) {
+			enemy.disableFrightenedMode();
+			enemy.setXValue(12 * size);
+			enemy.setYValue(5 * size);
+
 			modifyScore(200);
 		}
 		else {
 			player.getGame().gameOver();
-		}		
+		}	
 		
 	}
 

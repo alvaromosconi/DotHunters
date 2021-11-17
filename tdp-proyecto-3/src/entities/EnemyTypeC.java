@@ -1,9 +1,7 @@
 package entities;
-import entities.Entity.Direction;
 import logic.Game;
 import visitors.Visitor;
-import visitors.VisitorEnemyTypeB;
-import visitors.VisitorEnemyTypeC;
+import visitors.VisitorEnemy;
 
 public class EnemyTypeC extends Enemy {
 
@@ -14,14 +12,14 @@ public class EnemyTypeC extends Enemy {
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
 		
-		visitor = new VisitorEnemyTypeC(this);
+		visitor = new VisitorEnemy(this);
 		isInsideHouse = true;
 	}
 	
 	@Override
 	public void accept(Visitor v) {
 		
-		v.visitEnemyTypeC(this);
+		v.visitEnemy(this);
 	}
 
 	@Override

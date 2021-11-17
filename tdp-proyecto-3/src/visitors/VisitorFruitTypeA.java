@@ -2,6 +2,7 @@ package visitors;
 
 import entities.ActivePotionTypeA;
 import entities.Doorway;
+import entities.Enemy;
 import entities.EnemyTypeA;
 import entities.EnemyTypeB;
 import entities.EnemyTypeC;
@@ -33,11 +34,6 @@ public class VisitorFruitTypeA implements Visitor{
 		
 	}
 
-	@Override
-	public void visitEnemyTypeA(EnemyTypeA e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void visitFruitTypeA(Fruit f) {
@@ -94,13 +90,7 @@ public class VisitorFruitTypeA implements Visitor{
 	}
 
 	@Override
-	public void visitEnemyTypeB(EnemyTypeB e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitEnemyTypeC(EnemyTypeC enemyTypeC) {
+	public void visitEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
 		
 	}

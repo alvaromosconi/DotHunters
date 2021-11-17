@@ -4,14 +4,14 @@ import entities.*;
 import entities.Entity.Direction;
 
 
-public class VisitorEnemyTypeA implements Visitor {
+public class VisitorEnemy implements Visitor {
 
 	
-	private EnemyTypeA entity;
+	private Enemy entity;
 	
-	public VisitorEnemyTypeA(EnemyTypeA entity) {
+	public VisitorEnemy(Enemy enemy) {
 		
-		this.entity = entity;
+		this.entity = enemy;
 	}
 	
 	@Override
@@ -37,11 +37,6 @@ public class VisitorEnemyTypeA implements Visitor {
 		}
 	}
 
-	@Override
-	public void visitEnemyTypeA(EnemyTypeA e) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public void visitFruitTypeA(Fruit f) {
@@ -106,12 +101,13 @@ public class VisitorEnemyTypeA implements Visitor {
 
 	@Override
 	public void visitDoorway(Doorway doorway) {
+	
 		int size = 36;
 		int xPosition = entity.getXValue();
 		if (xPosition < 0) {
 			entity.setXValue(26 * size);
 		}
-		if( xPosition > 26 * size) {
+		if ( xPosition > 26 * size) {
 			
 			entity.setXValue(0);
 		}
@@ -119,15 +115,10 @@ public class VisitorEnemyTypeA implements Visitor {
 	}
 
 	@Override
-	public void visitEnemyTypeB(EnemyTypeB e) {
+	public void visitEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void visitEnemyTypeC(EnemyTypeC enemyTypeC) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
