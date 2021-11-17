@@ -84,17 +84,18 @@ public class Game {
 
 	    			try {
 	    				
+	    	
 	    				Thread.sleep(15);
+	    				
+	    				move(player);
 	    							
 	    				if (player.getNextDirection() != Direction.STILL ) 
 	    				
-	    					if (!collideWithWall(player.getNextXVelocity(), player.getNextYVelocity(), player)) {
+	    					if (!collideWithWall(player.getNextDirection(), player)) {
 	    						player.setDirection(player.getNextDirection());
 	    						player.setNextDirection(Direction.STILL);
 	    					}
 			  			 
-	    			
-	    				move(player);
 	    			}
 	    			
 	    			catch (InterruptedException e) {
@@ -312,7 +313,7 @@ public class Game {
 	 *  para evitar colisiones con paredes en los casos que no sean necesarios (como por ejemplo cuando se esta viajando por un pasillo horizontal
 	 *  y se presiona la tecla hacia arriba) 
 	 */
-	public void movePlayer(KeyEvent keyPressed) {
+	public synchronized void movePlayer(KeyEvent keyPressed) {
 				
 		if (!gameOver)
 			
@@ -320,7 +321,7 @@ public class Game {
 				
 				case KeyEvent.VK_LEFT : { 
 					
-					if (!collideWithWall(-2, 0, player)) 
+					if (!collideWithWall(Direction.LEFT, player)) 
 						player.setDirection(Direction.LEFT);
 					else  
 						player.setNextDirection(Direction.LEFT);
@@ -330,7 +331,7 @@ public class Game {
 				
 				case KeyEvent.VK_RIGHT : {
 					
-					if (!collideWithWall(2, 0, player)) 	
+					if (!collideWithWall(Direction.RIGHT, player)) 	
 						player.setDirection(Direction.RIGHT);
 					
 					else 
@@ -341,7 +342,7 @@ public class Game {
 				
 				case KeyEvent.VK_UP : {
 					
-					if (!collideWithWall(0, -2, player)) 
+					if (!collideWithWall(Direction.UP, player)) 
 						player.setDirection(Direction.UP);
 					else 
 						player.setNextDirection(Direction.UP);
@@ -351,7 +352,7 @@ public class Game {
 				
 				case KeyEvent.VK_DOWN : {
 					
-					if (!collideWithWall(0, 2, player)) 
+					if (!collideWithWall(Direction.DOWN, player)) 
 						player.setDirection(Direction.DOWN);
 					
 					else
@@ -360,9 +361,7 @@ public class Game {
 					break;		
 				}
 			
-				default:
 				
-					break;
 			}	
 	
 	}
@@ -375,12 +374,12 @@ public class Game {
 	 * @return verdadero si colisiono con una pared en la direccion requerida, falso en caso contrario. 
 	 */
 	
-	public synchronized boolean collideWithWall(int xVelocity, int yVelocity, Entity entityA) {
+	public synchronized boolean collideWithWall(Direction desiredDirection, Entity entityA) {
 		
 		Rectangle entityARectangle, entityBRectangle;
 		boolean intersect = false;
 		
-		entityARectangle = new Rectangle(entityA.getXValue() + xVelocity, entityA.getYValue() + yVelocity, entityA.getWidth(), entityA.getHeight());
+		entityARectangle = new Rectangle(entityA.getXValue() + desiredDirection.getXVelocity(), entityA.getYValue() + desiredDirection.getYVelocity(), entityA.getWidth(), entityA.getHeight());
 		
 		List<Zone> listOfZones = getZones(entityA);
 		
@@ -390,13 +389,12 @@ public class Game {
 		for (Zone zone : listOfZones) {
 			
 			zoneWallsIterator = zone.getWalls().iterator();
-			entityB = zoneWallsIterator.next();
 		
 			while (zoneWallsIterator.hasNext() && !intersect) {
-				
+			
+				entityB = zoneWallsIterator.next();
 				entityBRectangle = entityB.getRectangle();
 				intersect = entityARectangle.intersects(entityBRectangle);	
-				entityB = zoneWallsIterator.next();
 			}
 			
 		}

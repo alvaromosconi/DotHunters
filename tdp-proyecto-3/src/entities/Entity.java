@@ -2,6 +2,8 @@ package entities;
 import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import entities.Entity.Direction;
 import logic.Game;
@@ -33,15 +35,37 @@ public abstract class Entity {
 	}
 	
 	public enum Direction {
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT,
-		STILL;	
+		
+		UP (0, -2),
+		DOWN (0, 2),
+		RIGHT (2, 0),
+		LEFT (-2, 0),
+		STILL (0, 0);
+
+	    static Random rnd = new Random();
+	    
+	    private int xVelocity,
+	                yVelocity;
+	    
+
+	    Direction(int i, int j) {
+	    	
+	    	xVelocity = i;
+	    	yVelocity = j;
+	    }
+	    
+	    public int getXVelocity() {
+	    	return xVelocity;
+	    }
+	    
+	    public int getYVelocity() {
+	    	return yVelocity;
+	    }
+	    
 	}
 	
 	public void setVelocity(int xVelocity, int yVelocity) {
-		
+
 		this.xVelocity = xVelocity;
 		this.yVelocity = yVelocity;
 	}

@@ -1,4 +1,8 @@
 package entities;
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Entity.Direction;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorEnemy;
@@ -32,12 +36,11 @@ public class EnemyTypeB extends Enemy {
 		
 		Entity enemyA = game.getEnemyTypeA();
 		
-		
 		switch(enemyA.nextDirection) {
 		
 			case UP: {
 				
-				if (!game.collideWithWall(0, 2, this) && currentDirection != Direction.UP)
+				if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
 					setNextDirection(Direction.DOWN);
 			
 				break;
@@ -45,7 +48,7 @@ public class EnemyTypeB extends Enemy {
 				
 			case DOWN: {
 				
-				if (!game.collideWithWall(0, -2, this) && currentDirection != Direction.DOWN )
+				if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
 					setNextDirection(Direction.UP);
 			
 				break;
@@ -53,7 +56,7 @@ public class EnemyTypeB extends Enemy {
 			
 			case LEFT: {
 				
-				if (!game.collideWithWall(2, 0, this) && currentDirection != Direction.LEFT) 
+				if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
 					setNextDirection(Direction.RIGHT);
 			
 				break;
@@ -61,7 +64,7 @@ public class EnemyTypeB extends Enemy {
 			
 			case RIGHT: {
 				
-				if (!game.collideWithWall(-2, 0, this) && currentDirection != Direction.RIGHT) 
+				if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
 					setNextDirection(Direction.LEFT);
 
 				break;
@@ -70,27 +73,50 @@ public class EnemyTypeB extends Enemy {
 			default: 
 		
 				break;
-				
-				
-				
+	
 		}
 		
-		if (game.collideWithWall(nextXVelocity, nextYVelocity, this))
-			if (!game.collideWithWall(0, -2, this))
-				setNextDirection(Direction.UP);
-			else
-				if (!game.collideWithWall(-2, 0, this))
-					setNextDirection(Direction.LEFT);
-			else
-				if (!game.collideWithWall(0, 2, this))
-					setNextDirection(Direction.DOWN);
-					
+		if (getPossibleDirections().size() == 1)
+			setNextDirection(getPossibleDirections().get(0));
+		
+//		if (game.collideWithWall(nextDirection, this))
+//			if (!game.collideWithWall(Direction.UP, this))
+//				setNextDirection(Direction.UP);
+//			else
+//				if (!game.collideWithWall(Direction.LEFT, this))
+//					setNextDirection(Direction.LEFT);
+//			else
+//				if (!game.collideWithWall(Direction.RIGHT, this))
+//					setNextDirection(Direction.DOWN);
+//					
 		
 		
 		setDirection(nextDirection);
 		
+		System.out.println("Direccion actual: " + getDirection());
+		System.out.println();
+		System.out.println("Direccion siguiente: " + getNextDirection());
+		
+		
 		game.move(this);
 	}
+	
+    private List<Direction> getPossibleDirections() {
+        
+    	List<Direction> possibleDirections = new ArrayList<Direction>();
+    	
+    	if (!game.collideWithWall(Direction.LEFT, this)) 
+    		possibleDirections.add(Direction.LEFT);
+       	if (!game.collideWithWall(Direction.RIGHT, this)) 
+    		possibleDirections.add(Direction.RIGHT);
+       	if (!game.collideWithWall(Direction.UP, this)) 
+    		possibleDirections.add(Direction.UP);
+       	if (!game.collideWithWall(Direction.DOWN, this))
+    		possibleDirections.add(Direction.DOWN);
+		
+       	
+       	return possibleDirections;
+    }
 		
 
 	
@@ -105,7 +131,7 @@ public class EnemyTypeB extends Enemy {
 	@Override
 	public void exitHouse() {
 	
-		if (!game.collideWithWall(0, -2, this))
+		if (!game.collideWithWall(Direction.UP, this))
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.RIGHT);
 		

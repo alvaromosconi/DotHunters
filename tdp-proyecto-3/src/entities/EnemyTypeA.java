@@ -39,25 +39,25 @@ public class EnemyTypeA extends Enemy {
 		Entity player = game.getPlayer();
 		double min = Double.MAX_VALUE;
 		
-		if (!game.collideWithWall(-2, 0, this) && currentDirection != Direction.RIGHT) 
+		if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
     		if (game.distance(xValue - 2, player.getXValue(), yValue, player.getYValue()) < min) {
     				min = game.distance(xValue - 2, player.getXValue(), yValue, player.getYValue());
     				setNextDirection(Direction.LEFT);
     		}
     		
-		if (!game.collideWithWall(2, 0, this) && currentDirection != Direction.LEFT) 
+		if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
 			if (game.distance(xValue + 2, player.getXValue(), yValue, player.getYValue()) < min) {
 					min = game.distance(xValue + 2, player.getXValue(), yValue, player.getYValue());
 					setNextDirection(Direction.RIGHT);
 			}
 			
-		if (!game.collideWithWall(0, -2, this) && currentDirection != Direction.DOWN )
+		if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
 			if (game.distance(xValue, player.getXValue(), yValue - 2, player.getYValue()) < min) {
 					min = game.distance(xValue, player.getXValue(), yValue - 2, player.getYValue());
 					setNextDirection(Direction.UP);
 			}
 		
-		if (!game.collideWithWall(0, 2, this) && currentDirection != Direction.UP)
+		if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
 			if (game.distance(xValue, player.getXValue(), yValue + 2, player.getYValue()) < min) {
 					min = game.distance(xValue, player.getXValue(), yValue + 2, player.getYValue());
 					setNextDirection(Direction.DOWN);

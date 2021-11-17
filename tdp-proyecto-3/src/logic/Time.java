@@ -41,39 +41,39 @@ public class Time extends Thread {
 	@Override
 	public void run() {
 		
+//
+//		while (this.running) {
+//				
+//			try {
+//						
+//				//System.out.println(game.getZones(player).get(0).getBottomLeftVertex().getX());
+//			
+//				Thread.sleep(step);
+//				
+//				game.move(player);
+//				
+//				if (player.getNextDirection() != Direction.STILL ) 
+//				
+//					if (!game.collideWithWall(player.getNextXVelocity(), player.getNextYVelocity(), player)) {
+//						player.setDirection(player.getNextDirection());
+//						player.setNextDirection(Direction.STILL);
+//					}
+//				
+////				
+//			}
+//
+//						
+//			 catch (InterruptedException e) {
+//				
+//					e.printStackTrace();
+//			  }
+//
+//				
 
-		while (this.running) {
-				
-			try {
-						
-				//System.out.println(game.getZones(player).get(0).getBottomLeftVertex().getX());
+
 			
-				Thread.sleep(step);
-				
-				game.move(player);
-				
-				if (player.getNextDirection() != Direction.STILL ) 
-				
-					if (!game.collideWithWall(player.getNextXVelocity(), player.getNextYVelocity(), player)) {
-						player.setDirection(player.getNextDirection());
-						player.setNextDirection(Direction.STILL);
-					}
-				
-				
-			}
-
-						
-			 catch (InterruptedException e) {
-				
-					e.printStackTrace();
-			  }
-
-				
-
-
-			
-		
-		}
+//		
+//		}
 	}
 
 	public void setStep(int step) {

@@ -1,5 +1,9 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import enemies.ChaseBehaviour;
 import enemies.FrightenedBehaviour;
 import enemies.ScatterBehaviour;
@@ -59,25 +63,46 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
     public void frightened() {
 
     
-
-		if (!game.collideWithWall(-2, 0, this) && currentDirection != Direction.RIGHT) 	    				
-    		this.setNextDirection(Direction.LEFT);
+    	Random rnd = new Random();
+    	Direction aux = null;
     	
-		else if (!game.collideWithWall(2, 0, this) && currentDirection != Direction.LEFT) 
-			this.setNextDirection(Direction.RIGHT);
-			
-		else if (!game.collideWithWall(0, -2, this) && currentDirection != Direction.DOWN)
-    			this.setNextDirection(Direction.UP);
-
-		else if (!game.collideWithWall(0, 2, this) && currentDirection != Direction.UP)
-    			this.setNextDirection(Direction.DOWN);
-		
-		this.setDirection(nextDirection);
-		game.move(this);
+    	List<Direction> possibleDirections = getPossibleDirections(getOppositeDirection());
+    	
+    	if (xValue % 36 == 0 && yValue % 36 == 0 ) {
+    	
+    		if (possibleDirections.size() == 0) 
+    			setNextDirection(getOppositeDirection());
+    		else if (possibleDirections.size() > 1 )
+    			setNextDirection(possibleDirections.get(rnd.nextInt(possibleDirections.size())));
+    		else {
+    			setNextDirection(possibleDirections.get(0));
+    		}
+    		
+    	}
+    	
+    	this.setDirection(nextDirection);
+    	game.move(this);
 		
     }
     
-	
+    private List<Direction> getPossibleDirections(Direction oppositeDirection) {
+    
+    	List<Direction> possibleDirections = new ArrayList<Direction>();
+    	
+    	if (!game.collideWithWall(Direction.LEFT, this) && oppositeDirection != Direction.LEFT) 
+    		possibleDirections.add(Direction.LEFT);
+       	if (!game.collideWithWall(Direction.RIGHT, this) && oppositeDirection != Direction.RIGHT) 
+    		possibleDirections.add(Direction.RIGHT);
+       	if (!game.collideWithWall(Direction.UP, this) && oppositeDirection != Direction.UP) 
+    		possibleDirections.add(Direction.UP);
+       	if (!game.collideWithWall(Direction.DOWN, this) && oppositeDirection != Direction.DOWN) 
+    		possibleDirections.add(Direction.DOWN);
+		
+       	
+       	return possibleDirections;
+    }
+    
+    
 	public abstract void exitHouse();
 	
     
