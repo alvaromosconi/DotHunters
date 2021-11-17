@@ -58,16 +58,18 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
 	
     public void frightened() {
 
-		if (!game.collideWithWall(-2, 0, this) && this.getDirection() != Direction.RIGHT) 	    				
+    
+
+		if (!game.collideWithWall(-2, 0, this) && currentDirection != Direction.RIGHT) 	    				
     		this.setNextDirection(Direction.LEFT);
     	
-		if (!game.collideWithWall(2, 0, this) && this.getDirection() != Direction.LEFT) 
+		else if (!game.collideWithWall(2, 0, this) && currentDirection != Direction.LEFT) 
 			this.setNextDirection(Direction.RIGHT);
 			
-		if (!game.collideWithWall(0, -2, this) && this.getDirection() != Direction.DOWN)
+		else if (!game.collideWithWall(0, -2, this) && currentDirection != Direction.DOWN)
     			this.setNextDirection(Direction.UP);
 
-		if (!game.collideWithWall(0, 2, this) && this.getDirection() != Direction.UP)
+		else if (!game.collideWithWall(0, 2, this) && currentDirection != Direction.UP)
     			this.setNextDirection(Direction.DOWN);
 		
 		this.setDirection(nextDirection);

@@ -73,7 +73,7 @@ public class Game {
 	/*
 	 * Crea el hilo que controla el movimiento automatico del jugador
 	 */
-	private synchronized void automaticMovement() {
+	private void automaticMovement() {
 		
 		 playerThread = new Thread() {
 			    
@@ -116,7 +116,7 @@ public class Game {
 	 * Crea el hilo que controla a los fantasmas
 	 */
 	
-	private synchronized void enemiesAi() {
+	private void enemiesAi() {
 
 		  enemiesThread = new Thread(){
 			    
@@ -523,8 +523,10 @@ public class Game {
 	
 	public void activeFrightenedMode() {
 		
-		for (Entity e: enemies)
+		for (Entity e: enemies) {
 			((Enemy) e).enableFrightenedMode();		
+			e.setDirection(e.getOppositeDirection());
+		}
 		
 		
 

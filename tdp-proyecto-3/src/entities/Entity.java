@@ -258,6 +258,41 @@ public abstract class Entity {
 		return nextDirection;
 	}	
 	
+	public Direction getOppositeDirection() {
+		
+		Direction toReturn = null;
+		
+		switch (currentDirection) {
+			
+			case UP: {
+				toReturn = Direction.DOWN;
+				break;
+			}
+			
+			case DOWN: {
+				toReturn = Direction.UP;
+				break;
+			}
+			
+			case RIGHT: {
+				toReturn = Direction.LEFT;
+				break;
+			}
+			
+			case LEFT: {
+				toReturn = Direction.RIGHT;
+				break;
+			}
+			
+			case STILL: {
+				toReturn = Direction.LEFT;
+				break;
+			}		
+		}
+		
+		return toReturn;
+	}
+	
 	public void loadSprites(String upSprite, String downSprite, String rightSprite, String leftSprite) {
 		
 		sprites.put(Direction.UP, upSprite);

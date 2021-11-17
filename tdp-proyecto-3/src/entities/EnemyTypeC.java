@@ -111,11 +111,6 @@ public class EnemyTypeC extends Enemy {
 		
 	}
 
-	@Override
-	public void frightened() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void exitHouse() {
