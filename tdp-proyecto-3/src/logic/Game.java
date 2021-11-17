@@ -23,8 +23,11 @@ public class Game {
 	private Level currentLevel ;
 	private GUI myGUI;
 	private Zone[][] myZones;
-	private Time myTime;
 	private int score;
+	
+	private Thread playerThread;
+	private Thread enemiesThread;
+	
 	private GameOverGUI myGameOverGUI;
 
 	private boolean gameOver = false;
@@ -59,12 +62,11 @@ public class Game {
 		chargeZonesWithWalls();
 		chargeZonesWithEntities();
 		chargeZonesWithDoorWays();
-	
-		
-		automaticMovement();
-		ghostAi();
 		
 		myGUI.setupBackground(); 
+		
+		automaticMovement();
+		enemiesAi();
 	}
 
 	
@@ -73,7 +75,7 @@ public class Game {
 	 */
 	private synchronized void automaticMovement() {
 		
-		 Thread thread = new Thread() {
+		 playerThread = new Thread() {
 			    
 			  public void run() {
 			    	
@@ -104,7 +106,7 @@ public class Game {
 			 }
 		  };
 		  
-		  thread.start();
+		  playerThread.start();
 		
 	}
 	
@@ -114,9 +116,9 @@ public class Game {
 	 * Crea el hilo que controla a los fantasmas
 	 */
 	
-	private void ghostAi() {
+	private synchronized void enemiesAi() {
 
-		  Thread thread = new Thread(){
+		  enemiesThread = new Thread(){
 			    
 			  public void run() {
 			    	
@@ -152,7 +154,7 @@ public class Game {
 			 }
 		  };
 		  
-		  thread.start();
+		 enemiesThread.start();
 	}
 		 
 	
@@ -544,6 +546,8 @@ public class Game {
 		
 		myGUI.dispose();
 		myGameOverGUI = new GameOverGUI(this);
+		playerThread.stop();
+		enemiesThread.stop();
 	}
 	
 	public int getScore() {

@@ -9,8 +9,11 @@ public class EnemyTypeA extends Enemy {
 		
 		super(game);
 		
-		this.xValue = xValue;
-		this.yValue = yValue;
+		this.xValue = initialXValue
+					= xValue;
+		
+		this.yValue = initialYValue
+				    = yValue;
 		
 		this.currentDirection = Direction.LEFT;
 		this.nextDirection = Direction.LEFT;

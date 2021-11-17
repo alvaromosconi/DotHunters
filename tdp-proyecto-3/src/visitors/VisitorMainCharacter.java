@@ -127,8 +127,9 @@ public class VisitorMainCharacter implements Visitor {
 		
 		if (enemy.getFrightenedMode()) {
 			enemy.disableFrightenedMode();
-			enemy.setXValue(12 * size);
-			enemy.setYValue(5 * size);
+			enemy.setXValue(enemy.getInitialXValue());
+			enemy.setYValue(enemy.getInitialYValue());
+			enemy.IsInsideHouse(true);
 
 			modifyScore(200);
 		}

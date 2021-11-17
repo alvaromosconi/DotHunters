@@ -11,6 +11,9 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
 	protected boolean frightenedMode;
 	protected boolean isInsideHouse;
 	
+	protected int initialXValue;
+	protected int initialYValue;
+	
 	public Enemy(Game game) {
 	
 		super(game);
@@ -81,5 +84,19 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
     	return isInsideHouse;
     }
     
+    public void IsInsideHouse(boolean b) {
+    	
+    	isInsideHouse = b;
+    }
+    
+    public int getInitialXValue() {
+    	
+    	return initialXValue;
+    }
+    
+    public int getInitialYValue() {
+    	
+    	return initialYValue;
+    }
 
 }

@@ -8,8 +8,13 @@ public class EnemyTypeB extends Enemy {
 	public EnemyTypeB(int xValue, int yValue, String imageRoute, Game game) {
 		
 		super(game);
-		this.xValue = xValue;
-		this.yValue = yValue;
+		
+		this.xValue = initialXValue
+				= xValue;
+	
+		this.yValue = initialYValue
+			    = yValue;
+		
 		this.imageRoute = imageRoute;
 
 		visitor = new VisitorEnemy(this);
