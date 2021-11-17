@@ -35,5 +35,11 @@ public class EnemyTypeD extends Enemy {
 		
 	}
 
+	@Override
+	public void exitHouse() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

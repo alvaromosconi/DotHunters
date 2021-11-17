@@ -5,31 +5,27 @@ import entities.Doorway;
 import entities.EnemyTypeA;
 import entities.EnemyTypeB;
 import entities.EnemyTypeC;
-import entities.Entity;
 import entities.Fruit;
 import entities.MainCharacter;
 import entities.Potion;
 import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
+import entities.Entity.Direction;
 
-public class VisitorPoweredDot implements Visitor {
-
-	private Entity powerDot;
+public class VisitorEnemyTypeB implements Visitor {
 	
-	public VisitorPoweredDot(PoweredDot pd) {
-		this.powerDot = pd;
-	}
 	
-	@Override
-	public void visitWall(Wall w) {
-		// TODO Auto-generated method stub
+	private EnemyTypeB entity;
+	
+	public VisitorEnemyTypeB(EnemyTypeB entity) {
 		
+		this.entity = entity;
 	}
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
-		// TODO Auto-generated method stub
+	
 		
 	}
 
@@ -79,6 +75,12 @@ public class VisitorPoweredDot implements Visitor {
 	public void visitRegulardDot(RegularDot p) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void visitWall(Wall w) {
+		
+		entity.setDirection(Direction.STILL);
 	}
 
 	@Override

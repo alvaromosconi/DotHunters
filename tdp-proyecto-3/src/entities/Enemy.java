@@ -3,11 +3,13 @@ package entities;
 import enemies.ChaseBehaviour;
 import enemies.FrightenedBehaviour;
 import enemies.ScatterBehaviour;
+import entities.Entity.Direction;
 import logic.Game;
 
 public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBehaviour, FrightenedBehaviour {
 	
 	protected boolean frightenedMode;
+	protected boolean isInsideHouse;
 	
 	public Enemy(Game game) {
 	
@@ -67,5 +69,19 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
 		this.setDirection(nextDirection);
 		game.move(this);
 		
+    }
+    
+	
+	public abstract void exitHouse();
+	
+    
+    public boolean IsInsideHouse() {
+    	
+    	return isInsideHouse;
+    }
+    
+    public void isInsideHouse(boolean b) {
+    	
+    	isInsideHouse = b;
     }
 }

@@ -118,4 +118,16 @@ public class VisitorEnemyTypeA implements Visitor {
 		
 	}
 
+	@Override
+	public void visitEnemyTypeB(EnemyTypeB e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitEnemyTypeC(EnemyTypeC enemyTypeC) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

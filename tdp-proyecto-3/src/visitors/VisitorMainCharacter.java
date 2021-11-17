@@ -3,6 +3,8 @@ package visitors;
 import entities.ActivePotionTypeA;
 import entities.Doorway;
 import entities.EnemyTypeA;
+import entities.EnemyTypeB;
+import entities.EnemyTypeC;
 import entities.Entity;
 import entities.Entity.Direction;
 import entities.Fruit;
@@ -129,6 +131,36 @@ public class VisitorMainCharacter implements Visitor {
 	private void modifyScore(int plus) {
 		int newScore = player.getGame().getScore() + plus;
 		player.getGame().setScore(newScore);
+	}
+
+	@Override
+	public void visitEnemyTypeB(EnemyTypeB e) {
+	
+			if (e.getFrightenedMode()) {
+				e.disableFrightenedMode();
+				e.setXValue(12 * size);
+				e.setYValue(5 * size);
+				modifyScore(200);
+			}
+			else {
+				player.getGame().gameOver();
+			}		
+		
+	}
+
+	@Override
+	public void visitEnemyTypeC(EnemyTypeC e) {
+	
+		if (e.getFrightenedMode()) {
+			e.disableFrightenedMode();
+			e.setXValue(12 * size);
+			e.setYValue(5 * size);
+			modifyScore(200);
+		}
+		else {
+			player.getGame().gameOver();
+		}		
+		
 	}
 
 }

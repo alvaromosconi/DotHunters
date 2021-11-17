@@ -65,9 +65,9 @@ public class Game {
 			
 		ghostAi();
 		
-		walls.add(new Wall(13 * 36, 6 * 36, 36, 36, this));
-		chargeZonesWithWalls();
-			
+//		walls.add(new Wall(13 * 36, 6 * 36, 36, 36, this));
+//		chargeZonesWithWalls();
+//			
 		myGUI.setupBackground(); 
 	}
 
@@ -76,7 +76,7 @@ public class Game {
 	 * Crea el hilo que controla a los fantasmas
 	 */
 	
-	private synchronized void ghostAi() {
+	private void ghostAi() {
 
 		  Thread thread = new Thread(){
 			    
@@ -89,14 +89,31 @@ public class Game {
 	    				
 						Thread.sleep(10);
 						
+					
 			  			Enemy e = (Enemy) enemies.get(0);
-						
-						if (e.getFrightenedMode())
-		    				e.frightened();
-		    			else
-		    				e.chase();
-						
-					} 
+			  			Enemy e1 = (Enemy) enemies.get(1);
+			  			Enemy e2 = (Enemy) enemies.get(2);
+			  			
+			  			if (e1.IsInsideHouse())
+			  				e1.exitHouse();
+			  			
+			  			if (e2.IsInsideHouse())
+			  				e2.exitHouse();
+			  			
+			  			else {
+			  			
+			  				if (e.getFrightenedMode()) {
+			  					e.frightened();
+			  					e1.frightened();
+			  					e2.frightened();
+			  				}
+			  				else {
+			  					e.chase();
+			  					e1.chase();
+			  					e2.chase();
+			  				}
+			  			} 
+	    			}
 	    			
 	    			catch (InterruptedException e) {
 						e.printStackTrace();
@@ -473,7 +490,9 @@ public class Game {
 	
 	public void activeFrightenedMode() {
 		
-		((Enemy)enemies.get(0)).enableFrightenedMode();		
+		for (Entity e: enemies)
+			((Enemy) e).enableFrightenedMode();		
+		
 		
 
 	}
@@ -503,6 +522,12 @@ public class Game {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+
+	public Entity getEnemyTypeA() {
+		
+		return enemies.get(0);
 	}
 	
 }

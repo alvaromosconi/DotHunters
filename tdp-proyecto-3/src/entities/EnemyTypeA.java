@@ -1,15 +1,14 @@
 package entities;
-import entities.Entity.Direction;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorEnemyTypeA;
-import visitors.VisitorMainCharacter;
 
 public class EnemyTypeA extends Enemy {
 	
 	public EnemyTypeA(int xValue, int yValue, String imageRoute, Game game) {
 		
 		super(game);
+		
 		this.xValue = xValue;
 		this.yValue = yValue;
 		
@@ -72,6 +71,13 @@ public class EnemyTypeA extends Enemy {
 		
 		
 		
+		
+	}
+
+
+	@Override
+	public void exitHouse() {
+		// TODO Auto-generated method stub
 		
 	}
 	
