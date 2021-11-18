@@ -61,7 +61,7 @@ public class Game {
 		myGUI.setupBackground(); 
 		
 		automaticMovement();
-		enemiesAi();
+	//	enemiesAi();
 	}
 
 	
@@ -565,6 +565,7 @@ public class Game {
 	public synchronized void destroyEntity(Entity entityToDestroy) {
 		
 		allEntities.remove(entityToDestroy);
+		components.remove(entityToDestroy);
 		
 		List<Zone> zones = new ArrayList<Zone>();
 		
@@ -585,6 +586,13 @@ public class Game {
 		
 		myGUI.destroyEntity(entityToDestroy);
 		
+	}
+	
+	public void checkIfWin() {
+		
+		if (components.size() <= 2)
+			System.out.println("Gano");
+			
 	}
 	
 }

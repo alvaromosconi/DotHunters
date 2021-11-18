@@ -41,6 +41,7 @@ public class VisitorMainCharacter implements Visitor {
 		Game myGame = f.getGame();
 		myGame.destroyEntity(f);
 		modifyScore(100);
+		myGame.checkIfWin();
 		
 	}
 
@@ -68,8 +69,9 @@ public class VisitorMainCharacter implements Visitor {
 	public void visitPotionTypeB(Potion p) {
 		
 		Game myGame = p.getGame();
+		player.setPotionTypeB(true);
 		myGame.destroyEntity(p);
-		myGame.destroyEntity(p);
+
 		
 	}
 
@@ -77,11 +79,10 @@ public class VisitorMainCharacter implements Visitor {
 	public void visitPoweredDot(PoweredDot p) {
 		
 		Game myGame = p.getGame();
-		
 		myGame.enableFrightenedMode();
 		myGame.destroyEntity(p);
-		
 		modifyScore(50);
+		myGame.checkIfWin();
 		
 	}
 
@@ -91,10 +92,8 @@ public class VisitorMainCharacter implements Visitor {
 		Game myGame = p.getGame();
 		
 		myGame.destroyEntity(p);
-		
-
 		modifyScore(10);
-		
+		myGame.checkIfWin();
 		
 	}
 
