@@ -4,22 +4,21 @@ import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorMainCharacter;
 
-public class MainCharacter extends Entity {
+import java.util.HashMap;
+
+import logic.Direction;
+
+public class MainCharacter extends Character {
 	
 	private boolean potionTypeA;
 	private boolean potionTypeB;
 
-	public MainCharacter(int xValue, int yValue, String imageRoute, Game game) {
+	public MainCharacter(int xValue, int yValue, String imageRoute, int speed, Game game) {
 	
-		super(game);
-		
-		this.imageRoute = imageRoute;
-		this.xValue = xValue;
-		this.yValue = yValue;
+		super(xValue, yValue, imageRoute, speed, game);
 	
 		this.currentDirection = Direction.STILL;
 		this.nextDirection = Direction.STILL;
-		
 		this.width = 36;
 		this.height = 36;
 		

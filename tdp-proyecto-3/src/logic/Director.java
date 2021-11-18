@@ -48,36 +48,36 @@ public class Director {
 		// Obtencion de las walls a traves de un archivo
 		List<Entity> walls = loadAllWalls(routeOfMaze);
 		
-		List<Entity> enemies = new ArrayList<Entity>(4);
+		List<Enemy> enemies = new ArrayList<Enemy>(4);
 		List<Entity> components = new ArrayList<Entity>();
 		List<Entity> doorways = new ArrayList<Entity>(2);
 		List<Entity> zonaSinDots = new ArrayList<Entity>();
 		
 		// Creacion del jugador
-		Entity player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", game);
+		MainCharacter player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", 2, game);
 		player.loadSprites(domainRoute + "PlayerUP.gif", domainRoute + "PlayerDown.gif", domainRoute + "PlayerRight.gif", domainRoute + "PlayerLeft.gif");
 		
 		// Creacion de los dots
-		Entity poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute, game);
-		Entity poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute, game);
-		Entity poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute, game);
-		Entity poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute, game);
+		Dot poweredDot1 = new PoweredDot(size + 6 , size + 6, 20, poweredDotRoute, game);
+		Dot poweredDot2 = new PoweredDot(size * 25 + 6, size + 6, 20, poweredDotRoute, game);
+		Dot poweredDot3 = new PoweredDot(size + 6, size * 17 + 6, 20, poweredDotRoute, game);
+		Dot poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute, game);
 		
 		// Creacion de las potions
-		Entity potion1 = new PotionTypeA(7 * size + 6, 7 * size + 6, 30, potionTypeARoute, game);
-		Entity potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute, game);
+		Potion potion1 = new PotionTypeA(7 * size + 6, 7 * size + 6, 30, potionTypeARoute, game);
+		Potion potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute, game);
 		
 		// Creacion de las frutas
-		Entity fruit1 = new FruitTypeA(size * 11 , size * 13 , 50, fruitTypeARoute, game);
+		Fruit fruit1 = new FruitTypeA(size * 11 , size * 13 , 50, fruitTypeARoute, game);
 		
 		// Creacion de los portales
 		Entity doorway1 = new Doorway(0 * size, 9 * size, game);
 		Entity doorway2 = new Doorway(26 * size, 9 * size, game);
 		
 		// Creacion de los enemigos
-		Entity enemy1 = new EnemyTypeA(12 * size, 5 * size, domainRoute + "EnemyTypeA.gif", game);
-		Entity enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute + "EnemyTypeB.gif", game);
-		Entity enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute + "EnemyTypeC.gif", game);
+		Enemy enemy1 = new EnemyTypeA(12 * size, 5 * size, domainRoute + "EnemyTypeA.gif", 2, game);
+		Enemy enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute + "EnemyTypeB.gif", 1, game);
+		Enemy  enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute + "EnemyTypeC.gif", 2, game);
 		//Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute + "EnemyTypeD.gif", game);
 
 		enemy1.loadSprites(domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif");

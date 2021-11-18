@@ -7,12 +7,7 @@ public class RegularDot extends Dot {
 
 	public RegularDot(int xValue, int yValue,int v, String imageRoute, Game game) {
 		
-		super(game);
-		this.xValue = xValue;
-		
-		this.yValue = yValue;
-		
-		this.imageRoute = imageRoute;
+		super(xValue, yValue, imageRoute, game);
 		
 		this.value = v;
 		

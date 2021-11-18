@@ -7,16 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import entities.ActivePotionTypeA;
-import entities.Enemy;
-import entities.EnemyTypeB;
-import entities.Entity;
-import entities.Entity.Direction;
-import entities.MainCharacter;
-import entities.RegularDot;
-import entities.Wall;
+import entities.*;
+import entities.Character;
 import gui.GUI;
 import gui.GameOverGUI;
+import logic.Direction;
 
 public class Game {
 	
@@ -32,11 +27,11 @@ public class Game {
 
 	private boolean gameOver = false;
 
-	private Entity player;
+	private MainCharacter player;
 
 	private List<Entity> walls;
 	private List<Entity> components;
-	private List<Entity> enemies;
+	private List<Enemy> enemies;
 	private List<Entity> allEntities;
 	private List<Entity> doorways;
 
@@ -85,7 +80,7 @@ public class Game {
 	    			try {
 	    				
 	    	
-	    				Thread.sleep(15);
+	    				Thread.sleep(13);
 	    				
 	    				move(player);
 	    							
@@ -129,7 +124,6 @@ public class Game {
 	    			try {
 	    				
 						Thread.sleep(15);
-						
 						for (Entity e : enemies) {
 							
 							Enemy e1 = (Enemy) e;
@@ -164,9 +158,9 @@ public class Game {
 	 * Calcula la distancia en linea recta entre el punto (x1,y1) e (x2,y2)
 	 */
 	
-	public double distance(int x1, int x2, int y1, int y2) {
+	public int distance(int x1, int x2, int y1, int y2) {
 		
-		return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		return (int) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 	
 	/*
@@ -374,12 +368,12 @@ public class Game {
 	 * @return verdadero si colisiono con una pared en la direccion requerida, falso en caso contrario. 
 	 */
 	
-	public synchronized boolean collideWithWall(Direction desiredDirection, Entity entityA) {
+	public synchronized boolean collideWithWall(Direction desiredDirection, Character entityA) {
 		
 		Rectangle entityARectangle, entityBRectangle;
 		boolean intersect = false;
 		
-		entityARectangle = new Rectangle(entityA.getXValue() + desiredDirection.getXVelocity(), entityA.getYValue() + desiredDirection.getYVelocity(), entityA.getWidth(), entityA.getHeight());
+		entityARectangle = new Rectangle(entityA.getXValue() + (desiredDirection.getXVelocity()) * entityA.getSpeed(), entityA.getYValue() + (desiredDirection.getYVelocity() * entityA.getSpeed()), entityA.getWidth(), entityA.getHeight());
 		
 		List<Zone> listOfZones = getZones(entityA);
 		
@@ -407,7 +401,7 @@ public class Game {
 	 * Realiza el movimiento y la colision en funcion del movimiento que se establecio
 	 * @param entityA entidad que efectua el mvoimiento 
 	 */
-	public synchronized void move(Entity entityA) {
+	public synchronized void move(Character entityA) {
 		
 		Rectangle entityARectangle, entityBRectangle;
 		boolean intersect = false;
@@ -493,21 +487,21 @@ public class Game {
 			}	
 	}
 	
-	public Entity getPlayer() {
+	public MainCharacter getPlayer() {
 		
 		return player;
 	}
 	
-	public void potionTypeAEvent() {	
-		MainCharacter aux = (MainCharacter) player;	
-		if (aux.getPotionTypeA()){		
-			Entity power = new ActivePotionTypeA(aux.getXValue(),aux.getYValue(),"/assets/MarioAssets/bomb.png", this);
-			allEntities.add(power);
-			//myGUI.addEntity(power);
-			//myGUI.refreshImage(power);	
-			chargeZonesWithEntities();
-		}
-	}
+//	public void potionTypeAEvent() {	
+//		
+//		if (player.getPotionTypeA()){		
+//			Entity power = new ActivePotionTypeA(player.getXValue(), player.getYValue(),"/assets/MarioAssets/bomb.png", this);
+//			allEntities.add(power);
+//			//myGUI.addEntity(power);
+//			//myGUI.refreshImage(power);	
+//			chargeZonesWithEntities();
+//		}
+//	}
 	
 	public GUI getGUI() {
 		
@@ -519,15 +513,14 @@ public class Game {
 	 * Activa el modo vulnerable de todos los enemigos
 	 */
 	
-	public void activeFrightenedMode() {
+	public void enableFrightenedMode() {
 		
 		for (Entity e: enemies) {
 			((Enemy) e).enableFrightenedMode();		
-			e.setDirection(e.getOppositeDirection());
 		}
 		
+		new Time(this, 10000).start();
 		
-
 	}
 
 	/*
@@ -538,11 +531,11 @@ public class Game {
 	
 		gameOver = true;
 		
-		for (Entity e: allEntities) {
-			
+		for (Enemy e: enemies) 		
 			e.setDirection(Direction.STILL);
 	
-		}
+		player.setDirection(Direction.STILL);
+		
 		
 		myGUI.dispose();
 		myGameOverGUI = new GameOverGUI(this);
@@ -560,9 +553,18 @@ public class Game {
 	}
 
 
-	public Entity getEnemyTypeA() {
+	public Enemy getEnemyTypeA() {
 		
 		return enemies.get(0);
+	}
+
+
+	public void disableFrightenedMode() {
+		
+		
+		for (Enemy enemy: enemies) 
+			enemy.disableFrightenedMode();		
+	
 	}
 	
 }

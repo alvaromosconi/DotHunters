@@ -2,25 +2,20 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Entity.Direction;
+import logic.Direction;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorEnemy;
 
 public class EnemyTypeB extends Enemy {
 
-	public EnemyTypeB(int xValue, int yValue, String imageRoute, Game game) {
+	public EnemyTypeB(int xValue, int yValue, String imageRoute, int speed, Game game) {
 		
-		super(game);
+		super(xValue, yValue, imageRoute, speed, game);
 		
-		this.xValue = initialXValue
-				= xValue;
-	
-		this.yValue = initialYValue
-			    = yValue;
+	    initialXValue = xValue;
+		initialYValue = yValue;
 		
-		this.imageRoute = imageRoute;
-
 		visitor = new VisitorEnemy(this);
 		isInsideHouse = true;
 	}
@@ -34,7 +29,7 @@ public class EnemyTypeB extends Enemy {
 	@Override
 	public void chase() {
 		
-		Entity enemyA = game.getEnemyTypeA();
+		Enemy enemyA = game.getEnemyTypeA();
 		
 		switch(enemyA.nextDirection) {
 		
@@ -135,7 +130,9 @@ public class EnemyTypeB extends Enemy {
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.RIGHT);
 		
+		
 		setDirection(nextDirection);
+		
 		
 		game.move(this);
 		
@@ -143,5 +140,11 @@ public class EnemyTypeB extends Enemy {
 			isInsideHouse = false;
  		
 	}
+	
+    public void disableFrightenedMode() {
+    	speed = chaseSpeed;
+    	loadSprites("/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/"+ "EnemyTypeB.gif");
+    	frightenedMode = false;
+    }
 
 }

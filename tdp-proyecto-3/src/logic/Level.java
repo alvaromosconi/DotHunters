@@ -2,18 +2,20 @@ package logic;
 import java.net.URL;
 import java.util.List;
 
+import entities.Enemy;
 import entities.Entity;
+import entities.MainCharacter;
 
 public class Level {
 	
-	private List<Entity> enemies;
+	private List<Enemy> enemies;
 	private List<Entity> walls;
 	private List<Entity> components;
-	private Entity player;
+	private MainCharacter player;
 	private String backgroundUrl; 
 	private List<Entity> doorways;
 
-	public Level(List<Entity> enemies, List<Entity> components, Entity player, List<Entity> walls, String backgroundUrl, List<Entity> doorways) {
+	public Level(List<Enemy> enemies, List<Entity> components, MainCharacter player, List<Entity> walls, String backgroundUrl, List<Entity> doorways) {
 		
 		this.enemies = enemies;
 		this.player = player;
@@ -28,7 +30,7 @@ public class Level {
 		return backgroundUrl;
 	}
 	
-	public Entity getPlayer() {
+	public MainCharacter getPlayer() {
 		
 		return player;
 	}
@@ -43,7 +45,7 @@ public class Level {
 		return components;
 	}
 	
-	public List<Entity> enemies() {
+	public List<Enemy> enemies() {
 		
 		return enemies;
 	}

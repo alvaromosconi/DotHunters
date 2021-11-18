@@ -118,7 +118,7 @@ public class Zone {
 	
 	public Rectangle getRectangle() {
 		
-		return new Rectangle((int) upperLeftVertex.getX(), (int) upperLeftVertex.getY(), getWidthOfZone(), getHeightOfZone());
+		return new Rectangle((int)upperLeftVertex.getX(), (int)upperLeftVertex.getY(), getWidthOfZone(), getHeightOfZone());
 	}
 
 	public void addDoorWay(Entity entity) {

@@ -1,15 +1,17 @@
 package logic;
 import java.util.List;
 
+import entities.Enemy;
 import entities.Entity;
+import entities.MainCharacter;
 
 public interface Builder {
 
-	public void createEnemies(List<Entity> enemies);
+	public void createEnemies(List<Enemy> enemies);
 	
 	public void createComponents(List<Entity> components);
 	
-	public void createPlayer(Entity player);
+	public void createPlayer(MainCharacter player);
 	
 	public void createBackground(String backgroundUrl);
 	

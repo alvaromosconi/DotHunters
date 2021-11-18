@@ -1,8 +1,5 @@
 package logic;
 
-import entities.Entity;
-import entities.Entity.Direction;
-
 public class Time extends Thread {
 
 	private int milliseconds;
@@ -14,9 +11,8 @@ public class Time extends Thread {
 	private boolean running;
 	private Game game;
 	private int step;
-	private Entity player;
 	
-	public Time(Game game, int step, Entity player) {
+	public Time(Game game, int step) {
 	
 		this.milliseconds = 0;
 		this.seconds = 0;
@@ -28,7 +24,6 @@ public class Time extends Thread {
 		this.secondsSpeed = seconds + 10;
 		this.startTime = System.currentTimeMillis();
 		
-		this.player = player;
 	}
 	
 	
@@ -41,39 +36,16 @@ public class Time extends Thread {
 	@Override
 	public void run() {
 		
-//
-//		while (this.running) {
-//				
-//			try {
-//						
-//				//System.out.println(game.getZones(player).get(0).getBottomLeftVertex().getX());
-//			
-//				Thread.sleep(step);
-//				
-//				game.move(player);
-//				
-//				if (player.getNextDirection() != Direction.STILL ) 
-//				
-//					if (!game.collideWithWall(player.getNextXVelocity(), player.getNextYVelocity(), player)) {
-//						player.setDirection(player.getNextDirection());
-//						player.setNextDirection(Direction.STILL);
-//					}
-//				
-////				
-//			}
-//
-//						
-//			 catch (InterruptedException e) {
-//				
-//					e.printStackTrace();
-//			  }
-//
-//				
-
-
-			
-//		
-//		}
+		try {
+			Thread.sleep(step);
+			game.disableFrightenedMode();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+		
 	}
 
 	public void setStep(int step) {

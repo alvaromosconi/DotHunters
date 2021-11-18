@@ -3,18 +3,13 @@ package visitors;
 import entities.ActivePotionTypeA;
 import entities.Doorway;
 import entities.Enemy;
-import entities.EnemyTypeA;
-import entities.EnemyTypeB;
-import entities.EnemyTypeC;
-import entities.Entity;
-import entities.Entity.Direction;
 import entities.Fruit;
 import entities.MainCharacter;
 import entities.Potion;
 import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
-import logic.Game;
+import logic.Direction;
 
 public class VisitorMainCharacter implements Visitor {
 
@@ -78,7 +73,7 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitPoweredDot(PoweredDot p) {
 		
-		p.getGame().activeFrightenedMode();
+		p.getGame().enableFrightenedMode();
 		
 		p.setXValue(-size);
 		p.setYValue(-size);
@@ -105,7 +100,7 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitDoorway(Doorway doorway) {
 		int size = 36;
-		int xPosition = player.getXValue();
+		float xPosition = player.getXValue();
 		if (xPosition < 0) {
 			player.setXValue(26 * size);
 		}
@@ -127,10 +122,9 @@ public class VisitorMainCharacter implements Visitor {
 		
 		if (enemy.getFrightenedMode()) {
 			enemy.disableFrightenedMode();
+			enemy.IsInsideHouse(true);
 			enemy.setXValue(enemy.getInitialXValue());
 			enemy.setYValue(enemy.getInitialYValue());
-			enemy.IsInsideHouse(true);
-
 			modifyScore(200);
 		}
 		else {

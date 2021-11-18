@@ -7,9 +7,8 @@ public class Wall extends Entity {
 
 	public Wall(int xValue, int yValue, int width, int height, Game game) {
 		
-		super(game);
-		this.xValue = xValue;
-		this.yValue = yValue;
+		super(xValue, yValue, null, game);
+
 		this.width = width;
 		this.height = height;
 		

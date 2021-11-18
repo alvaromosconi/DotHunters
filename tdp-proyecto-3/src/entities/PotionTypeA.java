@@ -7,15 +7,9 @@ import visitors.VisitorPoweredDot;
 
 public class PotionTypeA extends Potion {
 
-	public PotionTypeA(int xValue, int yValue,int v, String imageRoute, Game game) {
+	public PotionTypeA(int xValue, int yValue, int v, String imageRoute, Game game) {
 		
-		super(game);
-		
-		this.xValue = xValue;
-		
-		this.yValue = yValue;
-		
-		this.imageRoute = imageRoute;
+		super(xValue, yValue, imageRoute, game);
 		
 		this.value = v;
 		

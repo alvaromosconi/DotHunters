@@ -4,9 +4,9 @@ import logic.Game;
 
 public abstract class Dot extends Component {
 
-	public Dot(Game game) {
-		super(game);
-		// TODO Auto-generated constructor stub
+	public Dot(int xValue, int yValue, String imageRoute, Game game) {
+		
+		super(xValue, yValue, imageRoute, game);
 	}
 	
 	

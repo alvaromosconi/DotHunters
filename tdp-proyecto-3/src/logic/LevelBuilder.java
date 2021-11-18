@@ -1,20 +1,22 @@
 package logic;
 import java.util.List;
 
+import entities.Enemy;
 import entities.Entity;
+import entities.MainCharacter;
 
 public class LevelBuilder implements Builder {
 	
-	private List<Entity> enemies;
+	private List<Enemy> enemies;
 	private List<Entity> components;
 	private List<Entity> walls;
-	private Entity player;
+	private MainCharacter player;
 	private String backgroundUrl; 
 	private List<Entity> doorways;
 
 
 	@Override
-	public void createEnemies(List<Entity> enemies) {
+	public void createEnemies(List<Enemy> enemies) {
 		
 		this.enemies = enemies;	
 	}
@@ -26,7 +28,7 @@ public class LevelBuilder implements Builder {
 	}
 
 	@Override
-	public void createPlayer(Entity player) {
+	public void createPlayer(MainCharacter player) {
 		
 		this.player = player;
 	}

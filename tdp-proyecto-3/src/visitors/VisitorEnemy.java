@@ -1,8 +1,7 @@
 package visitors;
 
 import entities.*;
-import entities.Entity.Direction;
-
+import logic.Direction;
 
 public class VisitorEnemy implements Visitor {
 
@@ -24,17 +23,7 @@ public class VisitorEnemy implements Visitor {
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
-		
-		if (entity.getFrightenedMode()) {
-			entity.disableFrightenedMode();
-			entity.setXValue(12 * 36);
-			entity.setYValue(5 * 36);
-			entity.setDirection(Direction.LEFT);
-			entity.setNextDirection(Direction.LEFT);
-		}
-		else {
-			//m.getGame().gameOver();
-		}
+
 	}
 
 	
@@ -103,7 +92,7 @@ public class VisitorEnemy implements Visitor {
 	public void visitDoorway(Doorway doorway) {
 	
 		int size = 36;
-		int xPosition = entity.getXValue();
+		float xPosition = entity.getXValue();
 		if (xPosition < 0) {
 			entity.setXValue(26 * size);
 		}

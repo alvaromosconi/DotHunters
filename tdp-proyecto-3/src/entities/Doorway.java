@@ -8,13 +8,13 @@ public class Doorway extends Entity {
 
 	public Doorway(int xValue, int yValue, Game game) {
 		
-		super(game);
-		this.xValue = xValue;
-		this.yValue = yValue;
+		super(xValue, yValue, null, game);
 		width = 36;
 		height = 36;
+		
 		visitor = new VisitorDoorway(this);
 	}
+	
 	
 	
 	@Override

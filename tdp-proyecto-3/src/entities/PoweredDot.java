@@ -8,12 +8,7 @@ public class PoweredDot extends Dot {
 	
 	public PoweredDot(int xValue, int yValue, int v, String imageRoute, Game game) {
 		
-		super(game);
-		this.xValue = xValue;
-		
-		this.yValue = yValue;
-		
-		this.imageRoute = imageRoute;
+		super(xValue, yValue, imageRoute, game);
 		
 		this.value = v;
 		

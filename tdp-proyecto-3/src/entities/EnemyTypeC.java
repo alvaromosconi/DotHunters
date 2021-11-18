@@ -1,22 +1,19 @@
 package entities;
+import logic.Direction;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorEnemy;
 
+
 public class EnemyTypeC extends Enemy {
 
-	public EnemyTypeC(int xValue, int yValue, String imageRoute, Game game) {
+	public EnemyTypeC(int xValue, int yValue, String imageRoute, int speed, Game game) {
 		
-		super(game);
+		super(xValue, yValue, imageRoute, speed, game);
 		
-		this.xValue = initialXValue
-				= xValue;
-	
-		this.yValue = initialYValue
-			    = yValue;
-		
-		this.imageRoute = imageRoute;
-		
+	    initialXValue = xValue;
+		initialYValue = yValue;
+
 		visitor = new VisitorEnemy(this);
 		isInsideHouse = true;
 	}
@@ -30,10 +27,10 @@ public class EnemyTypeC extends Enemy {
 	@Override
 	public void chase() {
 		
-		Entity player = game.getPlayer();
+		MainCharacter player = game.getPlayer();
 		
 		int xDestiny = 0,
-		    yDestiny = 0;
+		      yDestiny = 0;
 
 		switch(player.currentDirection) {
 		
@@ -128,5 +125,11 @@ public class EnemyTypeC extends Enemy {
 			isInsideHouse = false;
 		
 	}
+	
+    public void disableFrightenedMode() {
+    	speed = chaseSpeed;
+    	loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");
+    	frightenedMode = false;
+    }
 
 }

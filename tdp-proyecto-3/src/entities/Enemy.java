@@ -7,40 +7,26 @@ import java.util.Random;
 import enemies.ChaseBehaviour;
 import enemies.FrightenedBehaviour;
 import enemies.ScatterBehaviour;
-import entities.Entity.Direction;
 import logic.Game;
+import logic.Direction;
 
-public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBehaviour, FrightenedBehaviour {
+public abstract class Enemy extends Character implements ChaseBehaviour, ScatterBehaviour, FrightenedBehaviour {
 	
 	protected boolean frightenedMode;
 	protected boolean isInsideHouse;
 	
 	protected int initialXValue;
 	protected int initialYValue;
+	protected int chaseSpeed;
+	protected final static int frightenedSpeed = 1;
 	
-	public Enemy(Game game) {
+	public Enemy(int xValue, int yValue, String imageRoute, int speed, Game game) {
 	
-		super(game);
+		super(xValue, yValue, imageRoute, speed, game);
 		frightenedMode = false;
-		this.width = 36;
-		this.height = 36;
+		chaseSpeed = speed;
 	}
 	
-	
-	public int necessaryVerticalMovements(int y) {
-
-        int difference = y - this.yValue;
-
-        return difference / 36;
-
-    }
-
-    public int necessaryHorizontalMovements(int x) {
-
-        int difference = x - this.xValue;
-
-        return difference / 36;
-    }
     
     public boolean getFrightenedMode() {
     	
@@ -49,16 +35,12 @@ public abstract class Enemy extends Entity implements ChaseBehaviour, ScatterBeh
     
     public void enableFrightenedMode() {
     	
-     	frightenedMode = true;
+    	speed = frightenedSpeed;
     	loadSprites("/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedBack.gif", "/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedFront.gif");
-   
+    	frightenedMode = true;
     }
     
-    public void disableFrightenedMode() {
-    	loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
-    	frightenedMode = false;
-    }
-    
+    public abstract void disableFrightenedMode();
 	
     public void frightened() {
 

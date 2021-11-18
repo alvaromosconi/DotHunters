@@ -1,26 +1,23 @@
 package entities;
+import logic.Direction;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorEnemy;
 
 public class EnemyTypeA extends Enemy {
 	
-	public EnemyTypeA(int xValue, int yValue, String imageRoute, Game game) {
+	public EnemyTypeA(int xValue, int yValue, String imageRoute, int speed, Game game) {
 		
-		super(game);
+		super(xValue, yValue, imageRoute, speed, game);
 		
-		this.xValue = initialXValue
-					= xValue;
-		
-		this.yValue = initialYValue
-				    = yValue;
+		initialXValue = xValue;
+	    initialYValue = yValue;
 		
 		this.currentDirection = Direction.LEFT;
 		this.nextDirection = Direction.LEFT;
-		
-		this.imageRoute = imageRoute;
 
-		isInsideHouse=false;
+		isInsideHouse = false;
+		
 		visitor = new VisitorEnemy(this);
 		
 	}
@@ -36,30 +33,30 @@ public class EnemyTypeA extends Enemy {
 	@Override
 	public void chase() {
 
-		Entity player = game.getPlayer();
-		double min = Double.MAX_VALUE;
+		MainCharacter player = game.getPlayer();
+		float min = Float.MAX_VALUE;
 		
 		if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
-    		if (game.distance(xValue - 2, player.getXValue(), yValue, player.getYValue()) < min) {
-    				min = game.distance(xValue - 2, player.getXValue(), yValue, player.getYValue());
+    		if (game.distance(xValue + (Direction.LEFT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue()) < min) {
+    				min = game.distance(xValue + (Direction.LEFT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue());
     				setNextDirection(Direction.LEFT);
     		}
     		
 		if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
-			if (game.distance(xValue + 2, player.getXValue(), yValue, player.getYValue()) < min) {
-					min = game.distance(xValue + 2, player.getXValue(), yValue, player.getYValue());
+			if (game.distance(xValue + (Direction.RIGHT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue()) < min) {
+					min = game.distance(xValue + (Direction.RIGHT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue());
 					setNextDirection(Direction.RIGHT);
 			}
 			
 		if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
-			if (game.distance(xValue, player.getXValue(), yValue - 2, player.getYValue()) < min) {
-					min = game.distance(xValue, player.getXValue(), yValue - 2, player.getYValue());
+			if (game.distance(xValue, player.getXValue(), yValue + (Direction.UP.getYVelocity() * speed), player.getYValue()) < min) {
+					min = game.distance(xValue, player.getXValue(), yValue + (Direction.UP.getYVelocity() * speed) , player.getYValue());
 					setNextDirection(Direction.UP);
 			}
 		
 		if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
-			if (game.distance(xValue, player.getXValue(), yValue + 2, player.getYValue()) < min) {
-					min = game.distance(xValue, player.getXValue(), yValue + 2, player.getYValue());
+			if (game.distance(xValue, player.getXValue(), yValue + (Direction.DOWN.getYVelocity() * speed), player.getYValue()) < min) {
+					min = game.distance(xValue, player.getXValue(), yValue + (Direction.DOWN.getYVelocity() * speed), player.getYValue());
 					setNextDirection(Direction.DOWN);
 			}
 		
@@ -68,6 +65,7 @@ public class EnemyTypeA extends Enemy {
 		game.move(this);
 		
 	}
+
 
 
 	@Override
@@ -81,12 +79,16 @@ public class EnemyTypeA extends Enemy {
 
 	@Override
 	public void exitHouse() {
-		// TODO Auto-generated method stub
-		
+	
+		isInsideHouse = false;
 	}
 	
 
-
+    public void disableFrightenedMode() {
+    	speed = chaseSpeed;
+    	loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
+    	frightenedMode = false;
+    }
 
 
 

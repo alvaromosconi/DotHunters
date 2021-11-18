@@ -99,11 +99,11 @@ public class GUI extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
-				if (e.getKeyCode() == KeyEvent.VK_P){
-				   game.potionTypeAEvent();
-				}else{
+//				if (e.getKeyCode() == KeyEvent.VK_P){
+//				   game.potionTypeAEvent();
+//				}else{
 				   game.movePlayer(e);
-				}
+	//			}
 			}
 
 			@Override
@@ -122,7 +122,7 @@ public class GUI extends JFrame {
 
 	//	entityLabel.setOpaque(rootPaneCheckingEnabled);
 	//	entityLabel.setBackground(Color.BLUE);
-		entityLabel.setBounds(entity.getXValue(), entity.getYValue() , entity.getWidth(), entity.getHeight() );
+		entityLabel.setBounds( (int) entity.getXValue(), (int) entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -134,7 +134,7 @@ public class GUI extends JFrame {
 	
 	public void refreshEntity(Entity entity) {
 
-		labelMap.get(entity).setLocation(entity.getXValue(), entity.getYValue());
+		labelMap.get(entity).setLocation( (int) entity.getXValue(), (int) entity.getYValue());
 
 	}
 	
@@ -146,10 +146,10 @@ public class GUI extends JFrame {
 	public void addWall(Entity w) {
 		
 		JLabel wallLabel = new JLabel("");
-		wallLabel.setBounds(w.getXValue(), w.getYValue(), w.getWidth(), w.getHeight());
+		wallLabel.setBounds( (int) w.getXValue(), (int) w.getYValue(), w.getWidth(), w.getHeight());
 		
-		//wallLabel.setOpaque(rootPaneCheckingEnabled);
-		//wallLabel.setBackground(Color.BLUE);
+	//	wallLabel.setOpaque(rootPaneCheckingEnabled);
+	//	wallLabel.setBackground(Color.BLUE);
 		
 		panel.add(wallLabel);
 		labelMap.put(w, wallLabel);	
@@ -163,7 +163,7 @@ public class GUI extends JFrame {
 	public void addDoorWay(Entity d) {
 	
 		JLabel doorWayLabel = new JLabel("");
-		doorWayLabel.setBounds(d.getXValue(), d.getYValue(), d.getWidth(), d.getHeight());
+		doorWayLabel.setBounds( (int) d.getXValue(), (int) d.getYValue(), d.getWidth(), d.getHeight());
 		
 		//doorWayLabel.setOpaque(rootPaneCheckingEnabled);
 		//doorWayLabel.setBackground(Color.BLUE);

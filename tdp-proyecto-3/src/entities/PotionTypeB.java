@@ -2,19 +2,14 @@ package entities;
 
 import logic.Game;
 import visitors.Visitor;
+import visitors.VisitorPotionTypeA;
 import visitors.VisitorPotionTypeB;
 
 public class PotionTypeB extends Potion {
 
-	public PotionTypeB(int xValue, int yValue,int v, String imageRoute, Game game) {
+	public PotionTypeB(int xValue, int yValue, int v, String imageRoute, Game game) {
 		
-		super(game);
-		
-		this.xValue = xValue;
-		
-		this.yValue = yValue;
-		
-		this.imageRoute = imageRoute;
+		super(xValue, yValue, imageRoute, game);
 		
 		this.value = v;
 		

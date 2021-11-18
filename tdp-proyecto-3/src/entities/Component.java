@@ -4,11 +4,11 @@ import logic.Game;
 
 public abstract class Component extends Entity {
 	
-	public Component(Game game) {
-		super(game);
-	}
-
 	protected int value;
+	
+	public Component (int xValue, int yValue, String imageRoute, Game game) {
+		super(xValue, yValue, imageRoute, game);
+	}
 	
 	public int getValue() {
 		return value;
