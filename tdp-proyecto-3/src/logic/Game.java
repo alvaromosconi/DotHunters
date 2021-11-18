@@ -124,20 +124,10 @@ public class Game {
 	    			try {
 	    				
 						Thread.sleep(15);
-						for (Entity e : enemies) {
+						for (Enemy enemy : enemies) 
 							
-							Enemy e1 = (Enemy) e;
-							if (e1.IsInsideHouse())
-								e1.exitHouse();
-							else if (e1.getFrightenedMode()) {
-								e1.frightened();
-							}
-							else
-								e1.chase();
-								
-						}
-			  		
-			  			 
+							enemy.executeCurrentBehaviour();
+					 
 	    			}
 	    			
 	    			catch (InterruptedException e) {
@@ -417,7 +407,7 @@ public class Game {
 		for (Zone zone : listOfZones) {
 			
 			zoneEntitiesIterator = zone.getEntities().iterator();
-				
+			innerloop:
 			while (zoneEntitiesIterator.hasNext() ) {
 					
 				entityB = zoneEntitiesIterator.next();
@@ -425,8 +415,12 @@ public class Game {
 				intersect = entityARectangle.intersects(entityBRectangle);	
 					
 				if (intersect) {
-					entityB.accept(entityA.getVisitor());
 					myGUI.refreshEntity(entityB);
+					entityB.accept(entityA.getVisitor());	
+					
+					if(!zone.getEntities().contains(entityB))
+						break innerloop;
+			
 				} 
 				
 			}
@@ -492,16 +486,16 @@ public class Game {
 		return player;
 	}
 	
-//	public void potionTypeAEvent() {	
-//		
-//		if (player.getPotionTypeA()){		
-//			Entity power = new ActivePotionTypeA(player.getXValue(), player.getYValue(),"/assets/MarioAssets/bomb.png", this);
-//			allEntities.add(power);
-//			//myGUI.addEntity(power);
-//			//myGUI.refreshImage(power);	
-//			chargeZonesWithEntities();
-//		}
-//	}
+	public void potionTypeAEvent() {	
+		
+		if (player.getPotionTypeA()){		
+			Entity power = new ActivePotionTypeA(player.getXValue(), player.getYValue(),"/assets/MarioAssets/bomb.png", this);
+			allEntities.add(power);
+//			myGUI.addEntity(power);
+//			myGUI.refreshImage(power);	
+			chargeZonesWithEntities();
+		}
+	}
 	
 	public GUI getGUI() {
 		
@@ -565,6 +559,32 @@ public class Game {
 		for (Enemy enemy: enemies) 
 			enemy.disableFrightenedMode();		
 	
+	}
+
+
+	public synchronized void destroyEntity(Entity entityToDestroy) {
+		
+		allEntities.remove(entityToDestroy);
+		
+		List<Zone> zones = new ArrayList<Zone>();
+		
+		for (int i = 0; i < myZones.length ; i++ )
+			
+			for (int j = 0; j < myZones[0].length ; j++) {
+				
+				if (myZones[i][j].getEntities().contains(entityToDestroy)) {
+					zones.add(myZones[i][j]);
+				}
+				
+			}
+		System.out.println(zones.size());
+		if (!zones.isEmpty())
+			for (int i = 0; i < zones.size(); i++)
+				zones.get(i).removeEntity(entityToDestroy);
+				
+		
+		myGUI.destroyEntity(entityToDestroy);
+		
 	}
 	
 }

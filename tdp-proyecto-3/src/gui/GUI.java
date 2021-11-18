@@ -99,11 +99,11 @@ public class GUI extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
-//				if (e.getKeyCode() == KeyEvent.VK_P){
-//				   game.potionTypeAEvent();
-//				}else{
+				if (e.getKeyCode() == KeyEvent.VK_P)
+				   game.potionTypeAEvent();
+				else
 				   game.movePlayer(e);
-	//			}
+			
 			}
 
 			@Override
@@ -122,6 +122,7 @@ public class GUI extends JFrame {
 
 	//	entityLabel.setOpaque(rootPaneCheckingEnabled);
 	//	entityLabel.setBackground(Color.BLUE);
+	
 		entityLabel.setBounds( (int) entity.getXValue(), (int) entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -176,6 +177,12 @@ public class GUI extends JFrame {
 	public void tray(Entity e) {
 		
 		panel.setComponentZOrder(labelMap.get(e), 0);
+	}
+	
+	public void destroyEntity(Entity entityToDestroy) {
+		
+		panel.remove(labelMap.get(entityToDestroy));
+		labelMap.remove(entityToDestroy);
 	}
 
 	public void deleteEntity(Entity a) {

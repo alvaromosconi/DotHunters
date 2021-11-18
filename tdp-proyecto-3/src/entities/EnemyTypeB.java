@@ -88,11 +88,6 @@ public class EnemyTypeB extends Enemy {
 		
 		setDirection(nextDirection);
 		
-		System.out.println("Direccion actual: " + getDirection());
-		System.out.println();
-		System.out.println("Direccion siguiente: " + getNextDirection());
-		
-		
 		game.move(this);
 	}
 	

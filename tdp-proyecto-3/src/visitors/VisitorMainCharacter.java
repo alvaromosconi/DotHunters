@@ -10,6 +10,7 @@ import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
 import logic.Direction;
+import logic.Game;
 
 public class VisitorMainCharacter implements Visitor {
 
@@ -37,8 +38,8 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitFruitTypeA(Fruit f) {
 
-		f.setXValue(-size);
-		f.setYValue(-size);
+		Game myGame = f.getGame();
+		myGame.destroyEntity(f);
 		modifyScore(100);
 		
 	}
@@ -58,25 +59,27 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitPotionTypeA(Potion p) {
 		
-		p.setXValue(-size);
-		p.setYValue(-size);	
-		player.setPotionTypeA(true);		
+		Game myGame = p.getGame();
+		player.setPotionTypeA(true);
+		myGame.destroyEntity(p);
 	}
 
 	@Override
 	public void visitPotionTypeB(Potion p) {
-		p.setXValue(-size);
-		p.setYValue(-size);
+		
+		Game myGame = p.getGame();
+		myGame.destroyEntity(p);
+		myGame.destroyEntity(p);
 		
 	}
 
 	@Override
 	public void visitPoweredDot(PoweredDot p) {
 		
-		p.getGame().enableFrightenedMode();
+		Game myGame = p.getGame();
 		
-		p.setXValue(-size);
-		p.setYValue(-size);
+		myGame.enableFrightenedMode();
+		myGame.destroyEntity(p);
 		
 		modifyScore(50);
 		
@@ -85,8 +88,11 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitRegulardDot(RegularDot p) {
 		
-		p.setXValue(-size);
-		p.setYValue(-size);
+		Game myGame = p.getGame();
+		
+		myGame.destroyEntity(p);
+		
+
 		modifyScore(10);
 		
 		

@@ -84,6 +84,18 @@ public abstract class Enemy extends Character implements ChaseBehaviour, Scatter
        	return possibleDirections;
     }
     
+    public void executeCurrentBehaviour() {
+    	
+    	if (IsInsideHouse())
+			exitHouse();
+		
+    	else if (getFrightenedMode()) 
+			frightened();
+		
+		else
+			chase();
+    }
+    
     
 	public abstract void exitHouse();
 	
