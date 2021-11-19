@@ -11,6 +11,9 @@ public class ActivePotionTypeA extends Entity {
 	
 		super(xValue, yValue, imageRoute, game);
 		
+		this.width = 36;
+		this.height = 36;
+		
 		visitor = new VisitorActivePotionTypeA(this);
 	}
 	

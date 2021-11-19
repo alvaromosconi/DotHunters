@@ -62,7 +62,6 @@ public class VisitorMainCharacter implements Visitor {
 		
 		Game myGame = p.getGame();
 		player.setPotionTypeA(true);
-		myGame.potionTypeAEvent();
 		myGame.destroyEntity(p);
 	}
 

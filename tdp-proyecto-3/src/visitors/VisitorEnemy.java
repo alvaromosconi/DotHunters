@@ -2,6 +2,7 @@ package visitors;
 
 import entities.*;
 import logic.Direction;
+import logic.Game;
 
 public class VisitorEnemy implements Visitor {
 
@@ -73,16 +74,17 @@ public class VisitorEnemy implements Visitor {
 	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {
 		
-		entity.setDirection(Direction.STILL);
-		a.getGame().getGUI().deleteEntity(a);
-		entity.disableFrightenedMode();
-		entity.setXValue(12 * 36);
-		entity.setYValue(5 * 36);
-		entity.setDirection(Direction.LEFT);
-		entity.setNextDirection(Direction.LEFT);
+		Game myGame = entity.getGame();
 		a.setImageRoute("/assets/MarioAssets/explosion.gif");
+		myGame.getGUI().refreshImage(a);
+		myGame.getGUI().deleteEntity(a);
+		entity.setDirection(Direction.STILL);
+	
+		entity.disableFrightenedMode();
+		entity.setXValue(entity.getInitialXValue());
+		entity.setYValue(entity.getInitialYValue());
+
 		
-		a.getGame().getGUI().refreshImage(a);
 		
 
 

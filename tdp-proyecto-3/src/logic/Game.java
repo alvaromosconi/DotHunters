@@ -227,7 +227,7 @@ public class Game {
 				for (int j = 0; j < myZones[0].length ; j++) {
 							
 					zoneRectangle = myZones[i][j].getRectangle();
-							
+					System.out.println(entityRectangle);
 					if (entityRectangle.intersects(zoneRectangle) && getZones(entity).isEmpty()) {
 							 
 							myGUI.addEntity(entity);
@@ -409,11 +409,13 @@ public class Game {
 				intersect = entityARectangle.intersects(entityBRectangle);	
 					
 				if (intersect) {
-					myGUI.refreshEntity(entityB);
+
 					entityB.accept(entityA.getVisitor());	
 					
 					if(!zone.getEntities().contains(entityB))
 						break innerloop;
+					else
+						myGUI.refreshEntity(entityB);
 			
 				} 
 				
@@ -482,12 +484,13 @@ public class Game {
 	
 	public void potionTypeAEvent() {	
 		
-		if (player.getPotionTypeA()){		
-			Entity power = new ActivePotionTypeA(player.getXValue(), player.getYValue(),"/assets/MarioAssets/bomb.png", this);
+		if (player.getPotionTypeA()){	
+			
+			ActivePotionTypeA power = new ActivePotionTypeA(player.getXValue(), player.getYValue(), "/assets/MarioAssets/bomb.png", this);
 			allEntities.add(power);
-//			myGUI.addEntity(power);
-//			myGUI.refreshImage(power);	
+			
 			chargeZonesWithEntities();
+			player.setPotionTypeA(false);		
 		}
 	}
 	

@@ -10,7 +10,6 @@ public class PotionTypeA extends Potion {
 	public PotionTypeA(int xValue, int yValue, int v, String imageRoute, Game game) {
 		
 		super(xValue, yValue, imageRoute, game);
-		
 		this.value = v;
 		
 		visitor = new VisitorPotionTypeA(this);

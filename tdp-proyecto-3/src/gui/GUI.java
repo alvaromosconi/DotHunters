@@ -126,16 +126,18 @@ public class GUI extends JFrame {
 		entityLabel.setBounds( (int) entity.getXValue(), (int) entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
+		System.out.println(entity.getImageRoute());
 		labelMap.put(entity, entityLabel);
 		panel.add(entityLabel);
 		panel.setComponentZOrder(labelMap.get(entity), 0);
+		
+
 		
 	}
 	
 	public void refreshEntity(Entity entity) {
 
-		labelMap.get(entity).setLocation( (int) entity.getXValue(), (int) entity.getYValue());
+		labelMap.get(entity).setLocation(entity.getXValue(), entity.getYValue());
 
 	}
 	
@@ -187,20 +189,17 @@ public class GUI extends JFrame {
 
 	public void deleteEntity(Entity a) {
 		
-	    Timer timer = new Timer(1700, (ActionListener) new ActionListener() {
+	   new Timer(1700, (ActionListener) new ActionListener() {
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				panel.remove(labelMap.get(a));
+				game.destroyEntity(a);
 				
 			}
-        });
+        }).start();;
         // start Tick-Tack
-        timer.start();
-
-
-	
+      
 	}
 }
