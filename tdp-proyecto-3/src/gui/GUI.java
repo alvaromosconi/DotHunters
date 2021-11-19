@@ -101,7 +101,9 @@ public class GUI extends JFrame {
 				
 				if (e.getKeyCode() == KeyEvent.VK_P)
 				   game.potionTypeAEvent();
-				else
+				if (e.getKeyCode() == KeyEvent.VK_O)
+					game.potionTypeBEvent();
+				if(!(e.getKeyCode() == KeyEvent.VK_O) && !(e.getKeyCode() == KeyEvent.VK_P))
 				   game.movePlayer(e);
 			
 			}
@@ -195,7 +197,7 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				game.destroyEntity(a);
+				destroyEntity(a);
 				
 			}
         }).start();;

@@ -77,9 +77,9 @@ public class VisitorEnemy implements Visitor {
 		Game myGame = entity.getGame();
 		a.setImageRoute("/assets/MarioAssets/explosion.gif");
 		myGame.getGUI().refreshImage(a);
-		myGame.destroyEntity(a);
+		myGame.getGUI().deleteEntity(a);
 		entity.setDirection(Direction.STILL);
-	
+
 		entity.disableFrightenedMode();
 		entity.setXValue(entity.getInitialXValue());
 		entity.setYValue(entity.getInitialYValue());
@@ -104,6 +104,14 @@ public class VisitorEnemy implements Visitor {
 	public void visitEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void visitActivePotionTypeB(ActivePotionTypeB a) {
+		entity.setDirection(Direction.STILL);
+		entity.disableFrightenedMode();
+		entity.setXValue(entity.getInitialXValue());
+		entity.setYValue(entity.getInitialYValue());	
 	}
 
 

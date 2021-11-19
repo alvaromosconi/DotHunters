@@ -61,7 +61,7 @@ public class Game {
 		myGUI.setupBackground(); 
 		
 		automaticMovement();
-		enemiesAi();
+		//enemiesAi();
 	}
 
 	
@@ -491,6 +491,18 @@ public class Game {
 			
 			chargeZonesWithEntities();
 			player.setPotionTypeA(false);		
+		}
+	}
+	
+	public void potionTypeBEvent() {	
+		
+		if (player.getPotionTypeB()){	
+			
+			ActivePotionTypeB power = new ActivePotionTypeB(player.getXValue(), player.getYValue(), "/assets/MarioAssets/turtle.png", this);
+			allEntities.add(power);
+			
+			chargeZonesWithEntities();
+			player.setPotionTypeB(false);		
 		}
 	}
 	

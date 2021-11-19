@@ -15,28 +15,21 @@ import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
 
-public class VisitorWall implements Visitor{
-
-	private Entity wall;
+public class VisitorActivePotionTypeB implements Visitor {
 	
-	public VisitorWall(Wall wall) {
-		
-		this.wall = wall;
+	private Entity activePotionTypeB;
+	
+	public VisitorActivePotionTypeB (ActivePotionTypeB a) {
+		this.activePotionTypeB = a;
 	}
-	
+
+
 	@Override
-	public void visitWall(Wall w) {
+	public void visitMainCharacter(MainCharacter m) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void visitMainCharacter(MainCharacter m) {
-		
-//		m.setXVelocity(0);
-//		m.setYVelocity(0);
-		
-	}
 
 	@Override
 	public void visitFruitTypeA(Fruit f) {
@@ -81,10 +74,17 @@ public class VisitorWall implements Visitor{
 	}
 
 	@Override
+	public void visitWall(Wall w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	@Override
 	public void visitDoorway(Doorway doorway) {
@@ -92,11 +92,13 @@ public class VisitorWall implements Visitor{
 		
 	}
 
+
 	@Override
 	public void visitEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	@Override
 	public void visitActivePotionTypeB(ActivePotionTypeB a) {
