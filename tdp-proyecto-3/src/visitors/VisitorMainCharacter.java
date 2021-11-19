@@ -1,6 +1,7 @@
 package visitors;
 
 import entities.ActivePotionTypeA;
+import entities.ActivePotionTypeB;
 import entities.Doorway;
 import entities.Enemy;
 import entities.Fruit;
@@ -135,6 +136,12 @@ public class VisitorMainCharacter implements Visitor {
 		else {
 			player.getGame().gameOver();
 		}	
+		
+	}
+
+	@Override
+	public void visitActivePotionTypeB(ActivePotionTypeB a) {
+		// TODO Auto-generated method stub
 		
 	}
 

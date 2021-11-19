@@ -79,15 +79,10 @@ public class VisitorEnemy implements Visitor {
 		myGame.getGUI().refreshImage(a);
 		myGame.getGUI().deleteEntity(a);
 		entity.setDirection(Direction.STILL);
-	
+
 		entity.disableFrightenedMode();
 		entity.setXValue(entity.getInitialXValue());
 		entity.setYValue(entity.getInitialYValue());
-
-		
-		
-
-
 	}
 
 	@Override
@@ -109,6 +104,14 @@ public class VisitorEnemy implements Visitor {
 	public void visitEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void visitActivePotionTypeB(ActivePotionTypeB a) {
+		entity.setDirection(Direction.STILL);
+		entity.disableFrightenedMode();
+		entity.setXValue(entity.getInitialXValue());
+		entity.setYValue(entity.getInitialYValue());	
 	}
 
 
