@@ -77,17 +77,12 @@ public class VisitorEnemy implements Visitor {
 		Game myGame = entity.getGame();
 		a.setImageRoute("/assets/MarioAssets/explosion.gif");
 		myGame.getGUI().refreshImage(a);
-		myGame.getGUI().deleteEntity(a);
+		myGame.destroyEntity(a);
 		entity.setDirection(Direction.STILL);
 	
 		entity.disableFrightenedMode();
 		entity.setXValue(entity.getInitialXValue());
 		entity.setYValue(entity.getInitialYValue());
-
-		
-		
-
-
 	}
 
 	@Override
