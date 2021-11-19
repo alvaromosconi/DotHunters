@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 
 public class GameOverGUI extends JFrame {
 
-	public GameOverGUI(Game game) {
+	public GameOverGUI(Game game, String name) {
 		getContentPane().setLayout(null);
 		;
 		
@@ -25,7 +25,7 @@ public class GameOverGUI extends JFrame {
 		btnHighScores.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				HighScores hs = new HighScores();
-				hs.addScore(game.getScore(), "Player");
+				hs.addScore(game.getScore(), name);
 				dispose();
 			}
 		});

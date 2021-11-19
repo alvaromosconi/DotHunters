@@ -19,6 +19,7 @@ public class HighScores extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String file = "highScores.txt";
+	private String fileLowerScore = "lowerScore.txt";
 	private JPanel contentPane;
 	private JLabel lblScore0;
 	private JLabel lblScore1;
@@ -73,7 +74,7 @@ public class HighScores extends JFrame {
 		int i = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 		    String line;
-		    while ((line = br.readLine()) != null) {
+		    while ((line = br.readLine()) != null && i < 5) {
 		    	Scores[i] = line;
 		    	i++;
 		    }
@@ -93,6 +94,7 @@ public class HighScores extends JFrame {
 	
 	public void addScore(int Score, String name) {
 		int lowerScore = 0;
+		int finalLowerScore = 0;
 		String originalFileContent = "";
 		boolean replace = false;
 		try {
@@ -105,6 +107,7 @@ public class HighScores extends JFrame {
 		    		  originalFileContent+= Score+"-"+name + System.lineSeparator();
 		    		  replace = true;
 		    		  scoresAmount++;
+		    		  finalLowerScore = Score;
 		    	  }
 		    	  originalFileContent += line + System.lineSeparator();
 		    	  line = br.readLine();
@@ -116,6 +119,11 @@ public class HighScores extends JFrame {
 		    	  BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		    	  writer.write(modifiedContent);
 		    	  writer.close();
+		    	  
+		    	  
+		    	  BufferedWriter writerLowerScore = new BufferedWriter(new FileWriter(fileLowerScore));
+		    	  writerLowerScore.write(finalLowerScore+"");
+		    	  writerLowerScore.close();
 		    	  
 		      }
 		      br.close();

@@ -2,10 +2,17 @@ package logic;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import entities.*;
 import entities.Character;
@@ -19,6 +26,8 @@ public class Game {
 	private GUI myGUI;
 	private Zone[][] myZones;
 	private int score;
+	private int lowerScore;
+	private String file = "lowerScore.txt";
 	
 	private Thread playerThread;
 	private Thread enemiesThread;
@@ -62,6 +71,17 @@ public class Game {
 		
 		automaticMovement();
 		enemiesAi();
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		    String line;
+		    line = br.readLine();
+		    lowerScore = Integer.parseInt(line);
+		    System.out.println(lowerScore);
+		    br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -148,7 +168,7 @@ public class Game {
 	}
 	
 	/*
-	 * Inicializa las zonas del juego con su tamaño y ubicacion correspondiente, usando el tamaño del mapa como referencia.
+	 * Inicializa las zonas del juego con su tamaï¿½o y ubicacion correspondiente, usando el tamaï¿½o del mapa como referencia.
 	 */
 	private void initializeZones() {
 		
@@ -182,7 +202,7 @@ public class Game {
 	}
 	
 	/*
-	 * Se añaden las paredes a la o las zonas que correspondan.
+	 * Se aï¿½aden las paredes a la o las zonas que correspondan.
 	 */
 	
 	private void chargeZonesWithWalls() {
@@ -211,7 +231,7 @@ public class Game {
 	}
 	
 	/*
-	 * Se añaden las entidades a la o las zonas que correspondan.
+	 * Se aï¿½aden las entidades a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithEntities() {
 		
@@ -227,7 +247,7 @@ public class Game {
 				for (int j = 0; j < myZones[0].length ; j++) {
 							
 					zoneRectangle = myZones[i][j].getRectangle();
-					System.out.println(entityRectangle);
+					//System.out.println(entityRectangle);
 					if (entityRectangle.intersects(zoneRectangle) && getZones(entity).isEmpty()) {
 							 
 							myGUI.addEntity(entity);
@@ -239,7 +259,7 @@ public class Game {
 	}
 	
 	/*
-	 * Se añaden los portales a la o las zonas que correspondan.
+	 * Se aï¿½aden los portales a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithDoorWays() {
 		
@@ -346,8 +366,8 @@ public class Game {
 	
 	/*
 	 * Detecta colisiones en la direccion recibida.
-	 * @param xVelocity velocidad horizontal que se le quiere añadir a el valor de x actual de la entidad.
-	 * @param yVelocity velocidad vertal que se le quiere añadir a el valor y actual de la entidad.
+	 * @param xVelocity velocidad horizontal que se le quiere aï¿½adir a el valor de x actual de la entidad.
+	 * @param yVelocity velocidad vertal que se le quiere aï¿½adir a el valor y actual de la entidad.
 	 * @param entityA entidad que requiere hacer el movimiento.
 	 * @return verdadero si colisiono con una pared en la direccion requerida, falso en caso contrario. 
 	 */
@@ -529,7 +549,15 @@ public class Game {
 		
 		
 		myGUI.dispose();
-		myGameOverGUI = new GameOverGUI(this);
+		String name = null;
+//		String domainRoute = "/assets/MarioAssets/Moneda.png";
+//		Icon icono = new ImageIcon(Game.class.getResource(domainRoute));
+		if(this.getScore() >= lowerScore) {
+			name = (String) JOptionPane.showInputDialog(null, "Type your name  please","Best 5 scores", JOptionPane.PLAIN_MESSAGE);
+		}
+		if(name == null)
+			name = "Unknown";
+		myGameOverGUI = new GameOverGUI(this, name);
 		playerThread.stop();
 		enemiesThread.stop();
 	}
