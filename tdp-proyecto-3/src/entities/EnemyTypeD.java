@@ -1,4 +1,5 @@
 package entities;
+import logic.Direction;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorEnemy;
@@ -20,38 +21,107 @@ public class EnemyTypeD extends Enemy {
 	
 	@Override
 	public void accept(Visitor v) {
-		// TODO Auto-generated method stub
 		
+		v.visitEnemy(this);
 	}
 
 	@Override
 	public void chase() {
-		// TODO Auto-generated method stub
+
+		MainCharacter player = game.getPlayer();
+		float min = Float.MAX_VALUE;
+		
+		
+		
+		if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
+    		if (game.distance(xValue + (Direction.LEFT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue()) < min ) {
+    				min = game.distance(xValue + (Direction.LEFT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue());
+    				setNextDirection(Direction.LEFT);
+    		}
+    		
+		if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
+			if (game.distance(xValue + (Direction.RIGHT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue()) < min) {
+					min = game.distance(xValue + (Direction.RIGHT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue());
+					setNextDirection(Direction.RIGHT);
+			}
+			
+		if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
+			if (game.distance(xValue, player.getXValue(), yValue + (Direction.UP.getYVelocity() * speed), player.getYValue()) < min) {
+					min = game.distance(xValue, player.getXValue(), yValue + (Direction.UP.getYVelocity() * speed) , player.getYValue());
+					setNextDirection(Direction.UP);
+			}
+		
+		if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
+			if (game.distance(xValue, player.getXValue(), yValue + (Direction.DOWN.getYVelocity() * speed), player.getYValue()) < min) {
+					min = game.distance(xValue, player.getXValue(), yValue + (Direction.DOWN.getYVelocity() * speed), player.getYValue());
+					setNextDirection(Direction.DOWN);
+			}
+		
+		if (game.distance(xValue, player.getXValue(), yValue, player.getYValue()) <= 8 * 36)
+			goToCorner();
+			
+		setDirection(nextDirection);
+		
+		game.move(this);
+		
 		
 	}
 
-	@Override
-	public void scatter() {
-		// TODO Auto-generated method stub
+	private void goToCorner() {
 		
-	}
 
-	@Override
-	public void frightened() {
-		// TODO Auto-generated method stub
+		int xDestiny = 36,
+		     yDestiny = 17 * 36;
 		
+		double min = Double.MAX_VALUE;
+
+		if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
+    		if (game.distance(xValue - 2, xDestiny, yValue, yDestiny) < min) {
+    				min = game.distance(xValue - 2, xDestiny, yValue, yDestiny);
+    				setNextDirection(Direction.LEFT);
+    		}
+    		
+		if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
+			if (game.distance(xValue + 2, xDestiny, yValue, yDestiny) < min) {
+					min = game.distance(xValue + 2, xDestiny, yValue, yDestiny);
+					setNextDirection(Direction.RIGHT);
+			}
+			
+		if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
+			if (game.distance(xValue, xDestiny, yValue - 2, yDestiny) < min) {
+					min = game.distance(xValue, xDestiny, yValue - 2, yDestiny);
+					setNextDirection(Direction.UP);
+			}
+		
+		if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
+			if (game.distance(xValue, xDestiny, yValue + 2, yDestiny) < min) {
+					min = game.distance(xValue, xDestiny, yValue + 2, yDestiny);
+					setNextDirection(Direction.DOWN);
+			}
 	}
 
 	@Override
 	public void exitHouse() {
-		// TODO Auto-generated method stub
+
+		if (!game.collideWithWall(Direction.UP, this))
+			setNextDirection(Direction.UP);
+		else setNextDirection(Direction.LEFT);
+		
+		setDirection(nextDirection);
+		
+		game.move(this);
+		
+		if (yValue < 7 * 36 )
+			isInsideHouse = false;
 		
 	}
 
 	@Override
 	public void disableFrightenedMode() {
-		// TODO Auto-generated method stub
 		
+    	speed = chaseSpeed;
+    	loadSprites("/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/"+ "EnemyTypeD.gif");
+    	frightenedMode = false;	
 	}
 
 

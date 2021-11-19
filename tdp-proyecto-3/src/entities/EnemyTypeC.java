@@ -103,13 +103,6 @@ public class EnemyTypeC extends Enemy {
 	}
 
 	@Override
-	public void scatter() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
 	public void exitHouse() {
 		
 

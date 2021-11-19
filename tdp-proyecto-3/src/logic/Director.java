@@ -77,25 +77,23 @@ public class Director {
 		// Creacion de los enemigos
 		Enemy enemy1 = new EnemyTypeA(12 * size, 5 * size, domainRoute + "EnemyTypeA.gif", 2, game);
 		Enemy enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute + "EnemyTypeB.gif", 1, game);
-		Enemy  enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute + "EnemyTypeC.gif", 2, game);
-		//Entity enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute + "EnemyTypeD.gif", game);
+		Enemy enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute + "EnemyTypeC.gif", 2, game);
+		Enemy enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute + "EnemyTypeD.gif", 2, game);
 
 		enemy1.loadSprites(domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif");
 		enemy2.loadSprites(domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif");
 		enemy3.loadSprites(domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif");
-		//enemy4.loadSprites(domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif");
+		enemy4.loadSprites(domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif");
 		
 		// Cargado de listas
-		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3));
-		doorways.addAll(Arrays.asList(doorway1,doorway2));		
-		//components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));	
+		enemies.addAll(Arrays.asList(enemy1, enemy2, enemy3, enemy4));
+		doorways.addAll(Arrays.asList(doorway1, doorway2));		
 		
-		Entity contornoCasaEnemies = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
+		Wall contornoCasaEnemies = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
 		zonaSinDots.addAll(Arrays.asList(contornoCasaEnemies, poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
 				
 		// Creacion de todos los regular dots (Se crean en donde NO haya paredes y otros componentes)
 		loadAllRegularDots(components, walls, zonaSinDots);
-//		loadAllRegularDots(components, walls);
 		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
 		
 		

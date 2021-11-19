@@ -27,99 +27,63 @@ public class EnemyTypeB extends Enemy {
 	}
 
 	@Override
-	public void chase() {
+	protected void chase() {
 		
 		Enemy enemyA = game.getEnemyTypeA();
 		
-		switch(enemyA.nextDirection) {
+		if (getPossibleDirections(getOppositeDirection()).size() == 1)
+			setNextDirection(getPossibleDirections(getOppositeDirection()).get(0));
 		
-			case UP: {
-				
-				if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
-					setNextDirection(Direction.DOWN);
-			
-				break;
-			}
-				
-			case DOWN: {
-				
-				if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
-					setNextDirection(Direction.UP);
-			
-				break;
-			}
-			
-			case LEFT: {
-				
-				if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
-					setNextDirection(Direction.RIGHT);
-			
-				break;
-			}
-			
-			case RIGHT: {
-				
-				if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
-					setNextDirection(Direction.LEFT);
-
-				break;
-			}
-			
-			default: 
+		else
 		
-				break;
+			switch(enemyA.nextDirection) {
+			
+				case UP: {
+					
+					if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
+						setNextDirection(Direction.DOWN);
+				
+					break;
+				}
+					
+				case DOWN: {
+					
+					if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
+						setNextDirection(Direction.UP);
+				
+					break;
+				}
+				
+				case LEFT: {
+					
+					if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
+						setNextDirection(Direction.RIGHT);
+				
+					break;
+				}
+				
+				case RIGHT: {
+					
+					if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
+						setNextDirection(Direction.LEFT);
 	
-		}
-		
-		if (getPossibleDirections().size() == 1)
-			setNextDirection(getPossibleDirections().get(0));
-		
-//		if (game.collideWithWall(nextDirection, this))
-//			if (!game.collideWithWall(Direction.UP, this))
-//				setNextDirection(Direction.UP);
-//			else
-//				if (!game.collideWithWall(Direction.LEFT, this))
-//					setNextDirection(Direction.LEFT);
-//			else
-//				if (!game.collideWithWall(Direction.RIGHT, this))
-//					setNextDirection(Direction.DOWN);
-//					
+					break;
+				}
+			
+				default:
+					
+					break;
+				
+			}			
 		
 		
 		setDirection(nextDirection);
 		
 		game.move(this);
 	}
-	
-    private List<Direction> getPossibleDirections() {
-        
-    	List<Direction> possibleDirections = new ArrayList<Direction>();
-    	
-    	if (!game.collideWithWall(Direction.LEFT, this)) 
-    		possibleDirections.add(Direction.LEFT);
-       	if (!game.collideWithWall(Direction.RIGHT, this)) 
-    		possibleDirections.add(Direction.RIGHT);
-       	if (!game.collideWithWall(Direction.UP, this)) 
-    		possibleDirections.add(Direction.UP);
-       	if (!game.collideWithWall(Direction.DOWN, this))
-    		possibleDirections.add(Direction.DOWN);
-		
-       	
-       	return possibleDirections;
-    }
-		
-
-	
 
 	@Override
-	public void scatter() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void exitHouse() {
+	protected void exitHouse() {
 	
 		if (!game.collideWithWall(Direction.UP, this))
 			setNextDirection(Direction.UP);
@@ -132,8 +96,7 @@ public class EnemyTypeB extends Enemy {
 		game.move(this);
 		
 		if (yValue < 7 * 36 )
-			isInsideHouse = false;
- 		
+			isInsideHouse = false;	
 	}
 	
     public void disableFrightenedMode() {

@@ -62,6 +62,7 @@ public class VisitorMainCharacter implements Visitor {
 		
 		Game myGame = p.getGame();
 		player.setPotionTypeA(true);
+		myGame.potionTypeAEvent();
 		myGame.destroyEntity(p);
 	}
 
@@ -99,7 +100,7 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitActivePotionTypeA(ActivePotionTypeA a) {		
-		
+	
 	}
 
 	@Override

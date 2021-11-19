@@ -61,7 +61,7 @@ public class Game {
 		myGUI.setupBackground(); 
 		
 		automaticMovement();
-	//	enemiesAi();
+		enemiesAi();
 	}
 
 	
@@ -83,13 +83,7 @@ public class Game {
 	    				Thread.sleep(13);
 	    				
 	    				move(player);
-	    							
-	    				if (player.getNextDirection() != Direction.STILL ) 
-	    				
-	    					if (!collideWithWall(player.getNextDirection(), player)) {
-	    						player.setDirection(player.getNextDirection());
-	    						player.setNextDirection(Direction.STILL);
-	    					}
+	    						
 			  			 
 	    			}
 	    			
@@ -578,7 +572,7 @@ public class Game {
 				}
 				
 			}
-		System.out.println(zones.size());
+
 		if (!zones.isEmpty())
 			for (int i = 0; i < zones.size(); i++)
 				zones.get(i).removeEntity(entityToDestroy);

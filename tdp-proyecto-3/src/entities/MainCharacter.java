@@ -49,4 +49,18 @@ public class MainCharacter extends Character {
 	public boolean getPotionTypeB() {
 		return potionTypeB;
 	}
+	
+	public void move() {
+		
+		if (nextDirection != Direction.STILL ) 
+			
+			if (!game.collideWithWall(nextDirection, this)) {
+				setDirection(nextDirection);
+				setNextDirection(Direction.STILL);
+			}
+		
+		super.move();
+	}
+
+
 }

@@ -18,11 +18,9 @@ public class EnemyTypeA extends Enemy {
 
 		isInsideHouse = false;
 		
-		visitor = new VisitorEnemy(this);
-		
+		visitor = new VisitorEnemy(this);	
 	}
-	
-	
+		
 	@Override
 	public void accept(Visitor v) {
 		
@@ -66,17 +64,6 @@ public class EnemyTypeA extends Enemy {
 		
 	}
 
-
-
-	@Override
-	public void scatter() {
-		
-		
-		
-		
-	}
-
-
 	@Override
 	public void exitHouse() {
 	
@@ -85,11 +72,11 @@ public class EnemyTypeA extends Enemy {
 	
 
     public void disableFrightenedMode() {
+    	
     	speed = chaseSpeed;
     	loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
     	frightenedMode = false;
     }
-
 
 
 }
