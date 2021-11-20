@@ -28,7 +28,7 @@ public class EnemyTypeB extends Enemy {
 
 	@Override
 	protected void chase() {
-		
+
 		Enemy enemyA = game.getEnemyTypeA();
 		
 		if (getPossibleDirections(getOppositeDirection()).size() == 1)
@@ -76,10 +76,6 @@ public class EnemyTypeB extends Enemy {
 				
 			}			
 		
-		
-		setDirection(nextDirection);
-		
-		game.move(this);
 	}
 
 	@Override
@@ -90,13 +86,14 @@ public class EnemyTypeB extends Enemy {
 		else setNextDirection(Direction.RIGHT);
 		
 		
-		setDirection(nextDirection);
-		
-		
-		game.move(this);
-		
 		if (yValue < 7 * 36 )
 			isInsideHouse = false;	
+	}
+	
+	public void disableRespawnMode() {
+		
+		loadSprites("/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/"+ "EnemyTypeB.gif");
+		respawnMode = true;
 	}
 	
     public void disableFrightenedMode() {

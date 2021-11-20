@@ -97,9 +97,6 @@ public class EnemyTypeC extends Enemy {
 					setNextDirection(Direction.DOWN);
 			}
 		
-		setDirection(nextDirection);
-		
-		game.move(this);
 	}
 
 	@Override
@@ -110,14 +107,17 @@ public class EnemyTypeC extends Enemy {
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.LEFT);
 		
-		setDirection(nextDirection);
-		
-		game.move(this);
-		
 		if (yValue < 7 * 36 )
 			isInsideHouse = false;
 		
 	}
+	
+	public void disableRespawnMode() {
+		
+		loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");
+		respawnMode = true;
+	}
+	
 	
     public void disableFrightenedMode() {
     	speed = chaseSpeed;

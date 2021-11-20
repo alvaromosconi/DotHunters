@@ -1,6 +1,8 @@
 package logic;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,6 +15,7 @@ import java.util.Random;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 import entities.*;
 import entities.Character;
@@ -135,12 +138,13 @@ public class Game {
 
 
 	    			try {
-
+	    			
 						Thread.sleep(15);
-						for (Enemy enemy : enemies)
-
+						for (Enemy enemy : enemies) {
+							
 							enemy.executeCurrentBehaviour();
 
+						}
 	    			}
 
 	    			catch (InterruptedException e) {
@@ -161,9 +165,9 @@ public class Game {
 	 * Calcula la distancia en linea recta entre el punto (x1,y1) e (x2,y2)
 	 */
 
-	public int distance(int x1, int x2, int y1, int y2) {
+	public float distance(int x1, int x2, int y1, int y2) {
 
-		return (int) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 
 	/*
@@ -541,7 +545,18 @@ public class Game {
 			((Enemy) e).enableFrightenedMode();
 		}
 
-		new Time(this, 10000).start();
+		
+		new Timer(10000, (ActionListener) new ActionListener() {
+
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					disableFrightenedMode();
+					
+				}
+	        }).start();;
+	
 
 	}
 

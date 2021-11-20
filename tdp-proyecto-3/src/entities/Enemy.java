@@ -11,6 +11,7 @@ public abstract class Enemy extends Character {
 	
 	protected boolean frightenedMode;
 	protected boolean isInsideHouse;
+	protected boolean respawnMode;
 	
 	protected int initialXValue;
 	protected int initialYValue;
@@ -21,6 +22,7 @@ public abstract class Enemy extends Character {
 	
 		super(xValue, yValue, imageRoute, speed, game);
 		frightenedMode = false;
+    	respawnMode = false;
 		chaseSpeed = speed;
 	}
 	
@@ -36,17 +38,21 @@ public abstract class Enemy extends Character {
 	 
     public void executeCurrentBehaviour() {
     	
-    	if (IsInsideHouse())
+    	if (isInsideHouse)
 			exitHouse();
 		
-    	else if (getFrightenedMode()) 
+    	else if (frightenedMode) 
 			frightened();
 		
-		else
+		else if (!respawnMode)
 			chase();
+    	
+		setDirection(nextDirection);	
+		game.move(this);
     }	
     
     protected void frightened() {
+
 
     	Random rnd = new Random();
     	List<Direction> possibleDirections = getPossibleDirections(getOppositeDirection());
@@ -62,16 +68,22 @@ public abstract class Enemy extends Character {
     			
     	}
     	
-    	this.setDirection(nextDirection);
-    	game.move(this);
-		
     }
     
 	protected abstract void chase();
 	
 	protected abstract void exitHouse();
     
-    public boolean getFrightenedMode() {
+	public void enableRespawnMode() {
+	
+		loadSprites("/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif");
+		respawnMode = true;
+
+	}
+
+	public abstract void disableRespawnMode();
+	
+    public boolean isInFrightenedMode() {
     	
     	return frightenedMode;
     }

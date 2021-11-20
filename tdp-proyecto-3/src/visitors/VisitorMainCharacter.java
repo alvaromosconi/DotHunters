@@ -1,5 +1,10 @@
 package visitors;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import entities.ActivePotionTypeA;
 import entities.ActivePotionTypeB;
 import entities.Doorway;
@@ -126,16 +131,33 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitEnemy(Enemy enemy) {
 		
-		if (enemy.getFrightenedMode()) {
-			enemy.disableFrightenedMode();
-			enemy.IsInsideHouse(true);
-			enemy.setXValue(enemy.getInitialXValue());
-			enemy.setYValue(enemy.getInitialYValue());
-			modifyScore(200);
-		}
-		else {
-			player.getGame().gameOver();
-		}	
+		if (Math.abs(enemy.getXValue() - player.getXValue()) < 18 && Math.abs(enemy.getYValue() - player.getYValue()) < 18)
+			
+		
+			if (enemy.isInFrightenedMode()) {
+				
+			
+				enemy.setXValue(enemy.getInitialXValue());
+				enemy.setYValue(enemy.getInitialYValue());
+				enemy.disableFrightenedMode();
+				enemy.enableRespawnMode();
+				enemy.setDirection(Direction.STILL);
+				enemy.setNextDirection(Direction.STILL);			
+				
+				
+				// lo q deberia hacer post-timer
+				enemy.disableRespawnMode();
+				enemy.IsInsideHouse(true);
+					
+
+			    modifyScore(200);
+			}
+			
+			else {
+				player.getGame().gameOver();
+			}	
+		
+
 		
 	}
 

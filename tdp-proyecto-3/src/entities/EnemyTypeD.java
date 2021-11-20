@@ -59,12 +59,7 @@ public class EnemyTypeD extends Enemy {
 		
 		if (game.distance(xValue, player.getXValue(), yValue, player.getYValue()) <= 8 * 36)
 			goToCorner();
-			
-		setDirection(nextDirection);
-		
-		game.move(this);
-		
-		
+				
 	}
 
 	private void goToCorner() {
@@ -107,15 +102,17 @@ public class EnemyTypeD extends Enemy {
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.LEFT);
 		
-		setDirection(nextDirection);
-		
-		game.move(this);
-		
 		if (yValue < 7 * 36 )
 			isInsideHouse = false;
 		
 	}
 
+	public void disableRespawnMode() {
+		
+		loadSprites("/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/"+ "EnemyTypeD.gif");
+		respawnMode = true;
+	}
+	
 	@Override
 	public void disableFrightenedMode() {
 		

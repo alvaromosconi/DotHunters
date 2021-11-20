@@ -34,6 +34,7 @@ public class EnemyTypeA extends Enemy {
 		MainCharacter player = game.getPlayer();
 		float min = Float.MAX_VALUE;
 		
+		
 		if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
     		if (game.distance(xValue + (Direction.LEFT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue()) < min) {
     				min = game.distance(xValue + (Direction.LEFT.getXVelocity() * speed), player.getXValue(), yValue, player.getYValue());
@@ -58,16 +59,20 @@ public class EnemyTypeA extends Enemy {
 					setNextDirection(Direction.DOWN);
 			}
 		
-		setDirection(nextDirection);
-		
-		game.move(this);
+
 		
 	}
 
 	@Override
 	public void exitHouse() {
 	
-		isInsideHouse = false;
+		isInsideHouse = false;	
+	}
+	
+	public void disableRespawnMode() {
+		
+		loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
+		respawnMode = true;
 	}
 	
 
