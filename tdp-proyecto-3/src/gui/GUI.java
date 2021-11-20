@@ -128,7 +128,7 @@ public class GUI extends JFrame {
 		entityLabel.setBounds( (int) entity.getXValue(), (int) entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		System.out.println(entity.getImageRoute());
+//		System.out.println(entity.getImageRoute());
 		labelMap.put(entity, entityLabel);
 		panel.add(entityLabel);
 		panel.setComponentZOrder(labelMap.get(entity), 0);

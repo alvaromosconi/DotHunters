@@ -76,7 +76,6 @@ public class Game {
 		    String line;
 		    line = br.readLine();
 		    lowerScore = Integer.parseInt(line);
-		    System.out.println(lowerScore);
 		    br.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -564,11 +563,12 @@ public class Game {
 		String name = null;
 //		String domainRoute = "/assets/MarioAssets/Moneda.png";
 //		Icon icono = new ImageIcon(Game.class.getResource(domainRoute));
-		if(this.getScore() >= lowerScore) {
-			name = (String) JOptionPane.showInputDialog(null, "Type your name  please","Best 5 scores", JOptionPane.PLAIN_MESSAGE);
-		}
+		if(this.getScore() >= lowerScore) 
+			name = (String) JOptionPane.showInputDialog(null, "Type your name please","Best 5 scores", JOptionPane.PLAIN_MESSAGE);
+		
 		if(name == null)
 			name = "Unknown";
+		
 		myGameOverGUI = new GameOverGUI(this, name);
 		playerThread.stop();
 		enemiesThread.stop();

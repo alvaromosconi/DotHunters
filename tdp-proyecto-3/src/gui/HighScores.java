@@ -84,6 +84,7 @@ public class HighScores extends JFrame {
 		    lblScore2.setText(Scores[2]);
 		    lblScore3.setText(Scores[3]);
 		    lblScore4.setText(Scores[4]);
+		    
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,11 +108,11 @@ public class HighScores extends JFrame {
 		    		  originalFileContent+= Score+"-"+name + System.lineSeparator();
 		    		  replace = true;
 		    		  scoresAmount++;
-		    		  finalLowerScore = Score;
 		    	  }
 		    	  originalFileContent += line + System.lineSeparator();
 		    	  line = br.readLine();
 		    	  scoresAmount++;
+		    	  finalLowerScore = lowerScore;
 		      }
 		      
 		      if (replace) {
