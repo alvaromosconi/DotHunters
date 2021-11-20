@@ -7,11 +7,16 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -46,8 +51,10 @@ public class Game {
 	private List<Enemy> enemies;
 	private List<Entity> allEntities;
 	private List<Entity> doorways;
+	
+	private Clip clip = null;
 
-	public Game () {
+	public Game () throws UnsupportedAudioFileException, Exception {
 
 		initializeLevel();
 		initializeZones();
@@ -71,6 +78,14 @@ public class Game {
 		chargeZonesWithDoorWays();
 
 		myGUI.setupBackground();
+		
+		String domainRouteSound = "/assets/MarioAssets/";	
+		AudioInputStream audioInputStream;
+		java.net.URL url = Game.class.getResource(domainRouteSound+"back.wav");
+		audioInputStream = AudioSystem.getAudioInputStream(url);
+		clip = AudioSystem.getClip();
+		clip.open(audioInputStream);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 		automaticMovement();
 		enemiesAi();
@@ -575,9 +590,9 @@ public class Game {
 
 
 		myGUI.dispose();
+		clip.stop();
+		clip.close();
 		String name = null;
-//		String domainRoute = "/assets/MarioAssets/Moneda.png";
-//		Icon icono = new ImageIcon(Game.class.getResource(domainRoute));
 		if(this.getScore() >= lowerScore) 
 			name = (String) JOptionPane.showInputDialog(null, "Type your name please","Best 5 scores", JOptionPane.PLAIN_MESSAGE);
 		
@@ -587,6 +602,7 @@ public class Game {
 		myGameOverGUI = new GameOverGUI(this, name);
 		playerThread.stop();
 		enemiesThread.stop();
+		
 	}
 
 	public int getScore() {
