@@ -1,6 +1,6 @@
 package visitors;
-import entities.ActivePotionTypeA;
-import entities.ActivePotionTypeB;
+import entities.PowerTypeA;
+import entities.PowerTypeB;
 import entities.Doorway;
 import entities.Enemy;
 import entities.EnemyTypeA;
@@ -34,9 +34,9 @@ public interface Visitor {
 	
 	public void visitWall(Wall w);
 	
-	public void visitActivePotionTypeA(ActivePotionTypeA a);
+	public void visitActivePotionTypeA(PowerTypeA a);
 	
-	public void visitActivePotionTypeB(ActivePotionTypeB a);
+	public void visitActivePotionTypeB(PowerTypeB a);
 
 	public void visitDoorway(Doorway doorway);
 

@@ -1,5 +1,6 @@
 package gui;
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -17,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-import entities.ActivePotionTypeA;
+import entities.PowerTypeA;
 import entities.Entity;
 import logic.Game;
 import java.awt.Font;
@@ -101,9 +102,7 @@ public class GUI extends JFrame {
 				
 				if (e.getKeyCode() == KeyEvent.VK_P)
 				   game.potionTypeAEvent();
-				if (e.getKeyCode() == KeyEvent.VK_O)
-					game.potionTypeBEvent();
-				if(!(e.getKeyCode() == KeyEvent.VK_O) && !(e.getKeyCode() == KeyEvent.VK_P))
+				else
 				   game.movePlayer(e);
 			
 			}
@@ -122,8 +121,8 @@ public class GUI extends JFrame {
 		JLabel entityLabel = new JLabel("");
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
 
-	//	entityLabel.setOpaque(rootPaneCheckingEnabled);
-	//	entityLabel.setBackground(Color.BLUE);
+		entityLabel.setOpaque(rootPaneCheckingEnabled);
+		entityLabel.setBackground(Color.BLUE);
 	
 		entityLabel.setBounds( (int) entity.getXValue(), (int) entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);
@@ -187,21 +186,7 @@ public class GUI extends JFrame {
 		
 		panel.remove(labelMap.get(entityToDestroy));
 		labelMap.remove(entityToDestroy);
+
 	}
 
-	public void deleteEntity(Entity a) {
-		
-	   new Timer(1700, (ActionListener) new ActionListener() {
-
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				destroyEntity(a);
-				
-			}
-        }).start();;
-        // start Tick-Tack
-      
-	}
 }

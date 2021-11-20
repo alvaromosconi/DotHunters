@@ -64,8 +64,8 @@ public class Director {
 		Dot poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute, game);
 		
 		// Creacion de las potions
-		Potion potion1 = new PotionTypeA(7 * size + 6, 7 * size + 6, 30, potionTypeARoute, game);
-		Potion potion2 = new PotionTypeB(19 * size + 12, 7 * size + 12, 30, potionTypeBRoute, game);
+		Potion potion1 = new PotionTypeA(7 * size, 7 * size, potionTypeARoute, game);
+		Potion potion2 = new PotionTypeB(19 * size , 7 * size, potionTypeBRoute, game);
 		
 		// Creacion de las frutas
 		Fruit fruit1 = new FruitTypeA(size * 11 , size * 13 , 50, fruitTypeARoute, game);

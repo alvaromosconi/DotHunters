@@ -7,11 +7,10 @@ import visitors.VisitorPotionTypeB;
 
 public class PotionTypeB extends Potion {
 
-	public PotionTypeB(int xValue, int yValue, int v, String imageRoute, Game game) {
+	public PotionTypeB(int xValue, int yValue, String imageRoute, Game game) {
 		
 		super(xValue, yValue, imageRoute, game);
 		
-		this.value = v;
 		
 		visitor = new VisitorPotionTypeB(this);
 	}

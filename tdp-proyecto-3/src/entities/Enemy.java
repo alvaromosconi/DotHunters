@@ -9,9 +9,11 @@ import logic.Direction;
 
 public abstract class Enemy extends Character {
 	
-	protected boolean frightenedMode;
-	protected boolean isInsideHouse;
-	protected boolean respawnMode;
+//	protected boolean frightenedMode;
+//	protected boolean isInsideHouse;
+//	protected boolean respawnMode;
+	
+	protected State state;
 	
 	protected int initialXValue;
 	protected int initialYValue;
@@ -21,31 +23,63 @@ public abstract class Enemy extends Character {
 	public Enemy(int xValue, int yValue, String imageRoute, int speed, Game game) {
 	
 		super(xValue, yValue, imageRoute, speed, game);
-		frightenedMode = false;
-    	respawnMode = false;
+//		frightenedMode = false;
+//    	respawnMode = false;
 		chaseSpeed = speed;
+		state = State.LEAVINGHOUSE;
+		
 	}
 	
+	public enum State {
+		FRIGHTENED,CHASING,RESPAWNING,LEAVINGHOUSE;
+	}
+	
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
+	}
  
     public void enableFrightenedMode() {
-    	
-    	speed = frightenedSpeed;
-    	loadSprites("/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedBack.gif", "/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedFront.gif");
-    	frightenedMode = true;
+    		state = State.FRIGHTENED;
+    		speed = frightenedSpeed;
+    		loadSprites("/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedBack.gif", "/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedFront.gif");
+
     }
     
     public abstract void disableFrightenedMode();
 	 
     public void executeCurrentBehaviour() {
     	
-    	if (isInsideHouse)
+    	/*if (isInsideHouse)
 			exitHouse();
 		
-    	else if (frightenedMode) 
+    	else if (frightenedMode)
 			frightened();
 		
 		else if (!respawnMode)
 			chase();
+    	*/
+    	switch(state) {
+    		case FRIGHTENED:{
+    			frightened();
+    			break;
+    		}	
+    		case LEAVINGHOUSE:{
+    			exitHouse();
+    			break;
+    		}	
+    		case CHASING:{
+    			chase();
+    			break;
+    		}
+    		case RESPAWNING:{
+    			break;
+    		}
+    		default:
+    			break;
+    	}
     	
 		setDirection(nextDirection);	
 		game.move(this);
@@ -75,28 +109,31 @@ public abstract class Enemy extends Character {
 	protected abstract void exitHouse();
     
 	public void enableRespawnMode() {
-	
-		loadSprites("/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif");
-		respawnMode = true;
-
+			state = State.RESPAWNING;
+			loadSprites("/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif");
 	}
 
 	public abstract void disableRespawnMode();
 	
-    public boolean isInFrightenedMode() {
-    	
-    	return frightenedMode;
-    }
-    
-    public boolean IsInsideHouse() {
-    	
-    	return isInsideHouse;
-    }
-    
-    public void IsInsideHouse(boolean b) {
-    	
-    	isInsideHouse = b;
-    }
+//    public boolean isInFrightenedMode() {
+//    	
+//    	return frightenedMode;
+//    }
+//    
+//    public boolean isInRespawnMode() {
+//    	
+//    	return respawnMode;
+//    }
+//    
+//    public boolean IsInsideHouse() {
+//    	
+//    	return isInsideHouse;
+//    }
+//    
+//    public void IsInsideHouse(boolean b) {
+//    	
+//    	isInsideHouse = b;
+//    }
     
     public int getInitialXValue() {
     	
@@ -124,5 +161,4 @@ public abstract class Enemy extends Character {
        	
        	return possibleDirections;
     }
-
 }

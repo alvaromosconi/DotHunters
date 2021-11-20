@@ -1,23 +1,26 @@
 package visitors;
 
 import entities.*;
+
 import logic.Direction;
 import logic.Game;
+import timeHandlers.PowerTimer;
+import timeHandlers.RespawnTimer;
 
 public class VisitorEnemy implements Visitor {
 
 	
-	private Enemy entity;
+	private Enemy enemy;
 	
 	public VisitorEnemy(Enemy enemy) {
 		
-		this.entity = enemy;
+		this.enemy = enemy;
 	}
 	
 	@Override
 	public void visitWall(Wall w) {
 	
-		entity.setDirection(Direction.STILL);
+		enemy.setDirection(Direction.STILL);
 		
 
 	}
@@ -72,30 +75,35 @@ public class VisitorEnemy implements Visitor {
 	}
 
 	@Override
-	public void visitActivePotionTypeA(ActivePotionTypeA a) {
+	public void visitActivePotionTypeA(PowerTypeA a) {
 		
-		Game myGame = entity.getGame();
+		Game myGame = enemy.getGame();
 		a.setImageRoute("/assets/MarioAssets/explosion.gif");
 		myGame.getGUI().refreshImage(a);
-		myGame.getGUI().deleteEntity(a);
-		entity.setDirection(Direction.STILL);
-
-		entity.disableFrightenedMode();
-		entity.setXValue(entity.getInitialXValue());
-		entity.setYValue(entity.getInitialYValue());
+		//myGame.getGUI().deleteEntity(a);
+		new PowerTimer(a,1000).start();
+		enemy.setDirection(Direction.STILL);
+		enemy.setNextDirection(Direction.STILL);
+		
+		if (enemy.getState() == entities.Enemy.State.FRIGHTENED)
+			enemy.disableFrightenedMode();		
+		enemy.enableRespawnMode();
+		new RespawnTimer(enemy, 15000).start();
+		enemy.setXValue(enemy.getInitialXValue());
+		enemy.setYValue(enemy.getInitialYValue());
 	}
 
 	@Override
 	public void visitDoorway(Doorway doorway) {
 	
 		int size = 36;
-		float xPosition = entity.getXValue();
+		float xPosition = enemy.getXValue();
 		if (xPosition < 0) {
-			entity.setXValue(26 * size);
+			enemy.setXValue(26 * size);
 		}
 		if ( xPosition > 26 * size) {
 			
-			entity.setXValue(0);
+			enemy.setXValue(0);
 		}
 		
 	}
@@ -107,11 +115,11 @@ public class VisitorEnemy implements Visitor {
 	}
 
 	@Override
-	public void visitActivePotionTypeB(ActivePotionTypeB a) {
-		entity.setDirection(Direction.STILL);
-		entity.disableFrightenedMode();
-		entity.setXValue(entity.getInitialXValue());
-		entity.setYValue(entity.getInitialYValue());	
+	public void visitActivePotionTypeB(PowerTypeB a) {
+		enemy.setDirection(Direction.STILL);
+		enemy.disableFrightenedMode();
+		enemy.setXValue(enemy.getInitialXValue());
+		enemy.setYValue(enemy.getInitialYValue());	
 	}
 
 

@@ -1,4 +1,5 @@
 package entities;
+import entities.Enemy.State;
 import logic.Direction;
 import logic.Game;
 import visitors.Visitor;
@@ -15,7 +16,7 @@ public class EnemyTypeC extends Enemy {
 		initialYValue = yValue;
 
 		visitor = new VisitorEnemy(this);
-		isInsideHouse = true;
+
 	}
 	
 	@Override
@@ -108,21 +109,21 @@ public class EnemyTypeC extends Enemy {
 		else setNextDirection(Direction.LEFT);
 		
 		if (yValue < 7 * 36 )
-			isInsideHouse = false;
+			state = State.CHASING;	
 		
 	}
 	
 	public void disableRespawnMode() {
-		
+		state = State.CHASING;
 		loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");
-		respawnMode = true;
+
 	}
 	
 	
     public void disableFrightenedMode() {
     	speed = chaseSpeed;
     	loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");
-    	frightenedMode = false;
+    
     }
 
 }

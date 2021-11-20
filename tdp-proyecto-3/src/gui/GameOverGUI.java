@@ -14,18 +14,32 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class GameOverGUI extends JFrame {
+	private JTextField textFieldPlayerName;
 
-	public GameOverGUI(Game game, String name) {
+	public GameOverGUI(Game game) {
 		getContentPane().setLayout(null);
-		;
+		
+		textFieldPlayerName = new JTextField();
+		textFieldPlayerName.grabFocus();
+		textFieldPlayerName.setForeground(Color.MAGENTA);
+		textFieldPlayerName.setFont(new Font("Dialog", Font.PLAIN, 15));
+		textFieldPlayerName.setBackground(Color.BLUE);
+		textFieldPlayerName.setText("Player");
+		textFieldPlayerName.setBounds(213, 256, 148, 20);
+		textFieldPlayerName.setBorder(null);
+		textFieldPlayerName.setColumns(10);
+		textFieldPlayerName.grabFocus();
+		getContentPane().add(textFieldPlayerName);
+		
 		
 		JButton btnHighScores = new JButton("High Scores");
 		btnHighScores.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				HighScores hs = new HighScores();
-				hs.addScore(game.getScore(), name);
+				hs.addScore(game.getScore(),textFieldPlayerName.getText());
 				dispose();
 			}
 		});
@@ -37,10 +51,21 @@ public class GameOverGUI extends JFrame {
 				dispose();
 			}
 		});
+		
+		JLabel lblNewLabel = new JLabel("Your name:");
+		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(80, 248, 123, 32);
+		getContentPane().add(lblNewLabel);
+		
+		
+		
+		
 		btnReset.setIcon(new ImageIcon(GameOverGUI.class.getResource("/assets/reset.png")));
 		btnReset.setBounds(385, 0, 46, 42);
 		getContentPane().add(btnReset);
-		btnHighScores.setBounds(155,250, 112, 29);
+		
+		btnHighScores.setBounds(155,301, 112, 29);
 		getContentPane().add(btnHighScores);
 		
 		JLabel lblScore = new JLabel("Your score: " + game.getScore());
@@ -67,6 +92,8 @@ public class GameOverGUI extends JFrame {
         setMinimumSize(new Dimension(450, 400)); 
         setLocationRelativeTo(null);        
 		
+        textFieldPlayerName.requestFocus();
+        
 	    setResizable(false);
 	}
 }

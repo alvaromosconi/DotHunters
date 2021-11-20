@@ -1,4 +1,5 @@
 package entities;
+import entities.Enemy.State;
 import logic.Direction;
 import logic.Game;
 import visitors.Visitor;
@@ -16,9 +17,9 @@ public class EnemyTypeA extends Enemy {
 		this.currentDirection = Direction.LEFT;
 		this.nextDirection = Direction.LEFT;
 
-		isInsideHouse = false;
 		
 		visitor = new VisitorEnemy(this);	
+		this.setState(State.CHASING);
 	}
 		
 	@Override
@@ -66,13 +67,13 @@ public class EnemyTypeA extends Enemy {
 	@Override
 	public void exitHouse() {
 	
-		isInsideHouse = false;	
+		state = State.CHASING;		
 	}
 	
 	public void disableRespawnMode() {
 		
 		loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
-		respawnMode = true;
+
 	}
 	
 
@@ -80,7 +81,7 @@ public class EnemyTypeA extends Enemy {
     	
     	speed = chaseSpeed;
     	loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
-    	frightenedMode = false;
+
     }
 
 

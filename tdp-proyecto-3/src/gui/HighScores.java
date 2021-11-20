@@ -13,13 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class HighScores extends JFrame {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String file = "highScores.txt";
-	private String fileLowerScore = "lowerScore.txt";
 	private JPanel contentPane;
 	private JLabel lblScore0;
 	private JLabel lblScore1;
@@ -34,7 +33,7 @@ public class HighScores extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		super.setVisible(true);
-		
+
 		JLabel title = new JLabel("High Scores");
 		title.setBounds(214, 11, 424, 14);
 		JLabel lblScoreWord = new JLabel("Score:");
@@ -42,39 +41,39 @@ public class HighScores extends JFrame {
 		lblScoreWord.setBounds(983, 11, 107, 23);
 		contentPane.setLayout(null);
 		contentPane.add(title);
-		
+
 		lblScore0 = new JLabel("New label");
 		lblScore0.setBounds(56, 75, 436, 14);
 		contentPane.add(lblScore0);
-		
+
 		lblScore1 = new JLabel("New label");
 		lblScore1.setBounds(56, 100, 869, 14);
 		contentPane.add(lblScore1);
-		
+
 		lblScore2 = new JLabel("New label");
 		lblScore2.setBounds(56, 125, 869, 14);
 		contentPane.add(lblScore2);
-		
+
 		lblScore3 = new JLabel("New label");
 		lblScore3.setBounds(56, 150, 869, 14);
 		contentPane.add(lblScore3);
-		
+
 		lblScore4 = new JLabel("New label");
 		lblScore4.setBounds(56, 175, 869, 14);
 		contentPane.add(lblScore4);
-		
+
 		chargeScores();
-		
-		
+
+
 	}
-	
+
 	public void chargeScores() {
 
 		String[] Scores = new String[5];
 		int i = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 		    String line;
-		    while ((line = br.readLine()) != null && i < 5) {
+		    while ((line = br.readLine()) != null) {
 		    	Scores[i] = line;
 		    	i++;
 		    }
@@ -84,18 +83,16 @@ public class HighScores extends JFrame {
 		    lblScore2.setText(Scores[2]);
 		    lblScore3.setText(Scores[3]);
 		    lblScore4.setText(Scores[4]);
-		    
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
-	
+
 	public void addScore(int Score, String name) {
 		int lowerScore = 0;
-		int finalLowerScore = 0;
 		String originalFileContent = "";
 		boolean replace = false;
 		try {
@@ -112,20 +109,14 @@ public class HighScores extends JFrame {
 		    	  originalFileContent += line + System.lineSeparator();
 		    	  line = br.readLine();
 		    	  scoresAmount++;
-		    	  finalLowerScore = lowerScore;
 		      }
-		      
+
 		      if (replace) {
 		    	  String modifiedContent = originalFileContent;
 		    	  BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		    	  writer.write(modifiedContent);
 		    	  writer.close();
-		    	  
-		    	  
-		    	  BufferedWriter writerLowerScore = new BufferedWriter(new FileWriter(fileLowerScore));
-		    	  writerLowerScore.write(finalLowerScore+"");
-		    	  writerLowerScore.close();
-		    	  
+
 		      }
 		      br.close();
 		}catch(IOException e) {
@@ -133,7 +124,7 @@ public class HighScores extends JFrame {
 		}
 		chargeScores();
 	}
-	
+
 	public int countScores() {
 		int amount = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {

@@ -1,4 +1,6 @@
-package logic;
+package timeHandlers;
+
+import logic.Game;
 
 public class Time extends Thread {
 

@@ -17,7 +17,6 @@ public class EnemyTypeB extends Enemy {
 		initialYValue = yValue;
 		
 		visitor = new VisitorEnemy(this);
-		isInsideHouse = true;
 	}
 	
 	@Override
@@ -87,19 +86,18 @@ public class EnemyTypeB extends Enemy {
 		
 		
 		if (yValue < 7 * 36 )
-			isInsideHouse = false;	
+			state = State.CHASING;	
 	}
 	
 	public void disableRespawnMode() {
-		
+		state = State.CHASING;
 		loadSprites("/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/"+ "EnemyTypeB.gif");
-		respawnMode = true;
 	}
 	
     public void disableFrightenedMode() {
     	speed = chaseSpeed;
     	loadSprites("/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/"+ "EnemyTypeB.gif");
-    	frightenedMode = false;
+    	
     }
 
 }

@@ -22,6 +22,7 @@ import entities.Character;
 import gui.GUI;
 import gui.GameOverGUI;
 import logic.Direction;
+import timeHandlers.Time;
 
 public class Game {
 
@@ -29,8 +30,8 @@ public class Game {
 	private GUI myGUI;
 	private Zone[][] myZones;
 	private int score;
-	private int lowerScore;
-	private String file = "lowerScore.txt";
+	private int itemsConsumed;
+	//private String file = "lowerScore.txt";
 
 	private Thread playerThread;
 	private Thread enemiesThread;
@@ -74,16 +75,6 @@ public class Game {
 
 		automaticMovement();
 		enemiesAi();
-
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-		    String line;
-		    line = br.readLine();
-		    lowerScore = Integer.parseInt(line);
-		    br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 
@@ -234,7 +225,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aï¿½aden las entidades a la o las zonas que correspondan.
+	 * Se añaden las entidades a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithEntities() {
 
@@ -262,7 +253,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aï¿½aden los portales a la o las zonas que correspondan.
+	 * Se añaden los portales a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithDoorWays() {
 
@@ -509,7 +500,7 @@ public class Game {
 
 		if (player.getPotionTypeA()){
 
-			ActivePotionTypeA power = new ActivePotionTypeA(player.getXValue(), player.getYValue(), "/assets/MarioAssets/bomb.png", this);
+			PowerTypeA power = new PowerTypeA(player.getXValue(), player.getYValue(), "/assets/MarioAssets/bomb.png", this);
 			allEntities.add(power);
 
 			chargeZonesWithEntities();
@@ -517,17 +508,6 @@ public class Game {
 		}
 	}
 
-	public void potionTypeBEvent() {
-
-		if (player.getPotionTypeB()){
-
-			ActivePotionTypeB power = new ActivePotionTypeB(player.getXValue(), player.getYValue(), "/assets/MarioAssets/turtle.png", this);
-			allEntities.add(power);
-
-			chargeZonesWithEntities();
-			player.setPotionTypeB(false);
-		}
-	}
 
 	public GUI getGUI() {
 
@@ -541,21 +521,13 @@ public class Game {
 
 	public void enableFrightenedMode() {
 
-		for (Entity e: enemies) {
-			((Enemy) e).enableFrightenedMode();
+		for (Enemy e: enemies) {
+			if (e.getState()!= entities.Enemy.State.RESPAWNING)
+				e.enableFrightenedMode();
 		}
 
 		
-		new Timer(10000, (ActionListener) new ActionListener() {
-
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					disableFrightenedMode();
-					
-				}
-	        }).start();;
+		new Time(this, 10000).start();;
 	
 
 	}
@@ -574,17 +546,8 @@ public class Game {
 		player.setDirection(Direction.STILL);
 
 
-		myGUI.dispose();
-		String name = null;
-//		String domainRoute = "/assets/MarioAssets/Moneda.png";
-//		Icon icono = new ImageIcon(Game.class.getResource(domainRoute));
-		if(this.getScore() >= lowerScore) 
-			name = (String) JOptionPane.showInputDialog(null, "Type your name please","Best 5 scores", JOptionPane.PLAIN_MESSAGE);
-		
-		if(name == null)
-			name = "Unknown";
-		
-		myGameOverGUI = new GameOverGUI(this, name);
+		myGUI.dispose();		
+		myGameOverGUI = new GameOverGUI(this);
 		playerThread.stop();
 		enemiesThread.stop();
 	}
@@ -608,13 +571,17 @@ public class Game {
 	public void disableFrightenedMode() {
 
 
-		for (Enemy enemy: enemies)
-			enemy.disableFrightenedMode();
+		for (Enemy enemy: enemies) {
+			if(enemy.getState() == entities.Enemy.State.FRIGHTENED) {
+				enemy.disableFrightenedMode();
+				enemy.setState(entities.Enemy.State.CHASING);
+			}
+		}
 
 	}
 
 
-	public synchronized void destroyEntity(Entity entityToDestroy) {
+	public void destroyEntity(Entity entityToDestroy) {
 
 		allEntities.remove(entityToDestroy);
 		components.remove(entityToDestroy);
@@ -643,8 +610,11 @@ public class Game {
 	public void checkIfWin() {
 
 		if (components.size() <= 2)
-			System.out.println("Gano");
+			System.out.println("GANASTE CAPO");
 
+	}
+	public void itemConsumed() {
+		itemsConsumed++;
 	}
 
 }
