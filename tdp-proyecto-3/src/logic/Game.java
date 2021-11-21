@@ -25,9 +25,11 @@ public class Game {
 	private int score;
 	private Thread playerThread;
 	private Thread enemiesThread;
+	private String domainRoute = "";
 
 	private GameOverGUI myGameOverGUI;
 
+	private boolean frigthenedTimer;
 	private boolean gameOver = false;
 	private int level = 1;
 
@@ -44,20 +46,16 @@ public class Game {
 
 	private Clip clip = null;
 
-	public Game() throws UnsupportedAudioFileException, Exception {
-
+	public Game(String domainRoute) throws UnsupportedAudioFileException, Exception {
+		this.domainRoute = domainRoute;
 		director = new Director(this);
 		levelBuilder = new LevelBuilder();
-		
 		initializeLevel();	
 		
 		automaticMovement();			// Arrancar hilo del jugador.
 		enemiesAi();					// Arrancar hilo de los enemigos.
-		
-		String domainRouteSound = "/assets/MarioAssets/"; //Especifico de Mario --- Cambiar
-
 		AudioInputStream audioInputStream;
-		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
+		java.net.URL url = Game.class.getResource(domainRoute + "back.wav");
 		audioInputStream = AudioSystem.getAudioInputStream(url);
 		clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
@@ -554,13 +552,15 @@ public class Game {
 
 	public void enableFrightenedMode() {
 
-		for (Enemy enemy : enemies) 
+		for (Enemy enemy : enemies) {
 			
-			if (enemy.getState() != State.RESPAWNING)
+			if (enemy.getState() != State.RESPAWNING ) {
 				enemy.enableFrightenedMode();
-
-		new Time(this, 10000).start();
-
+				frigthenedTimer = true;
+			}
+			
+		}
+		new Time(this, 10000).start();;
 	}
 
 	/*
@@ -578,7 +578,7 @@ public class Game {
 		myGUI.dispose();
 		clip.stop();
 		clip.close();
-		myGameOverGUI = new GameOverGUI(this);
+		myGameOverGUI = new GameOverGUI(this,domainRoute);
 		playerThread.stop();
 		enemiesThread.stop();
 	}
@@ -591,7 +591,7 @@ public class Game {
 
 		for (Enemy enemy : enemies) {
 			
-			if (enemy.getState() == State.FRIGHTENED) {
+			if (enemy.getState() == State.FRIGHTENED && !frigthenedTimer) {
 				
 				enemy.disableFrightenedMode();
 				enemy.setState(State.CHASING);
@@ -678,5 +678,11 @@ public class Game {
 
 		return myGUI;
 	}
-	
+	/*
+	 * Modifica el boolean para determinar si un enemigo se encontraba en modo "asustado" y poder reiniciar la duracion de dicho estado
+	 * @param f corresponde a si el estado del enemigo es "asustado"
+	 */
+	public void setFrightenedTimer(boolean f) {
+		this.frigthenedTimer = f;
+	}
 }

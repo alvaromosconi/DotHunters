@@ -53,7 +53,7 @@ public class Director {
 		List<Entity> zonaSinDots = new ArrayList<Entity>();
 		
 		// Creacion del jugador
-		MainCharacter player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", 4, game);
+		MainCharacter player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", 2, game);
 		player.loadSprites(domainRoute + "PlayerUP.gif", domainRoute + "PlayerDown.gif", domainRoute + "PlayerRight.gif", domainRoute + "PlayerLeft.gif");
 		
 		// Creacion de los dots
@@ -185,7 +185,7 @@ public class Director {
 		List<Entity> zonaSinDots = new ArrayList<Entity>();
 	
 		// Creacion del jugador
-		MainCharacter player = new MainCharacter(13 * size, 11 * size, domainRoute + "PlayerDown.gif", 4, game);
+		MainCharacter player = new MainCharacter(13 * size, 11 * size, domainRoute + "PlayerDown.gif", 2, game);
 		player.loadSprites(domainRoute + "PlayerUP.gif", domainRoute + "PlayerDown.gif", domainRoute + "PlayerRight.gif", domainRoute + "PlayerLeft.gif");
 		
 		// Creacion de los dots

@@ -166,40 +166,38 @@ public class VisitorMainCharacter implements Visitor {
 
 
 	@Override
-	public void visitEnemy(Enemy enemy) {
-		
-		// Calculo para que la colision no sea inmediata al intersectarse los rectangulos
-		if (Math.abs(enemy.getXValue() - player.getXValue()) < 18 && Math.abs(enemy.getYValue() - player.getYValue()) < 18)
-			
-			// Si el estado actual del enemigo es "asustado"
-			if (enemy.getState() == State.FRIGHTENED) {
-				
-				// Trasladar enemigo a su posicion inicial
-				enemy.setXValue(enemy.getInitialXValue());
-				enemy.setYValue(enemy.getInitialYValue());
-				// Desactivar estado "asustado"
-				enemy.disableFrightenedMode();
-				// Activar estado "reaparicion"
-				enemy.enableRespawnMode();
-				// Dejar inmovil al enemigo
-				enemy.setDirection(Direction.STILL);
-				enemy.setNextDirection(Direction.STILL);			
-				
-				// Esperar x cantidad de tiempo antes de volver a establecer los enemigos en estado "persecucion"
-				new RespawnTimer(enemy, 15000).start();
-					
+    public void visitEnemy(Enemy enemy) {
 
-			    modifyScore(200);
-			}
-			
-			// Caso contrario, si el enemigo no se encuentra en estado de "reaparicion" acabar el juego.
-			else if (enemy.getState() != State.RESPAWNING){
-				player.getGame().gameOver();
-			}	
-		
+        // Calculo para que la colision no sea inmediata al intersectarse los rectangulos
+        if (Math.abs(enemy.getXValue() - player.getXValue()) < 18 && Math.abs(enemy.getYValue() - player.getYValue()) < 18)
 
-		
-	}
+            // Si el estado actual del enemigo es "asustado"
+            if (enemy.getState() == State.FRIGHTENED) {
+
+                // Trasladar enemigo a su posicion inicial
+                enemy.setXValue(enemy.getInitialXValue());
+                enemy.setYValue(enemy.getInitialYValue());
+                // Desactivar estado "asustado"
+                enemy.disableFrightenedMode();
+                // Activar estado "reaparicion"
+                enemy.enableRespawnMode();
+                // Dejar inmovil al enemigo
+                enemy.setDirection(Direction.STILL);
+                enemy.setNextDirection(Direction.STILL);
+
+                // Esperar x cantidad de tiempo antes de volver a establecer los enemigos en estado "persecucion"
+                new RespawnTimer(enemy, 15000).start();
+
+
+                modifyScore(200);
+            }
+
+            // Caso contrario, si el enemigo no se encuentra en estado de "reaparicion" acabar el juego.
+            else if (enemy.getState() != State.RESPAWNING){
+                player.getGame().gameOver();
+            }
+
+    }
 
 	@Override
 	public void visitActivePotionTypeB(PowerTypeB a) {

@@ -18,9 +18,9 @@ public class Time extends Thread {
 	public void run() {
 		
 		try {
-			
 			Thread.sleep(step);		
 			game.disableFrightenedMode();
+			game.setFrightenedTimer(false);
 	
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

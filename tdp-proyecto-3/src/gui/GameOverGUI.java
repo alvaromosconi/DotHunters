@@ -22,7 +22,7 @@ public class GameOverGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldPlayerName;
 
-	public GameOverGUI(Game game) {
+	public GameOverGUI(Game game, String domainRoute) {
 		getContentPane().setLayout(null);
 		
 		textFieldPlayerName = new JTextField();
@@ -51,7 +51,7 @@ public class GameOverGUI extends JFrame {
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Game game = new Game();
+					Game game = new Game(domainRoute);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -69,7 +69,7 @@ public class GameOverGUI extends JFrame {
 		
 		
 		
-		btnReset.setIcon(new ImageIcon(GameOverGUI.class.getResource("/assets/reset.png")));
+		btnReset.setIcon(new ImageIcon(GameOverGUI.class.getResource("/assets/MenuAssets/reset.png")));
 		btnReset.setBounds(385, 0, 46, 42);
 		getContentPane().add(btnReset);
 		
@@ -84,7 +84,7 @@ public class GameOverGUI extends JFrame {
 		getContentPane().add(lblScore);
 		
 		JLabel lblGameOver = new JLabel("");
-		lblGameOver.setIcon(new ImageIcon(GameOverGUI.class.getResource("/assets/GameOver.png")));
+		lblGameOver.setIcon(new ImageIcon(GameOverGUI.class.getResource("/assets/MenuAssets/GameOver.png")));
 		lblGameOver.setBounds(0, 0, 444, 365);
 		getContentPane().add(lblGameOver);
 		
