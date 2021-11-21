@@ -31,6 +31,9 @@ public class Game {
 	private boolean gameOver = false;
 	private int level = 1;
 
+	Director director;
+	LevelBuilder levelBuilder;
+	
 	private MainCharacter player;
 
 	private List<Wall> walls;
@@ -43,41 +46,22 @@ public class Game {
 
 	public Game() throws UnsupportedAudioFileException, Exception {
 
+		director = new Director(this);
+		levelBuilder = new LevelBuilder();
+		
 		initializeLevel();	
-
+		
+		automaticMovement();			// Arrancar hilo del jugador.
+		enemiesAi();					// Arrancar hilo de los enemigos.
+		
 		String domainRouteSound = "/assets/MarioAssets/"; //Especifico de Mario --- Cambiar
 
-//		AudioInputStream audioInputStream;
-//		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
-//		audioInputStream = AudioSystem.getAudioInputStream(url);
-//		clip = AudioSystem.getClip();
-//		clip.open(audioInputStream);
-//		clip.loop(Clip.LOOP_CONTINUOUSLY);
-		
-	}
-
-	private void initializeGUI() {
-		player = currentLevel.getPlayer();
-		
-		myGUI = new GUI(this, currentLevel.getBackgroundUrl());
-		
-		this.walls = currentLevel.getWalls();
-		this.components = currentLevel.getComponents();
-		this.enemies = currentLevel.enemies();
-		this.doorways = currentLevel.getDoorWays();
-		
-		allEntities = new ArrayList<Entity>();
-		allEntities.add(player);
-		allEntities.addAll(components);
-		allEntities.addAll(enemies);
-		
-		chargeZonesWithWalls();
-		chargeZonesWithEntities();
-		chargeZonesWithDoorWays();
-		
-		myGUI.setupBackground();
-		automaticMovement();
-//		enemiesAi();
+		AudioInputStream audioInputStream;
+		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
+		audioInputStream = AudioSystem.getAudioInputStream(url);
+		clip = AudioSystem.getClip();
+		clip.open(audioInputStream);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		
 	}
 
@@ -90,9 +74,9 @@ public class Game {
 		playerThread = new Thread() {
 
 			public void run() {
-
+				
 				while (!gameOver) {
-
+	
 					try {
 
 						Thread.sleep(13);
@@ -146,17 +130,8 @@ public class Game {
 	}
 
 	/*
-	 * Calcula la distancia en linea recta entre los puntos (x1,y1) e (x2,y2)
-	 */
-
-	public float distance(int x1, int x2, int y1, int y2) {
-
-		return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-	}
-
-	/*
-	 * Inicializa las zonas del juego con su tamaï¿½o y ubicacion correspondiente,
-	 * usando el tamaï¿½o del mapa como referencia.
+	 * Inicializa las zonas del juego con su tamaño y ubicacion correspondiente,
+	 * usando el tamaño del mapa como referencia.
 	 */
 	private void initializeZones() {
 
@@ -189,7 +164,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aï¿½ï¿½aden las paredes a la o las zonas que correspondan.
+	 * Se añaden las paredes a la o las zonas que correspondan.
 	 */
 
 	private void chargeZonesWithWalls() {
@@ -218,7 +193,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aï¿½aden las entidades a la o las zonas que correspondan.
+	 * Se añaden las entidades a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithEntities() {
 
@@ -246,7 +221,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aï¿½aden los portales a la o las zonas que correspondan.
+	 * Se añaden los portales a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithDoorWays() {
 
@@ -274,45 +249,87 @@ public class Game {
 	}
 
 	/*
-	 * Se inicializa el nivel, obteniendolo del director.
+	 * Inicializador de niveles (Se obtienen del director)
+	 * 
 	 */
 	private void initializeLevel() {
-		System.out.println(level);
-	
-		Director director = new Director(this);
 
-		LevelBuilder levelBuilder = new LevelBuilder();
-		//System.out.println(level);
-		System.out.println("antes del switch");
-		switch(level){
-			case 1:{
+		switch (level) {
+			
+			case 1: {
+				
 				this.score = 0;
 				director.constructLevelOne(levelBuilder);
 				currentLevel = levelBuilder.getResult();
 				break;
 			}
-			case 2:{
+			
+			case 2: {
+				
 				director.constructLevelTwo(levelBuilder);
 				currentLevel = levelBuilder.getResult();
-				System.out.println("constructor nivel 2");
 				break;
 			}
-			case 3:{
+			
+			case 3: {
+				
 				director.constructLevelThree(levelBuilder);
 				currentLevel = levelBuilder.getResult();
 				break;
 			}
-			default:{
-				System.out.println("Congrats you win all the levels");
-				
-			}
+	
 		}
-		initializeZones();
-		//playerThread.stop();
-		initializeGUI();
-		gameOver = false;
-
+		
+		initializeZones();				// Inicializar zonas.
+		setupGUIandEntities();	
+		
 	}
+	
+	/*
+	 * Se inicializan las listas (obtenidas del nivel) y se cargan todas las entidades en el juego.
+	 */
+	private void setupGUIandEntities() {
+		
+		player = currentLevel.getPlayer();
+		
+		myGUI = new GUI(this, currentLevel.getBackgroundUrl());
+		
+		this.walls = currentLevel.getWalls();
+		this.components = currentLevel.getComponents();
+		this.enemies = currentLevel.enemies();
+		this.doorways = currentLevel.getDoorWays();
+		
+		allEntities = new ArrayList<Entity>();
+		allEntities.add(player);
+		allEntities.addAll(components);
+		allEntities.addAll(enemies);
+		
+		chargeZonesWithWalls();
+		chargeZonesWithEntities();
+		chargeZonesWithDoorWays();
+		
+		// Dibujar todo
+		myGUI.setupBackground();
+		
+	}
+	
+	/*
+	 * Chequea si el jugador consumio todos los Dots y Fruits (En este caso el tamaño 
+	 * de la lista de componentes deberia ser menor o igual a 2 ya que como maximo 
+	 * estarian las 2 potion)
+	 */	
+	public void checkIfWin() {
+
+		if (components.size() <= 5) {
+			
+			level++;
+			myGUI.dispose();
+	
+			initializeLevel();
+		}
+	}
+	
+	
 
 	/*
 	 * Recibe el input que detecto la GUI y responde acorde al movimiento requerido,
@@ -328,50 +345,49 @@ public class Game {
 
 			switch (keyPressed.getKeyCode()) {
 
-			case KeyEvent.VK_LEFT: {
+				case KeyEvent.VK_LEFT: {
+	
+					if (!collideWithWall(Direction.LEFT, player))
+						player.setDirection(Direction.LEFT);
+					else
+						player.setNextDirection(Direction.LEFT);
+	
+					break;
+				}
+	
+				case KeyEvent.VK_RIGHT: {
+	
+					if (!collideWithWall(Direction.RIGHT, player))
+						player.setDirection(Direction.RIGHT);
+	
+					else
+						player.setNextDirection(Direction.RIGHT);
+	
+					break;
+				}
+	
+				case KeyEvent.VK_UP: {
+	
+					if (!collideWithWall(Direction.UP, player))
+						player.setDirection(Direction.UP);
+					else
+						player.setNextDirection(Direction.UP);
+	
+					break;
+				}
+	
+				case KeyEvent.VK_DOWN: {
+	
+					if (!collideWithWall(Direction.DOWN, player))
+						player.setDirection(Direction.DOWN);
+	
+					else
+						player.setNextDirection(Direction.DOWN);
+	
+					break;
+				}
 
-				if (!collideWithWall(Direction.LEFT, player))
-					player.setDirection(Direction.LEFT);
-				else
-					player.setNextDirection(Direction.LEFT);
-
-				break;
 			}
-
-			case KeyEvent.VK_RIGHT: {
-
-				if (!collideWithWall(Direction.RIGHT, player))
-					player.setDirection(Direction.RIGHT);
-
-				else
-					player.setNextDirection(Direction.RIGHT);
-
-				break;
-			}
-
-			case KeyEvent.VK_UP: {
-
-				if (!collideWithWall(Direction.UP, player))
-					player.setDirection(Direction.UP);
-				else
-					player.setNextDirection(Direction.UP);
-
-				break;
-			}
-
-			case KeyEvent.VK_DOWN: {
-
-				if (!collideWithWall(Direction.DOWN, player))
-					player.setDirection(Direction.DOWN);
-
-				else
-					player.setNextDirection(Direction.DOWN);
-
-				break;
-			}
-
-			}
-
 	}
 
 	/*
@@ -565,7 +581,6 @@ public class Game {
 		myGameOverGUI = new GameOverGUI(this);
 		playerThread.stop();
 		enemiesThread.stop();
-
 	}
 
 	
@@ -615,23 +630,12 @@ public class Game {
 	}
 
 	/*
-	 * Chequea si el jugador consumio todos los Dots y Fruits (En este caso el tamaï¿½o 
-	 * de la lista de componentes deberia ser menor o igual a 2 ya que como maximo 
-	 * estarian las 2 potion)
-	 */	
-	public void checkIfWin() {
+	 * Calcula la distancia en linea recta entre los puntos (x1,y1) e (x2,y2)
+	 */
 
-		if (components.size() <= 5) {
-			gameOver = true;
-			System.out.println("GANASTE CAPO");
-			level++;
-			myGUI.dispose();
-//			playerThread.stop(); // decomentado no abre proximo nivel
-			playerThread.interrupt();
-			initializeLevel();
-		}
-			
+	public float distance(int x1, int x2, int y1, int y2) {
 
+		return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 	}
 
 	/*
@@ -675,11 +679,4 @@ public class Game {
 		return myGUI;
 	}
 	
-	public void clearAllLists() {
-		walls.clear();
-		doorways.clear();
-		components.clear();
-		enemies.clear();
-		allEntities.clear();
-	}
 }

@@ -132,13 +132,22 @@ public class GUI extends JFrame {
 	
 	public void refreshEntity(Entity entity) {
 
-		labelMap.get(entity).setLocation(entity.getXValue(), entity.getYValue());
+		JLabel entityLabel = labelMap.get(entity);
+		
+		if (entityLabel != null)
+			labelMap.get(entity).setLocation(entity.getXValue(), entity.getYValue());
 
 	}
 	
 	public void refreshImage(Entity entity ) {
-		labelMap.get(entity).setIcon(new ImageIcon(GUI.class.getResource(entity.getImageRoute())));
-		lblScoreNumber.setText(""+game.getScore());
+		
+		
+		JLabel entityLabel = labelMap.get(entity);
+		
+		if (entityLabel != null)
+			labelMap.get(entity).setIcon(new ImageIcon(GUI.class.getResource(entity.getImageRoute())));
+		
+		lblScoreNumber.setText("" + game.getScore());
 	}
 	
 	public void addWall(Entity w) {
