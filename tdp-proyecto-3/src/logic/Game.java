@@ -29,6 +29,7 @@ public class Game {
 	private GameOverGUI myGameOverGUI;
 
 	private boolean gameOver = false;
+	private int level = 1;
 
 	private MainCharacter player;
 
@@ -44,28 +45,12 @@ public class Game {
 
 		initializeLevel();
 		initializeZones();
+		initializeGUI();
+		
+//		automaticMovement();
+//		enemiesAi();
 
-		player = currentLevel.getPlayer();
-
-		myGUI = new GUI(this, currentLevel.getBackgroundUrl());
-
-		this.walls = currentLevel.getWalls();
-		this.components = currentLevel.getComponents();
-		this.enemies = currentLevel.enemies();
-		this.doorways = currentLevel.getDoorWays();
-
-		allEntities = new ArrayList<Entity>();
-		allEntities.add(player);
-		allEntities.addAll(components);
-		allEntities.addAll(enemies);
-
-		chargeZonesWithWalls();
-		chargeZonesWithEntities();
-		chargeZonesWithDoorWays();
-
-		myGUI.setupBackground();
-
-		String domainRouteSound = "/assets/MarioAssets/";
+		String domainRouteSound = "/assets/MarioAssets/"; //Especifico de Mario --- Cambiar
 		AudioInputStream audioInputStream;
 		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
 		audioInputStream = AudioSystem.getAudioInputStream(url);
@@ -73,8 +58,32 @@ public class Game {
 		clip.open(audioInputStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 
+		
+	}
+
+	private void initializeGUI() {
+		player = currentLevel.getPlayer();
+		
+		myGUI = new GUI(this, currentLevel.getBackgroundUrl());
+		
+		this.walls = currentLevel.getWalls();
+		this.components = currentLevel.getComponents();
+		this.enemies = currentLevel.enemies();
+		this.doorways = currentLevel.getDoorWays();
+		
+		allEntities = new ArrayList<Entity>();
+		allEntities.add(player);
+		allEntities.addAll(components);
+		allEntities.addAll(enemies);
+		
+		chargeZonesWithWalls();
+		chargeZonesWithEntities();
+		chargeZonesWithDoorWays();
+		
+		myGUI.setupBackground();
 		automaticMovement();
-		enemiesAi();
+//		enemiesAi();
+		
 	}
 
 	/*
@@ -151,8 +160,8 @@ public class Game {
 	}
 
 	/*
-	 * Inicializa las zonas del juego con su tamaño y ubicacion correspondiente,
-	 * usando el tamaño del mapa como referencia.
+	 * Inicializa las zonas del juego con su tamaï¿½o y ubicacion correspondiente,
+	 * usando el tamaï¿½o del mapa como referencia.
 	 */
 	private void initializeZones() {
 
@@ -185,7 +194,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aïñaden las paredes a la o las zonas que correspondan.
+	 * Se aï¿½ï¿½aden las paredes a la o las zonas que correspondan.
 	 */
 
 	private void chargeZonesWithWalls() {
@@ -214,7 +223,7 @@ public class Game {
 	}
 
 	/*
-	 * Se añaden las entidades a la o las zonas que correspondan.
+	 * Se aï¿½aden las entidades a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithEntities() {
 
@@ -242,7 +251,7 @@ public class Game {
 	}
 
 	/*
-	 * Se añaden los portales a la o las zonas que correspondan.
+	 * Se aï¿½aden los portales a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithDoorWays() {
 
@@ -280,11 +289,33 @@ public class Game {
 
 		LevelBuilder levelBuilder = new LevelBuilder();
 
-		director.constructLevelOne(levelBuilder);
-//		director.constructLevelTwo(levelBuilder);
-//		director.constructLevelThree(levelBuilder);
+		switch(level){
+			case 1:
+				director.constructLevelOne(levelBuilder);
+				currentLevel = levelBuilder.getResult();
+				initializeZones();
+				initializeGUI();
+				break;
+				
+			case 2:
+				director.constructLevelTwo(levelBuilder);
+				currentLevel = levelBuilder.getResult();
+				initializeZones();
+				initializeGUI();
+				break;
+				
+			case 3:
+				director.constructLevelThree(levelBuilder);
+				currentLevel = levelBuilder.getResult();
+				initializeZones();
+				initializeGUI();
+				break;
+			
+			default:
+				System.out.println("Congrats you win all the levels");
+		}
 
-		currentLevel = levelBuilder.getResult();
+//		currentLevel = levelBuilder.getResult();
 
 	}
 
@@ -351,10 +382,10 @@ public class Game {
 	/*
 	 * Detecta colisiones en la direccion recibida.
 	 * 
-	 * @param xVelocity velocidad horizontal que se le quiere aïñadir a el valor de
+	 * @param xVelocity velocidad horizontal que se le quiere aï¿½ï¿½adir a el valor de
 	 * x actual de la entidad.
 	 * 
-	 * @param yVelocity velocidad vertical que se le quiere añadir a el valor y
+	 * @param yVelocity velocidad vertical que se le quiere aï¿½adir a el valor y
 	 * actual de la entidad.
 	 * 
 	 * @param entityA entidad que requiere hacer el movimiento.
@@ -534,8 +565,6 @@ public class Game {
 		player.setDirection(Direction.STILL);
 
 		myGUI.dispose();
-		myGameOverGUI = new GameOverGUI(this);
-		myGUI.dispose();
 		clip.stop();
 		clip.close();
 		myGameOverGUI = new GameOverGUI(this);
@@ -591,14 +620,23 @@ public class Game {
 	}
 
 	/*
-	 * Chequea si el jugador consumio todos los Dots y Fruits (En este caso el tamaño 
+	 * Chequea si el jugador consumio todos los Dots y Fruits (En este caso el tamaï¿½o 
 	 * de la lista de componentes deberia ser menor o igual a 2 ya que como maximo 
 	 * estarian las 2 potion)
 	 */	
 	public void checkIfWin() {
 
-		if (components.size() <= 2)
+		if (components.size() <= 2) {
 			System.out.println("GANASTE CAPO");
+			level++;
+
+			myGUI.dispose();
+			playerThread.stop();
+			enemiesThread.stop();
+			
+			initializeLevel();
+		}
+			
 
 	}
 
@@ -617,7 +655,7 @@ public class Game {
 		this.score = score;
 	}
 
-	/* Metodo que utiliza EnemyTypeB para copiar los movimientos del EnemyTypeA y girarlos 180°
+	/* Metodo que utiliza EnemyTypeB para copiar los movimientos del EnemyTypeA y girarlos 180ï¿½
 	 * @return retorna el EnemyTypeA
 	 */
 	public Enemy getEnemyTypeA() {
