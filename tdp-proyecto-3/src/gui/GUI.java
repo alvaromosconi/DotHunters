@@ -76,6 +76,7 @@ public class GUI extends JFrame {
 
 		backgroundLabel.setLocation(0, 0);
 		getContentPane().add(backgroundLabel);
+		repaint();
 
 	}
 

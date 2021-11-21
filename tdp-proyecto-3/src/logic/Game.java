@@ -28,7 +28,7 @@ public class Game {
 
 	private GameOverGUI myGameOverGUI;
 
-	private boolean stopThread = false;
+	private boolean gameOver = false;
 	private int level = 1;
 
 	private MainCharacter player;
@@ -46,14 +46,13 @@ public class Game {
 		initializeLevel();	
 
 		String domainRouteSound = "/assets/MarioAssets/"; //Especifico de Mario --- Cambiar
-		/*
-		AudioInputStream audioInputStream;
-		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
-		audioInputStream = AudioSystem.getAudioInputStream(url);
-		clip = AudioSystem.getClip();
-		clip.open(audioInputStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
-		*/
+
+//		AudioInputStream audioInputStream;
+//		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
+//		audioInputStream = AudioSystem.getAudioInputStream(url);
+//		clip = AudioSystem.getClip();
+//		clip.open(audioInputStream);
+//		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		
 	}
 
@@ -92,7 +91,7 @@ public class Game {
 
 			public void run() {
 
-				while (!stopThread) {
+				while (!gameOver) {
 
 					try {
 
@@ -123,7 +122,7 @@ public class Game {
 
 			public void run() {
 
-				while (!stopThread) {
+				while (!gameOver) {
 
 					try {
 
@@ -279,8 +278,7 @@ public class Game {
 	 */
 	private void initializeLevel() {
 		System.out.println(level);
-		this.score = 0;
-
+	
 		Director director = new Director(this);
 
 		LevelBuilder levelBuilder = new LevelBuilder();
@@ -288,6 +286,7 @@ public class Game {
 		System.out.println("antes del switch");
 		switch(level){
 			case 1:{
+				this.score = 0;
 				director.constructLevelOne(levelBuilder);
 				currentLevel = levelBuilder.getResult();
 				break;
@@ -311,9 +310,7 @@ public class Game {
 		initializeZones();
 		//playerThread.stop();
 		initializeGUI();
-		
-
-//		currentLevel = levelBuilder.getResult();
+		gameOver = false;
 
 	}
 
@@ -327,7 +324,7 @@ public class Game {
 	 */
 	public synchronized void movePlayer(KeyEvent keyPressed) {
 
-		if (!stopThread)
+		if (!gameOver)
 
 			switch (keyPressed.getKeyCode()) {
 
@@ -555,7 +552,7 @@ public class Game {
 	 */
 	public void gameOver() {
 
-		stopThread = true;
+		gameOver = true;
 
 		for (Enemy e : enemies)
 			e.setDirection(Direction.STILL);
@@ -624,15 +621,14 @@ public class Game {
 	 */	
 	public void checkIfWin() {
 
-		if (components.size() <= 2) {
-			stopThread = true;
+		if (components.size() <= 5) {
+			gameOver = true;
 			System.out.println("GANASTE CAPO");
 			level++;
 			myGUI.dispose();
+//			playerThread.stop(); // decomentado no abre proximo nivel
+			playerThread.interrupt();
 			initializeLevel();
-			//playerThread.stop();
-			//enemiesThread.stop();
-			//initializeLevel();
 		}
 			
 
