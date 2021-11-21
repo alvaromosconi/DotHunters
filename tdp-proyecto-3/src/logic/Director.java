@@ -41,6 +41,7 @@ public class Director {
 	 */
 	public void constructLevelOne(Builder b) {
 		
+		
 		routeOfMaze = "/assets/MazeLevel1.txt";
 		
 		// Obtencion de las walls a traves de un archivo
@@ -52,7 +53,7 @@ public class Director {
 		List<Entity> zonaSinDots = new ArrayList<Entity>();
 		
 		// Creacion del jugador
-		MainCharacter player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", 2, game);
+		MainCharacter player = new MainCharacter(13 * size, 9 * size, domainRoute + "PlayerDown.gif", 4, game);
 		player.loadSprites(domainRoute + "PlayerUP.gif", domainRoute + "PlayerDown.gif", domainRoute + "PlayerRight.gif", domainRoute + "PlayerLeft.gif");
 		
 		// Creacion de los dots
@@ -184,7 +185,7 @@ public class Director {
 		List<Entity> zonaSinDots = new ArrayList<Entity>();
 	
 		// Creacion del jugador
-		MainCharacter player = new MainCharacter(13 * size, 11 * size, domainRoute + "PlayerDown.gif", 2, game);
+		MainCharacter player = new MainCharacter(13 * size, 11 * size, domainRoute + "PlayerDown.gif", 4, game);
 		player.loadSprites(domainRoute + "PlayerUP.gif", domainRoute + "PlayerDown.gif", domainRoute + "PlayerRight.gif", domainRoute + "PlayerLeft.gif");
 		
 		// Creacion de los dots
@@ -249,9 +250,9 @@ public class Director {
 private void loadAllRegularDots(List<Entity> components, List<Wall> walls, List<Entity> zonaSinDots) {
 		
 		
-		for (int i = 2; i < 27; i++) 
+		for (int i = 2; i < 10; i++) //27
 			
-			for (int j = 1; j < 19; j++)  {
+			for (int j = 1; j < 5; j++)  { //19
 				
 				RegularDot regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
 				components.add(regularDot);

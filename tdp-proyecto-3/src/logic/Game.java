@@ -28,7 +28,7 @@ public class Game {
 
 	private GameOverGUI myGameOverGUI;
 
-	private boolean gameOver = false;
+	private boolean stopThread = false;
 	private int level = 1;
 
 	private MainCharacter player;
@@ -43,21 +43,17 @@ public class Game {
 
 	public Game() throws UnsupportedAudioFileException, Exception {
 
-		initializeLevel();
-		initializeZones();
-		initializeGUI();
-		
-//		automaticMovement();
-//		enemiesAi();
+		initializeLevel();	
 
 		String domainRouteSound = "/assets/MarioAssets/"; //Especifico de Mario --- Cambiar
+		/*
 		AudioInputStream audioInputStream;
 		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
 		audioInputStream = AudioSystem.getAudioInputStream(url);
 		clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
-
+		*/
 		
 	}
 
@@ -96,7 +92,7 @@ public class Game {
 
 			public void run() {
 
-				while (!gameOver) {
+				while (!stopThread) {
 
 					try {
 
@@ -127,7 +123,7 @@ public class Game {
 
 			public void run() {
 
-				while (!gameOver) {
+				while (!stopThread) {
 
 					try {
 
@@ -282,38 +278,40 @@ public class Game {
 	 * Se inicializa el nivel, obteniendolo del director.
 	 */
 	private void initializeLevel() {
-
+		System.out.println(level);
 		this.score = 0;
 
 		Director director = new Director(this);
 
 		LevelBuilder levelBuilder = new LevelBuilder();
-
+		//System.out.println(level);
+		System.out.println("antes del switch");
 		switch(level){
-			case 1:
+			case 1:{
 				director.constructLevelOne(levelBuilder);
 				currentLevel = levelBuilder.getResult();
-				initializeZones();
-				initializeGUI();
 				break;
-				
-			case 2:
+			}
+			case 2:{
 				director.constructLevelTwo(levelBuilder);
 				currentLevel = levelBuilder.getResult();
-				initializeZones();
-				initializeGUI();
+				System.out.println("constructor nivel 2");
 				break;
-				
-			case 3:
+			}
+			case 3:{
 				director.constructLevelThree(levelBuilder);
 				currentLevel = levelBuilder.getResult();
-				initializeZones();
-				initializeGUI();
 				break;
-			
-			default:
+			}
+			default:{
 				System.out.println("Congrats you win all the levels");
+				
+			}
 		}
+		initializeZones();
+		//playerThread.stop();
+		initializeGUI();
+		
 
 //		currentLevel = levelBuilder.getResult();
 
@@ -329,7 +327,7 @@ public class Game {
 	 */
 	public synchronized void movePlayer(KeyEvent keyPressed) {
 
-		if (!gameOver)
+		if (!stopThread)
 
 			switch (keyPressed.getKeyCode()) {
 
@@ -557,7 +555,7 @@ public class Game {
 	 */
 	public void gameOver() {
 
-		gameOver = true;
+		stopThread = true;
 
 		for (Enemy e : enemies)
 			e.setDirection(Direction.STILL);
@@ -627,14 +625,14 @@ public class Game {
 	public void checkIfWin() {
 
 		if (components.size() <= 2) {
+			stopThread = true;
 			System.out.println("GANASTE CAPO");
 			level++;
-
 			myGUI.dispose();
-			playerThread.stop();
-			enemiesThread.stop();
-			
 			initializeLevel();
+			//playerThread.stop();
+			//enemiesThread.stop();
+			//initializeLevel();
 		}
 			
 
@@ -680,5 +678,12 @@ public class Game {
 
 		return myGUI;
 	}
-
+	
+	public void clearAllLists() {
+		walls.clear();
+		doorways.clear();
+		components.clear();
+		enemies.clear();
+		allEntities.clear();
+	}
 }
