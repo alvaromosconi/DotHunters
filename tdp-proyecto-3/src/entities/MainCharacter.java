@@ -4,13 +4,11 @@ import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorMainCharacter;
 
-import java.util.HashMap;
-
 import logic.Direction;
 
 public class MainCharacter extends Character {
 	
-	private boolean potionTypeA;
+	private boolean havePotionTypeA;
 
 	public MainCharacter(int xValue, int yValue, String imageRoute, int speed, Game game) {
 	
@@ -21,7 +19,7 @@ public class MainCharacter extends Character {
 		this.width = 36;
 		this.height = 36;
 		
-		this.potionTypeA = false;
+		this.havePotionTypeA = false;
 		
 		visitor = new VisitorMainCharacter(this);
 	}
@@ -32,14 +30,9 @@ public class MainCharacter extends Character {
 		v.visitMainCharacter(this);
 	}	
 	
-	public void setPotionTypeA(boolean p) {
-		potionTypeA = p;
-	}
-	
-	public boolean getPotionTypeA() {
-		return potionTypeA;
-	}
-	
+	/*
+	 * Ejecuta el movimiento semiautomatico que permite que pacman guarde posiciones tentativas y no colisione.
+	 */
 	public void move() {
 		
 		if (nextDirection != Direction.STILL ) 
@@ -49,11 +42,20 @@ public class MainCharacter extends Character {
 				setNextDirection(Direction.STILL);
 			}
 		
+		// Delega en Entidad para ejecutar el movimiento.
 		super.move();
 	}
 	
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+	
+	public void havePotionTypeA(boolean p) {
+		havePotionTypeA = p;
+	}
+	
+	public boolean havePotionTypeA() {
+		return havePotionTypeA;
 	}
 
 

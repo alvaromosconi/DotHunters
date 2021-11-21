@@ -1,42 +1,28 @@
 package logic;
+
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
-
 import entities.*;
 import entities.Character;
+import entities.Enemy.State;
 import gui.GUI;
 import gui.GameOverGUI;
-import logic.Direction;
 import timeHandlers.Time;
 
 public class Game {
 
-	private Level currentLevel ;
+	private Level currentLevel;
 	private GUI myGUI;
 	private Zone[][] myZones;
 	private int score;
-	private int itemsConsumed;
-
 	private Thread playerThread;
 	private Thread enemiesThread;
 
@@ -46,15 +32,15 @@ public class Game {
 
 	private MainCharacter player;
 
-	private List<Entity> walls;
+	private List<Wall> walls;
 	private List<Entity> components;
 	private List<Enemy> enemies;
 	private List<Entity> allEntities;
 	private List<Entity> doorways;
-	
+
 	private Clip clip = null;
 
-	public Game () throws UnsupportedAudioFileException, Exception {
+	public Game() throws UnsupportedAudioFileException, Exception {
 
 		initializeLevel();
 		initializeZones();
@@ -70,7 +56,7 @@ public class Game {
 
 		allEntities = new ArrayList<Entity>();
 		allEntities.add(player);
-	    allEntities.addAll(components);
+		allEntities.addAll(components);
 		allEntities.addAll(enemies);
 
 		chargeZonesWithWalls();
@@ -78,10 +64,10 @@ public class Game {
 		chargeZonesWithDoorWays();
 
 		myGUI.setupBackground();
-		
-		String domainRouteSound = "/assets/MarioAssets/";	
+
+		String domainRouteSound = "/assets/MarioAssets/";
 		AudioInputStream audioInputStream;
-		java.net.URL url = Game.class.getResource(domainRouteSound+"back.wav");
+		java.net.URL url = Game.class.getResource(domainRouteSound + "back.wav");
 		audioInputStream = AudioSystem.getAudioInputStream(url);
 		clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
@@ -91,92 +77,82 @@ public class Game {
 		enemiesAi();
 	}
 
-
 	/*
-	 * Crea el hilo que controla el movimiento automatico del jugador
+	 * Crea el hilo que controla el movimiento automatico del jugador (Delega en
+	 * MainCharacter)
 	 */
 	private void automaticMovement() {
 
-		 playerThread = new Thread() {
+		playerThread = new Thread() {
 
-			  public void run() {
+			public void run() {
 
-			    while (!gameOver) {
+				while (!gameOver) {
 
+					try {
 
-	    			try {
+						Thread.sleep(13);
+						move(player);
+					}
 
-
-	    				Thread.sleep(13);
-
-	    				move(player);
-
-
-	    			}
-
-	    			catch (InterruptedException e) {
+					catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 
-			    }
+				}
 
-			 }
-		  };
+			}
+		};
 
-		  playerThread.start();
+		playerThread.start();
 
 	}
 
-
-
 	/*
-	 * Crea el hilo que controla a los fantasmas
+	 * Crea el hilo que controla a los fantasmas (Delega en Enemy)
 	 */
 
 	private void enemiesAi() {
 
-		  enemiesThread = new Thread(){
+		enemiesThread = new Thread() {
 
-			  public void run() {
+			public void run() {
 
-			    while (!gameOver) {
+				while (!gameOver) {
 
+					try {
 
-	    			try {
-	    			
 						Thread.sleep(15);
-						for (Enemy enemy : enemies) {
-							
+
+						for (Enemy enemy : enemies)
 							enemy.executeCurrentBehaviour();
 
-						}
-	    			}
+					}
 
-	    			catch (InterruptedException e) {
+					catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 
-			    }
+				}
 
-			 }
-		  };
+			}
+		};
 
-		 enemiesThread.start();
+		enemiesThread.start();
 	}
 
-
-
 	/*
-	 * Calcula la distancia en linea recta entre el punto (x1,y1) e (x2,y2)
+	 * Calcula la distancia en linea recta entre los puntos (x1,y1) e (x2,y2)
 	 */
 
 	public float distance(int x1, int x2, int y1, int y2) {
 
-		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 	}
 
 	/*
-	 * Inicializa las zonas del juego con su tamaï¿½o y ubicacion correspondiente, usando el tamaï¿½o del mapa como referencia.
+	 * Inicializa las zonas del juego con su tamaño y ubicacion correspondiente,
+	 * usando el tamaño del mapa como referencia.
 	 */
 	private void initializeZones() {
 
@@ -193,9 +169,9 @@ public class Game {
 			for (int j = 0; j < myZones[0].length; j++) {
 
 				myZones[i][j] = new Zone(new Point(widthMultiplier, heightMultiplier),
-						 	    		 new Point(widthMultiplier + gapX, heightMultiplier),
-						 	    		 new Point(widthMultiplier, heightMultiplier + gapY),
-						 	    		 new Point(widthMultiplier + gapX, heightMultiplier + gapY));
+						new Point(widthMultiplier + gapX, heightMultiplier),
+						new Point(widthMultiplier, heightMultiplier + gapY),
+						new Point(widthMultiplier + gapX, heightMultiplier + gapY));
 
 				widthMultiplier += gapX;
 
@@ -206,11 +182,10 @@ public class Game {
 
 		}
 
-
 	}
 
 	/*
-	 * Se aï¿½aden las paredes a la o las zonas que correspondan.
+	 * Se aïñaden las paredes a la o las zonas que correspondan.
 	 */
 
 	private void chargeZonesWithWalls() {
@@ -218,17 +193,17 @@ public class Game {
 		Rectangle wallRectangle;
 		Rectangle zoneRectangle;
 
-		for (Entity wall: walls) {
+		for (Entity wall : walls) {
 
 			wallRectangle = wall.getRectangle();
 
-			for (int i = 0; i < myZones.length ; i++)
+			for (int i = 0; i < myZones.length; i++)
 
-				for (int j = 0; j < myZones[0].length ; j++) {
+				for (int j = 0; j < myZones[0].length; j++) {
 
 					zoneRectangle = myZones[i][j].getRectangle();
 
-					if (wallRectangle.intersects(zoneRectangle) ) {
+					if (wallRectangle.intersects(zoneRectangle)) {
 
 						myZones[i][j].addEntity(wall);
 						myZones[i][j].addWall(wall);
@@ -250,16 +225,16 @@ public class Game {
 
 			entityRectangle = entity.getRectangle();
 
-			for (int i = 0; i < myZones.length ; i++ )
+			for (int i = 0; i < myZones.length; i++)
 
-				for (int j = 0; j < myZones[0].length ; j++) {
+				for (int j = 0; j < myZones[0].length; j++) {
 
 					zoneRectangle = myZones[i][j].getRectangle();
-					//System.out.println(entityRectangle);
+					// System.out.println(entityRectangle);
 					if (entityRectangle.intersects(zoneRectangle) && getZones(entity).isEmpty()) {
 
-							myGUI.addEntity(entity);
-							myZones[i][j].addEntity(entity);
+						myGUI.addEntity(entity);
+						myZones[i][j].addEntity(entity);
 					}
 				}
 		}
@@ -274,17 +249,17 @@ public class Game {
 		Rectangle doorWayRectangle;
 		Rectangle zoneRectangle;
 
-		for (Entity doorWay: doorways) {
+		for (Entity doorWay : doorways) {
 
 			doorWayRectangle = doorWay.getRectangle();
 
-			for (int i = 0; i < myZones.length ; i++)
+			for (int i = 0; i < myZones.length; i++)
 
-				for (int j = 0; j < myZones[0].length ; j++) {
+				for (int j = 0; j < myZones[0].length; j++) {
 
 					zoneRectangle = myZones[i][j].getRectangle();
 
-					if (doorWayRectangle.intersects(zoneRectangle) ) {
+					if (doorWayRectangle.intersects(zoneRectangle)) {
 
 						myZones[i][j].addEntity(doorWay);
 						myZones[i][j].addDoorWay(doorWay);
@@ -313,11 +288,13 @@ public class Game {
 
 	}
 
-
 	/*
-	 * Recibe el input que detecto la GUI y responde acorde al movimiento requerido, guardando la direccion actual y la siguiente
-	 *  para evitar colisiones con paredes en los casos que no sean necesarios (como por ejemplo cuando se esta viajando por un pasillo horizontal
-	 *  y se presiona la tecla hacia arriba)
+	 * Recibe el input que detecto la GUI y responde acorde al movimiento requerido,
+	 * guardando la direccion actual y la siguiente para evitar colisiones con
+	 * paredes en los casos que no sean necesarios (como por ejemplo cuando se esta
+	 * viajando por un pasillo horizontal y se presiona la tecla hacia arriba)
+	 * 
+	 * @param keyPressed tecla presionada
 	 */
 	public synchronized void movePlayer(KeyEvent keyPressed) {
 
@@ -325,48 +302,47 @@ public class Game {
 
 			switch (keyPressed.getKeyCode()) {
 
-				case KeyEvent.VK_LEFT : {
+			case KeyEvent.VK_LEFT: {
 
-					if (!collideWithWall(Direction.LEFT, player))
-						player.setDirection(Direction.LEFT);
-					else
-						player.setNextDirection(Direction.LEFT);
+				if (!collideWithWall(Direction.LEFT, player))
+					player.setDirection(Direction.LEFT);
+				else
+					player.setNextDirection(Direction.LEFT);
 
-					break;
-				}
+				break;
+			}
 
-				case KeyEvent.VK_RIGHT : {
+			case KeyEvent.VK_RIGHT: {
 
-					if (!collideWithWall(Direction.RIGHT, player))
-						player.setDirection(Direction.RIGHT);
+				if (!collideWithWall(Direction.RIGHT, player))
+					player.setDirection(Direction.RIGHT);
 
-					else
-						player.setNextDirection(Direction.RIGHT);
+				else
+					player.setNextDirection(Direction.RIGHT);
 
-					break;
-				}
+				break;
+			}
 
-				case KeyEvent.VK_UP : {
+			case KeyEvent.VK_UP: {
 
-					if (!collideWithWall(Direction.UP, player))
-						player.setDirection(Direction.UP);
-					else
-						player.setNextDirection(Direction.UP);
+				if (!collideWithWall(Direction.UP, player))
+					player.setDirection(Direction.UP);
+				else
+					player.setNextDirection(Direction.UP);
 
-					break;
-				}
+				break;
+			}
 
-				case KeyEvent.VK_DOWN : {
+			case KeyEvent.VK_DOWN: {
 
-					if (!collideWithWall(Direction.DOWN, player))
-						player.setDirection(Direction.DOWN);
+				if (!collideWithWall(Direction.DOWN, player))
+					player.setDirection(Direction.DOWN);
 
-					else
-						player.setNextDirection(Direction.DOWN);
+				else
+					player.setNextDirection(Direction.DOWN);
 
-					break;
-				}
-
+				break;
+			}
 
 			}
 
@@ -374,10 +350,17 @@ public class Game {
 
 	/*
 	 * Detecta colisiones en la direccion recibida.
-	 * @param xVelocity velocidad horizontal que se le quiere aï¿½adir a el valor de x actual de la entidad.
-	 * @param yVelocity velocidad vertal que se le quiere aï¿½adir a el valor y actual de la entidad.
+	 * 
+	 * @param xVelocity velocidad horizontal que se le quiere aïñadir a el valor de
+	 * x actual de la entidad.
+	 * 
+	 * @param yVelocity velocidad vertical que se le quiere añadir a el valor y
+	 * actual de la entidad.
+	 * 
 	 * @param entityA entidad que requiere hacer el movimiento.
-	 * @return verdadero si colisiono con una pared en la direccion requerida, falso en caso contrario.
+	 * 
+	 * @return verdadero si colisiono con una pared en la direccion requerida, falso
+	 * en caso contrario.
 	 */
 
 	public synchronized boolean collideWithWall(Direction desiredDirection, Character entityA) {
@@ -385,7 +368,9 @@ public class Game {
 		Rectangle entityARectangle, entityBRectangle;
 		boolean intersect = false;
 
-		entityARectangle = new Rectangle(entityA.getXValue() + (desiredDirection.getXVelocity()) * entityA.getSpeed(), entityA.getYValue() + (desiredDirection.getYVelocity() * entityA.getSpeed()), entityA.getWidth(), entityA.getHeight());
+		entityARectangle = new Rectangle(entityA.getXValue() + (desiredDirection.getXVelocity()) * entityA.getSpeed(),
+				entityA.getYValue() + (desiredDirection.getYVelocity() * entityA.getSpeed()), entityA.getWidth(),
+				entityA.getHeight());
 
 		List<Zone> listOfZones = getZones(entityA);
 
@@ -408,10 +393,11 @@ public class Game {
 		return intersect;
 	}
 
-
 	/*
-	 * Realiza el movimiento y la colision en funcion del movimiento que se establecio
-	 * @param entityA entidad que efectua el mvoimiento
+	 * Realiza el movimiento y la colision en funcion del movimiento que se
+	 * establecio
+	 * 
+	 * @param entityA entidad que efectua el movimiento
 	 */
 	public synchronized void move(Character entityA) {
 
@@ -425,12 +411,10 @@ public class Game {
 		Iterator<Entity> zoneEntitiesIterator;
 		Entity entityB;
 
-
 		for (Zone zone : listOfZones) {
 
 			zoneEntitiesIterator = zone.getEntities().iterator();
-			innerloop:
-			while (zoneEntitiesIterator.hasNext() ) {
+			innerloop: while (zoneEntitiesIterator.hasNext()) {
 
 				entityB = zoneEntitiesIterator.next();
 				entityBRectangle = entityB.getRectangle();
@@ -440,7 +424,7 @@ public class Game {
 
 					entityB.accept(entityA.getVisitor());
 
-					if(!zone.getEntities().contains(entityB))
+					if (!zone.getEntities().contains(entityB))
 						break innerloop;
 					else
 						myGUI.refreshEntity(entityB);
@@ -458,19 +442,20 @@ public class Game {
 		entityA.move();
 	}
 
-
 	/*
 	 * Verifica que zonas contienen a la entidad actualmente
+	 * 
 	 * @param entidad de la cual se quieren obtener las zonas
+	 * 
 	 * @return zonas a la que pertenece la entidad
 	 */
 	List<Zone> getZones(Entity entity) {
 
 		List<Zone> listOfZones = new ArrayList<Zone>();
 
-		for (int i = 0; i < myZones.length ; i++ )
+		for (int i = 0; i < myZones.length; i++)
 
-			for (int j = 0; j < myZones[0].length ; j++)
+			for (int j = 0; j < myZones[0].length; j++)
 
 				if (myZones[i][j].getEntities().contains(entity))
 					listOfZones.add(myZones[i][j]);
@@ -478,10 +463,11 @@ public class Game {
 		return listOfZones;
 	}
 
-
 	/*
 	 * Actualiza las zonas en funcion de un movimiento realizado
-	 * @param entity entidad que necesita ser agregada en otra zona u eliminada de la zona actual
+	 * 
+	 * @param entity entidad que necesita ser agregada en otra zona u eliminada de
+	 * la zona actual
 	 */
 	private void updateZones(Entity entity) {
 
@@ -490,44 +476,35 @@ public class Game {
 
 		entityRectangle = entity.getRectangle();
 
-		for (int i = 0; i < myZones.length ; i++ )
+		for (int i = 0; i < myZones.length; i++)
 
-			for (int j = 0; j < myZones[0].length ; j++) {
+			for (int j = 0; j < myZones[0].length; j++) {
 
 				zoneRectangle = myZones[i][j].getRectangle();
 
 				if (entityRectangle.intersects(zoneRectangle))
 					myZones[i][j].addEntity(entity);
 
-				else if (myZones[i][j].getEntities().contains(entity) && !entityRectangle.intersects(zoneRectangle) )
+				else if (myZones[i][j].getEntities().contains(entity) && !entityRectangle.intersects(zoneRectangle))
 					myZones[i][j].getEntities().remove(entity);
 
 			}
 	}
 
-	public MainCharacter getPlayer() {
-
-		return player;
-	}
-
+	/*
+	 *  Se crea la entidad tipo PowerTypeA y se coloca debajo del personaje principal.
+	 */
 	public void potionTypeAEvent() {
 
-		if (player.getPotionTypeA()){
+		if (player.havePotionTypeA()) {
 
 			PowerTypeA power = new PowerTypeA(player.getXValue(), player.getYValue(), "/assets/MarioAssets/bomb.png", this);
 			allEntities.add(power);
 
 			chargeZonesWithEntities();
-			player.setPotionTypeA(false);
+			player.havePotionTypeA(false);
 		}
 	}
-
-
-	public GUI getGUI() {
-
-		return myGUI;
-	}
-
 
 	/*
 	 * Activa el modo vulnerable de todos los enemigos
@@ -535,32 +512,28 @@ public class Game {
 
 	public void enableFrightenedMode() {
 
-		for (Enemy e: enemies) {
-			if (e.getState()!= entities.Enemy.State.RESPAWNING)
-				e.enableFrightenedMode();
-		}
+		for (Enemy enemy : enemies) 
+			
+			if (enemy.getState() != State.RESPAWNING)
+				enemy.enableFrightenedMode();
 
-		
-		new Time(this, 10000).start();;
-	
+		new Time(this, 10000).start();
 
 	}
 
 	/*
 	 * Cambia el estado del juego a perdido.
 	 */
-
 	public void gameOver() {
 
 		gameOver = true;
 
-		for (Enemy e: enemies)
+		for (Enemy e : enemies)
 			e.setDirection(Direction.STILL);
 
 		player.setDirection(Direction.STILL);
 
-
-		myGUI.dispose();		
+		myGUI.dispose();
 		myGameOverGUI = new GameOverGUI(this);
 		myGUI.dispose();
 		clip.stop();
@@ -568,38 +541,32 @@ public class Game {
 		myGameOverGUI = new GameOverGUI(this);
 		playerThread.stop();
 		enemiesThread.stop();
-		
+
 	}
 
-	public int getScore() {
-		return score;
-	}
-
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
-
-	public Enemy getEnemyTypeA() {
-
-		return enemies.get(0);
-	}
-
-
+	
+	/*
+	 * Cambia el estado de los enemigos de asustados a persecucion.
+	 */
 	public void disableFrightenedMode() {
 
-
-		for (Enemy enemy: enemies) {
-			if(enemy.getState() == entities.Enemy.State.FRIGHTENED) {
+		for (Enemy enemy : enemies) {
+			
+			if (enemy.getState() == State.FRIGHTENED) {
+				
 				enemy.disableFrightenedMode();
-				enemy.setState(entities.Enemy.State.CHASING);
+				enemy.setState(State.CHASING);
 			}
 		}
 
 	}
 
-
+	/*
+	 * Remueve las entidades comestibles / agarrables de las listas y zonas y delega en la clase GUI 
+	 * para eliminarlas graficamente.
+	 * @param entityToDestroy entidad a remover
+	 */
+	
 	public void destroyEntity(Entity entityToDestroy) {
 
 		allEntities.remove(entityToDestroy);
@@ -607,33 +574,73 @@ public class Game {
 
 		List<Zone> zones = new ArrayList<Zone>();
 
-		for (int i = 0; i < myZones.length ; i++ )
+		for (int i = 0; i < myZones.length; i++)
 
-			for (int j = 0; j < myZones[0].length ; j++) {
+			for (int j = 0; j < myZones[0].length; j++) 
 
-				if (myZones[i][j].getEntities().contains(entityToDestroy)) {
+				if (myZones[i][j].getEntities().contains(entityToDestroy)) 
 					zones.add(myZones[i][j]);
-				}
+			
 
-			}
 
-		if (!zones.isEmpty())
-			for (int i = 0; i < zones.size(); i++)
-				zones.get(i).removeEntity(entityToDestroy);
-
+		for (int i = 0; i < zones.size(); i++)
+			zones.get(i).removeEntity(entityToDestroy);
 
 		myGUI.destroyEntity(entityToDestroy);
 
 	}
 
+	/*
+	 * Chequea si el jugador consumio todos los Dots y Fruits (En este caso el tamaño 
+	 * de la lista de componentes deberia ser menor o igual a 2 ya que como maximo 
+	 * estarian las 2 potion)
+	 */	
 	public void checkIfWin() {
 
 		if (components.size() <= 2)
 			System.out.println("GANASTE CAPO");
 
 	}
-	public void itemConsumed() {
-		itemsConsumed++;
+
+	/*
+	 * Retorna el puntaje actual
+	 */
+	public int getScore() {
+		return score;
+	}
+
+	/*
+	 * Establece el puntaje nuevo
+	 * @param puntaje nuevo
+	 */
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	/* Metodo que utiliza EnemyTypeB para copiar los movimientos del EnemyTypeA y girarlos 180°
+	 * @return retorna el EnemyTypeA
+	 */
+	public Enemy getEnemyTypeA() {
+
+		return enemies.get(0);
+	}
+
+
+	/* Metodo que utiliza EnemyTypeA para obtener las posiciones del jugador y encontrar 
+	 * la ruta mas adecuada hacia el.
+	 * @return retorna el MainCharacter
+	 */
+	public MainCharacter getPlayer() {
+
+		return player;
+	}
+    
+	/*
+	 * @return retorna GUI.
+	 */
+	public GUI getGUI() {
+
+		return myGUI;
 	}
 
 }

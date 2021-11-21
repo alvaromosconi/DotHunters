@@ -3,7 +3,6 @@ package entities;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorActivePotionTypeA;
-import visitors.VisitorPotionTypeA;
 
 public class PowerTypeA extends Entity {
 

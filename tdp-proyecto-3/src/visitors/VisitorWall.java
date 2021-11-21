@@ -4,9 +4,6 @@ import entities.PowerTypeA;
 import entities.PowerTypeB;
 import entities.Doorway;
 import entities.Enemy;
-import entities.EnemyTypeA;
-import entities.EnemyTypeB;
-import entities.EnemyTypeC;
 import entities.Entity;
 import entities.Fruit;
 import entities.MainCharacter;
@@ -32,10 +29,7 @@ public class VisitorWall implements Visitor{
 
 	@Override
 	public void visitMainCharacter(MainCharacter m) {
-		
-//		m.setXVelocity(0);
-//		m.setYVelocity(0);
-		
+
 	}
 
 	@Override

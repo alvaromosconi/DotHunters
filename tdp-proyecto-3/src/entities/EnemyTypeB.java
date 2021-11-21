@@ -1,5 +1,4 @@
 package entities;
-import java.util.ArrayList;
 import java.util.List;
 
 import logic.Direction;
@@ -30,11 +29,16 @@ public class EnemyTypeB extends Enemy {
 
 		Enemy enemyA = game.getEnemyTypeA();
 		
-		if (getPossibleDirections(getOppositeDirection()).size() == 1)
-			setNextDirection(getPossibleDirections(getOppositeDirection()).get(0));
+		// Si hay 2 direcciones po
+		
+		List<Direction> possibleDirections = getPossibleDirections(getOppositeDirection());
+		
+		if (possibleDirections.size() == 1)		// Si hay solo una direccion posible (No contando la opuesta)
+			setNextDirection(getPossibleDirections(getOppositeDirection()).get(0)); 	// Usar tal direccion
 		
 		else
 		
+			// Establece la direccion que va a ejecutar el EnemyTypeA y la gira 180°
 			switch(enemyA.nextDirection) {
 			
 				case UP: {

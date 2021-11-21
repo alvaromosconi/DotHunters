@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 
 import logic.Game;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -17,6 +16,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
 public class GameOverGUI extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textFieldPlayerName;
 
 	public GameOverGUI(Game game) {

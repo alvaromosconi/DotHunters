@@ -2,23 +2,16 @@ package gui;
 import java.awt.Color;
 
 import java.awt.Dimension;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
-
-import entities.PowerTypeA;
 import entities.Entity;
 import logic.Game;
 import java.awt.Font;
@@ -121,8 +114,8 @@ public class GUI extends JFrame {
 		JLabel entityLabel = new JLabel("");
 		ImageIcon entityImage = new ImageIcon(GUI.class.getResource(entity.getImageRoute()));
 
-		entityLabel.setOpaque(rootPaneCheckingEnabled);
-		entityLabel.setBackground(Color.BLUE);
+	//	entityLabel.setOpaque(rootPaneCheckingEnabled);
+	//	entityLabel.setBackground(Color.BLUE);
 	
 		entityLabel.setBounds( (int) entity.getXValue(), (int) entity.getYValue() , entity.getWidth(), entity.getHeight() );
 		entityLabel.setIcon(entityImage);

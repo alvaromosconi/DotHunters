@@ -21,8 +21,6 @@ public class VisitorEnemy implements Visitor {
 	public void visitWall(Wall w) {
 	
 		enemy.setDirection(Direction.STILL);
-		
-
 	}
 
 	@Override
@@ -70,25 +68,36 @@ public class VisitorEnemy implements Visitor {
 
 	@Override
 	public void visitRegulardDot(RegularDot p) {
-	
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
-	public void visitActivePotionTypeA(PowerTypeA a) {
+	public void visitActivePotionTypeA(PowerTypeA power) {
 		
 		Game myGame = enemy.getGame();
-		a.setImageRoute("/assets/MarioAssets/explosion.gif");
-		myGame.getGUI().refreshImage(a);
-		//myGame.getGUI().deleteEntity(a);
-		new PowerTimer(a,1000).start();
+
+		// Setear imagen del power
+		power.setImageRoute("/assets/MarioAssets/explosion.gif");
+		// Refrescar imagen
+		myGame.getGUI().refreshImage(power);
+
+		// Timer que controla que el gif se ejecute solo una vez.
+		new PowerTimer(power,1000).start();
+		
+		// Dejar inmovil al enemigo
 		enemy.setDirection(Direction.STILL);
 		enemy.setNextDirection(Direction.STILL);
 		
+		// Si se encontraba en estado "asustado" desactivarlo
 		if (enemy.getState() == entities.Enemy.State.FRIGHTENED)
 			enemy.disableFrightenedMode();		
+		
+		// Activar modo "reaparicion"
 		enemy.enableRespawnMode();
+		// Esperar x cantidad de tiempo antes de volver a establecer los enemigos en estado "persecucion"
 		new RespawnTimer(enemy, 15000).start();
+		
+		// Establecer posiciones iniciales
 		enemy.setXValue(enemy.getInitialXValue());
 		enemy.setYValue(enemy.getInitialYValue());
 	}
@@ -97,14 +106,16 @@ public class VisitorEnemy implements Visitor {
 	public void visitDoorway(Doorway doorway) {
 	
 		int size = 36;
+		
 		float xPosition = enemy.getXValue();
-		if (xPosition < 0) {
+		
+		// Si se salio de los limites del mapa quiere decir que visito un Doorway ( se debe teletransportar la entidad al limite doorway contrario)
+		
+		if (xPosition < 0) 
 			enemy.setXValue(26 * size);
-		}
-		if ( xPosition > 26 * size) {
-			
+		
+		if (xPosition > 26 * size) 
 			enemy.setXValue(0);
-		}
 		
 	}
 
@@ -116,10 +127,7 @@ public class VisitorEnemy implements Visitor {
 
 	@Override
 	public void visitActivePotionTypeB(PowerTypeB a) {
-		enemy.setDirection(Direction.STILL);
-		enemy.disableFrightenedMode();
-		enemy.setXValue(enemy.getInitialXValue());
-		enemy.setYValue(enemy.getInitialYValue());	
+		// TODO Auto-generated method stub
 	}
 
 

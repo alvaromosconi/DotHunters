@@ -1,5 +1,4 @@
 package entities;
-import entities.Enemy.State;
 import logic.Direction;
 import logic.Game;
 import visitors.Visitor;
@@ -31,37 +30,42 @@ public class EnemyTypeC extends Enemy {
 		MainCharacter player = game.getPlayer();
 		
 		int xDestiny = 0,
-		      yDestiny = 0;
-
+		    yDestiny = 0;
+		
+		int playerXValue = player.getXValue(),
+			playerYValue = player.getYValue();
+		
+		// En base a la direccion actual del MainCharacter, EnemyTypeC elige su proximo destino (X,Y)
+		// 36 = Size de una celda en el juego, por eso al obtener el xDestiny o yDestiny se le suma la diferencia para que sea divisible por 36. 
 		switch(player.currentDirection) {
 		
 			case UP: {
 				
-				xDestiny = player.getXValue() - (2 * 36) + (player.getXValue() - (2 * 36)) % 36 ;
-				yDestiny = player.getYValue() - (4 * 36) + (player.getYValue() - 4 * 36) % 36 ;		
+				xDestiny = playerXValue - (2 * 36) + (playerXValue - (2 * 36)) % 36 ;
+				yDestiny = playerYValue - (4 * 36) + (playerYValue - 4 * 36) % 36 ;		
 				
 				break;
 			}
 				
 			case DOWN:  {
 				
-				xDestiny = player.getXValue();
-				yDestiny = player.getYValue() + (4 * 36) + (player.getYValue() + (4 * 36)) % 36 ;
+				xDestiny = playerXValue;
+				yDestiny = playerYValue + (4 * 36) + (playerYValue + (4 * 36)) % 36 ;
 			
 				break;
 			}
 			case LEFT: {
 				
-				xDestiny = player.getXValue() - (4 * 36) + (player.getXValue() - (4 * 36)) % 36 ;
-				yDestiny = player.getYValue();
+				xDestiny = playerXValue - (4 * 36) + (playerXValue - (4 * 36)) % 36 ;
+				yDestiny = playerYValue;
 					
 				break;
 			}
 			
 			case RIGHT: {
 				
-				xDestiny = player.getXValue() + (4 * 36) + (player.getXValue() + (4 * 36)) % 36 ;
-				yDestiny = player.getYValue();
+				xDestiny = playerXValue + (4 * 36) + (playerXValue + (4 * 36)) % 36 ;
+				yDestiny = playerYValue;
 
 				break;
 			}
@@ -72,38 +76,12 @@ public class EnemyTypeC extends Enemy {
 		}
 		
 		
-		double min = Double.MAX_VALUE;
-		
-		if (!game.collideWithWall(Direction.LEFT, this) && currentDirection != Direction.RIGHT) 
-    		if (game.distance(xValue - 2, xDestiny, yValue, yDestiny) < min) {
-    				min = game.distance(xValue - 2, xDestiny, yValue, yDestiny);
-    				setNextDirection(Direction.LEFT);
-    		}
-    		
-		if (!game.collideWithWall(Direction.RIGHT, this) && currentDirection != Direction.LEFT) 
-			if (game.distance(xValue + 2, xDestiny, yValue, yDestiny) < min) {
-					min = game.distance(xValue + 2, xDestiny, yValue, yDestiny);
-					setNextDirection(Direction.RIGHT);
-			}
-			
-		if (!game.collideWithWall(Direction.UP, this) && currentDirection != Direction.DOWN )
-			if (game.distance(xValue, xDestiny, yValue - 2, yDestiny) < min) {
-					min = game.distance(xValue, xDestiny, yValue - 2, yDestiny);
-					setNextDirection(Direction.UP);
-			}
-		
-		if (!game.collideWithWall(Direction.DOWN, this) && currentDirection != Direction.UP)
-			if (game.distance(xValue, xDestiny, yValue + 2, yDestiny) < min) {
-					min = game.distance(xValue, xDestiny, yValue + 2, yDestiny);
-					setNextDirection(Direction.DOWN);
-			}
-		
+		goToDestiny(xDestiny, yDestiny);
 	}
 
 	@Override
 	public void exitHouse() {
 		
-
 		if (!game.collideWithWall(Direction.UP, this))
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.LEFT);
@@ -113,13 +91,14 @@ public class EnemyTypeC extends Enemy {
 		
 	}
 	
+	@Override
 	public void disableRespawnMode() {
 		state = State.CHASING;
 		loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");
 
 	}
 	
-	
+	@Override
     public void disableFrightenedMode() {
     	speed = chaseSpeed;
     	loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");

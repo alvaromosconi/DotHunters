@@ -4,9 +4,6 @@ import entities.PowerTypeA;
 import entities.PowerTypeB;
 import entities.Doorway;
 import entities.Enemy;
-import entities.EnemyTypeA;
-import entities.EnemyTypeB;
-import entities.EnemyTypeC;
 import entities.Fruit;
 import entities.MainCharacter;
 import entities.Potion;
@@ -15,7 +12,6 @@ import entities.RegularDot;
 import entities.Wall;
 
 public class VisitorDoorway implements Visitor {
-	private int size = 36; // Game?
 
 	public VisitorDoorway(Doorway doorway) {
 		// TODO Auto-generated constructor stub

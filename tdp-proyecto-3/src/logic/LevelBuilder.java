@@ -4,12 +4,13 @@ import java.util.List;
 import entities.Enemy;
 import entities.Entity;
 import entities.MainCharacter;
+import entities.Wall;
 
 public class LevelBuilder implements Builder {
 	
 	private List<Enemy> enemies;
 	private List<Entity> components;
-	private List<Entity> walls;
+	private List<Wall> walls;
 	private MainCharacter player;
 	private String backgroundUrl; 
 	private List<Entity> doorways;
@@ -46,7 +47,7 @@ public class LevelBuilder implements Builder {
 	}
 
 	@Override
-	public void createWalls(List<Entity> walls) {
+	public void createWalls(List<Wall> walls) {
 		
 		this.walls = walls;
 	}

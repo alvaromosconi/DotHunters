@@ -2,9 +2,7 @@ package entities;
 
 import logic.Game;
 import visitors.Visitor;
-import visitors.VisitorActivePotionTypeA;
 import visitors.VisitorActivePotionTypeB;
-import visitors.VisitorPotionTypeA;
 
 public class PowerTypeB extends Entity {
 

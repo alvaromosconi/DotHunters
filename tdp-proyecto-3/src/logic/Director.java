@@ -1,8 +1,6 @@
 package logic;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,14 +37,14 @@ public class Director {
 	}
 
 	/*
-	 * Crea todas las entidades del juego.
+	 * Crea todas las entidades del juego para el nivel 1.
 	 */
 	public void constructLevelOne(Builder b) {
 		
 		routeOfMaze = "/assets/MazeLevel1.txt";
 		
 		// Obtencion de las walls a traves de un archivo
-		List<Entity> walls = loadAllWalls(routeOfMaze);
+		List<Wall> walls = loadAllWalls(routeOfMaze);
 		
 		List<Enemy> enemies = new ArrayList<Enemy>(4);
 		List<Entity> components = new ArrayList<Entity>();
@@ -216,32 +214,39 @@ public class Director {
 //	}
 //	
 //	
-private void loadAllRegularDots(List<Entity> components, List<Entity> walls, List<Entity> zonaSinDots) {
+	
+/*
+ * Automatizaciion de la carga de dots; elimina los que colisionan con paredes y estan en la zona que rode la casa
+ * @param componentes lista de componentes
+ * @param wallls lista de paredes
+ * @param zoneWithoutDots zona que rodea la casa (no debe tener dots)
+ */
+private void loadAllRegularDots(List<Entity> components, List<Wall> walls, List<Entity> zonaSinDots) {
 		
 		
 		for (int i = 2; i < 27; i++) 
 			
 			for (int j = 1; j < 19; j++)  {
 				
-				Entity regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
+				RegularDot regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
 				components.add(regularDot);
 			}
 		
-		// elimino los que colisionan con la pared
-		Iterator<Entity> i1 = components.iterator();
-		Entity e1;
+		// Se eliminan los que colisionan con la paredes.
+		Iterator<Entity> componenentIterator = components.iterator();
+		Entity currentComponent;
 		
-		while (i1.hasNext()) {
+		while (componenentIterator.hasNext()) {
 			
-			e1 = i1.next();
+			currentComponent = componenentIterator.next();
 			
-			Rectangle2D r1 = e1.getRectangle();
+			Rectangle2D currentComponentRectangle = currentComponent.getRectangle();
 
-			for (Entity w: walls) {
+			for (Wall wall: walls) {
 					
-				Rectangle2D r2 = w.getRectangle();
-				if (r1.intersects(r2)) {
-					i1.remove();
+				Rectangle2D wallRectangle = wall.getRectangle();
+				if (currentComponentRectangle.intersects(wallRectangle)) {
+					componenentIterator.remove();
 					break;
 				}	
 				
@@ -249,69 +254,38 @@ private void loadAllRegularDots(List<Entity> components, List<Entity> walls, Lis
 				
 		}
 		
-		// elimino los que colisionan con la zona de la casa de los enemies , powerDots, potions y fruits
-				Iterator<Entity> i2 = components.iterator();
-				Entity e2;
+		// Se eliminan los que colisionan con la zona de la casa de los enemies , powerDots, potions y fruits.
 				
-				while (i2.hasNext()) {
+		Iterator<Entity> componentIterator = components.iterator();
+		Entity currentComponent2;
+				
+			while (componentIterator.hasNext()) {
 					
-					e2 = i2.next();
+				currentComponent2 = componentIterator.next();
 					
-					Rectangle2D r1 = e2.getRectangle();
+				Rectangle2D currentComponent2Rectangle = currentComponent2.getRectangle();
 
-					for (Entity c: zonaSinDots) {
+				for (Entity currentZone: zonaSinDots) {
 							
-						Rectangle2D r2 = c.getRectangle();
-						if (r1.intersects(r2)) {
-							i2.remove();
-							break;
-						}	
-						
-					}
+					Rectangle2D currentZoneRectangle = currentZone.getRectangle();
+					if (currentComponent2Rectangle.intersects(currentZoneRectangle)) {
+						componentIterator.remove();
+						break;
+					}	
 						
 				}
+						
+			}
 	}
 
-//	private void loadAllRegularDots(List<Entity> components, List<Entity> walls) {
-//		
-//		for (int i = 2; i < 27; i++) 
-//			
-//			for (int j = 1; j < 19; j++)  {
-//				
-//				Entity regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
-//				components.add(regularDot);
-//			}
-//		
-//		
-//		Entity ZonaSinDots = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
-//		Rectangle2D sDots = ZonaSinDots.getRectangle();
-//		
-//		// elimino los que colisionan con la pared
-//		Iterator<Entity> i1 = components.iterator();
-//		Entity e1;
-//		
-//		while (i1.hasNext()) {
-//			
-//			e1 = i1.next();
-//			
-//			Rectangle2D r1 = e1.getRectangle();
-//
-//			for (Entity w: walls) {
-//					
-//				Rectangle2D r2 = w.getRectangle();
-//				if (r1.intersects(r2) || r1.intersects(sDots)) {
-//					i1.remove();
-//					break;
-//				}	
-//				
-//			}
-//				
-//		}
-//	}
 
-	private List<Entity> loadAllWalls(String routeOfMaze) {
+	/*
+	 * Carga de paredes automatizada
+	 * @param routeOfMaze ruta del archivo que contiene las paredes
+	 */
+	private List<Wall> loadAllWalls(String routeOfMaze) {
 		
-		List<Entity> walls = new ArrayList<Entity>();
+		List<Wall> walls = new ArrayList<Wall>();
 		
 		try {
 		
@@ -331,7 +305,7 @@ private void loadAllRegularDots(List<Entity> components, List<Entity> walls, Lis
 					 width = Integer.parseInt(tokens.nextToken());
 					 height = Integer.parseInt(tokens.nextToken());
 					 
-					 Entity w = new Wall(posX * size, posY * size, width * size, height * size, game);
+					 Wall w = new Wall(posX * size, posY * size, width * size, height * size, game);
 					 walls.add(w);
 					 
 				}

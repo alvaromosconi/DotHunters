@@ -4,6 +4,7 @@ import java.util.List;
 import entities.Enemy;
 import entities.Entity;
 import entities.MainCharacter;
+import entities.Wall;
 
 public interface Builder {
 
@@ -17,8 +18,10 @@ public interface Builder {
 	
 	public Level getResult();
 
-	public void createWalls(List<Entity> walls);
+	public void createWalls(List<Wall> walls);
 	
 	public void createDoorways(List<Entity> doorways);
+
+
 	
 }
