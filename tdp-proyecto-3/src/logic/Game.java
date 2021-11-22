@@ -17,24 +17,25 @@ import entities.Character;
 import entities.Enemy.State;
 import gui.GUI;
 import gui.GameOverGUI;
-import timeHandlers.Time;
+import timeHandlers.FrightenedTimer;
 
 public class Game {
 
+	private String domainRoute = "";
 	private Level currentLevel;
 	private GUI myGUI;
-	private Zone[][] myZones;
-	private int score;
-	private Thread playerThread;
-	private Thread enemiesThread;
-	private String domainRoute = "";
-
 	private GameOverGUI myGameOverGUI;
 
-	private boolean frigthenedTimer;
+	private Thread playerThread;
+	private Thread enemiesThread;
+	
+	private Zone[][] myZones;
+
+	private boolean frightenedTimerOn;
 	private boolean gameOver = false;
 	private int level = 1;
-
+	private int score;
+	
 	Director director;
 	LevelBuilder levelBuilder;
 	
@@ -568,11 +569,11 @@ public class Game {
 			
 			if (enemy.getState() != State.RESPAWNING ) {
 				enemy.enableFrightenedMode();
-				frigthenedTimer = true;
+				frightenedTimerOn = true;
 			}
 			
 		}
-		new Time(this, 10000).start();;
+		new FrightenedTimer(this, 10000).start();;
 	}
 
 	/*
@@ -603,7 +604,7 @@ public class Game {
 
 		for (Enemy enemy : enemies) {
 			
-			if (enemy.getState() == State.FRIGHTENED && !frigthenedTimer) {
+			if (enemy.getState() == State.FRIGHTENED && !frightenedTimerOn) {
 				
 				enemy.disableFrightenedMode();
 				enemy.setState(State.CHASING);
@@ -695,6 +696,6 @@ public class Game {
 	 * @param f corresponde a si el estado del enemigo es "asustado"
 	 */
 	public void setFrightenedTimer(boolean f) {
-		this.frigthenedTimer = f;
+		this.frightenedTimerOn = f;
 	}
 }

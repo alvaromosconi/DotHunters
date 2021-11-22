@@ -2,12 +2,12 @@ package timeHandlers;
 
 import logic.Game;
 
-public class Time extends Thread {
+public class FrightenedTimer extends Thread {
 
 	private Game game;
 	private int step;
 	
-	public Time(Game game, int step) {
+	public FrightenedTimer(Game game, int step) {
 		
 		this.game = game;
 		this.step = step;
