@@ -45,7 +45,9 @@ public class GUI extends JFrame {
 		addKeyListener();
 		
 		super.setVisible(true);
-		super.pack();	
+		super.pack();
+		
+	    foco();
 	}
 	
 	private void setupWindow() {
@@ -58,12 +60,12 @@ public class GUI extends JFrame {
 		panel.setLayout(null);
 		
 		setupLabels();
-		setupButton();
-		
-		
+		setupButton();		
        
 		setUndecorated(true);
 	    setResizable(false);
+	    
+	    foco();
 	}
 	
 	private void setupButton() {
@@ -89,6 +91,31 @@ public class GUI extends JFrame {
 		btnCloseApp.setBackground(new Color(1, 87, 155));
 		btnCloseApp.setBounds(1050, 0, 50, 47);
 		panel.add(btnCloseApp);
+		
+		JButton btnSound = new JButton("");
+		btnSound.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				game.changeSound();
+				if (game.isSound())
+					btnSound.setIcon(new ImageIcon(GUI.class.getResource("/assets/MarioAssets/soundON.png")));
+				else
+					btnSound.setIcon(new ImageIcon(GUI.class.getResource("/assets/MarioAssets/soundOFF.png")));
+				
+				foco();
+			}
+		});
+		if (game.isSound())
+			btnSound.setIcon(new ImageIcon(GUI.class.getResource("/assets/MarioAssets/soundON.png")));
+		else
+			btnSound.setIcon(new ImageIcon(GUI.class.getResource("/assets/MarioAssets/soundOFF.png")));
+		btnSound.setBounds(1053, 636, 37, 37);
+		btnSound.setBackground(new Color(1, 87, 155));
+		btnSound.setBorder(null);
+		panel.add(btnSound);
+	}
+	
+	public void foco() {
+		this.requestFocus();
 	}
 	
 	private void setupLabels() {

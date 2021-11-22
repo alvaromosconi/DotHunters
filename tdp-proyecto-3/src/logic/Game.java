@@ -15,8 +15,10 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import entities.*;
 import entities.Character;
 import entities.Enemy.State;
+import gui.EndLevelGUI;
 import gui.GUI;
 import gui.GameOverGUI;
+import gui.GraphicMenu;
 import timeHandlers.FrightenedTimer;
 
 public class Game {
@@ -25,6 +27,7 @@ public class Game {
 	private Level currentLevel;
 	private GUI myGUI;
 	private GameOverGUI myGameOverGUI;
+	private EndLevelGUI myEndLevelGUI;
 
 	private Thread playerThread;
 	private Thread enemiesThread;
@@ -33,6 +36,7 @@ public class Game {
 
 	private boolean frightenedTimerOn;
 	private boolean gameOver = false;
+	private boolean sound = true;
 	private int level = 1;
 	private int score;
 	
@@ -57,10 +61,10 @@ public class Game {
 		
 		automaticMovement();			// Arrancar hilo del jugador.
 		enemiesAi();					// Arrancar hilo de los enemigos.
-		setupAudio();
+		turnOnAudio();
 		
 	}
-	private void setupAudio()  {
+	private void turnOnAudio()  {
 		
 		AudioInputStream audioInputStream;
 		java.net.URL url = Game.class.getResource(domainRoute + "back.wav");
@@ -69,7 +73,6 @@ public class Game {
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 		} catch (UnsupportedAudioFileException |IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
@@ -141,8 +144,8 @@ public class Game {
 	}
 
 	/*
-	 * Inicializa las zonas del juego con su tamaño y ubicacion correspondiente,
-	 * usando el tamaño del mapa como referencia.
+	 * Inicializa las zonas del juego con su tamaï¿½o y ubicacion correspondiente,
+	 * usando el tamaï¿½o del mapa como referencia.
 	 */
 	private void initializeZones() {
 
@@ -175,7 +178,7 @@ public class Game {
 	}
 
 	/*
-	 * Se añaden las paredes a la o las zonas que correspondan.
+	 * Se aï¿½aden las paredes a la o las zonas que correspondan.
 	 */
 
 	private void chargeZonesWithWalls() {
@@ -204,7 +207,7 @@ public class Game {
 	}
 
 	/*
-	 * Se añaden las entidades a la o las zonas que correspondan.
+	 * Se aï¿½aden las entidades a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithEntities() {
 
@@ -232,7 +235,7 @@ public class Game {
 	}
 
 	/*
-	 * Se añaden los portales a la o las zonas que correspondan.
+	 * Se aï¿½aden los portales a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithDoorWays() {
 
@@ -263,8 +266,9 @@ public class Game {
 	 * Inicializador de niveles (Se obtienen del director)
 	 * 
 	 */
-	private void initializeLevel() {
+	public void initializeLevel() {
 
+		
 		switch (level) {
 			
 			case 1: {
@@ -288,11 +292,16 @@ public class Game {
 				currentLevel = levelBuilder.getResult();
 				break;
 			}
+			
+			default: {
+				finishGame();
+			}
 	
 		}
 		
 		initializeZones();				// Inicializar zonas.
 		setupGUIandEntities();	
+		
 		
 	}
 	
@@ -325,7 +334,7 @@ public class Game {
 	}
 	
 	/*
-	 * Chequea si el jugador consumio todos los Dots y Fruits (En este caso el tamaño 
+	 * Chequea si el jugador consumio todos los Dots y Fruits (En este caso el tamaï¿½o 
 	 * de la lista de componentes deberia ser menor o igual a 2 ya que como maximo 
 	 * estarian las 2 potion)
 	 */	
@@ -333,13 +342,39 @@ public class Game {
 
 		if (components.size() <= 5) {
 			
-			level++;
 			myGUI.dispose();
-	
-			initializeLevel();
+			gameOver = true;
+			myEndLevelGUI = new EndLevelGUI(this, domainRoute);
+			levelUp();
+
 		}
+		
 	}
 	
+	/**
+	 * Frena el movimiento de las entidades movibles y
+	 * Apaga el sonido
+	 */
+	public void finishGame() {
+		turnOffAudio();
+		playerThread.stop();
+		enemiesThread.stop();
+	}
+	
+	/**
+	 * Acciones a realizar al pasar de nivel
+	 */
+	public void levelUp() {
+		level++;
+		System.out.println(level);
+		if(level < 4)
+			initializeLevel();
+		else {
+			GraphicMenu graphicMenu = new GraphicMenu();
+			finishGame();
+		}
+		gameOver = false;
+	}
 	
 
 	/*
@@ -589,11 +624,8 @@ public class Game {
 		player.setDirection(Direction.STILL);
 
 		myGUI.dispose();
-		clip.stop();
-		clip.close();
 		myGameOverGUI = new GameOverGUI(this,domainRoute);
-		playerThread.stop();
-		enemiesThread.stop();
+		finishGame();
 	}
 
 	
@@ -698,4 +730,51 @@ public class Game {
 	public void setFrightenedTimer(boolean f) {
 		this.frightenedTimerOn = f;
 	}
+	
+	/**
+	 * 
+	 * @return nivel actual
+	 */
+	public int getLevel() {
+		return level;
+	}
+	/**
+	 * 
+	 * @return retorna si el sonido esta activado o no
+	 */
+	public boolean isSound() {
+		return sound;
+	}
+	
+	/**
+	 * Modifica la variable de sonido
+	 * @param sound
+	 */
+	public void setSound(boolean sound) {
+		this.sound = sound;
+	}
+	
+	/**
+	 * Cambia estado del sonido
+	 */
+	public void changeSound() {
+		if (sound) {
+			turnOffAudio();
+			sound = false;
+		}
+		else {
+			turnOnAudio();
+			sound = true;
+		}
+	}
+	
+	/**
+	 * Desactiva el sonido
+	 */
+	private void turnOffAudio() {
+		clip.stop();
+		clip.close();
+	}
+	
+	
 }
