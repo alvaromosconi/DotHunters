@@ -162,10 +162,6 @@ public class GUI extends JFrame {
 		labelMap.put(w, wallLabel);	
 	}
 
-	public JLabel getLabel(Entity e) {
-		
-		return labelMap.get(e);
-	}
 
 	public void addDoorWay(Entity d) {
 	
@@ -180,22 +176,11 @@ public class GUI extends JFrame {
 		
 	}
 	
-	public void tray(Entity e) {
-		
-		panel.setComponentZOrder(labelMap.get(e), 0);
-	}
-	
 	public void destroyEntity(Entity entityToDestroy) {
 		
 		panel.remove(labelMap.get(entityToDestroy));
 		labelMap.remove(entityToDestroy);
 
 	}
-
-	public void resetMap() {
-		labelMap.clear();
-		
-	}
-	
 
 }
