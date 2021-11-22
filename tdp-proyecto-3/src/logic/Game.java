@@ -3,12 +3,14 @@ package logic;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import entities.*;
 import entities.Character;
@@ -46,7 +48,7 @@ public class Game {
 
 	private Clip clip = null;
 
-	public Game(String domainRoute) throws UnsupportedAudioFileException, Exception {
+	public Game(String domainRoute) {
 		this.domainRoute = domainRoute;
 		director = new Director(this);
 		levelBuilder = new LevelBuilder();
@@ -54,13 +56,23 @@ public class Game {
 		
 		automaticMovement();			// Arrancar hilo del jugador.
 		enemiesAi();					// Arrancar hilo de los enemigos.
+		setupAudio();
+		
+	}
+	private void setupAudio()  {
+		
 		AudioInputStream audioInputStream;
 		java.net.URL url = Game.class.getResource(domainRoute + "back.wav");
-		audioInputStream = AudioSystem.getAudioInputStream(url);
-		clip = AudioSystem.getClip();
-		clip.open(audioInputStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		try {
+			audioInputStream = AudioSystem.getAudioInputStream(url);
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+		} catch (UnsupportedAudioFileException |IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
 	/*

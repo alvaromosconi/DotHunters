@@ -26,7 +26,7 @@ public class GraphicMenu extends JFrame {
 	private JRadioButton rdbtnPokemon;
 
 	public GraphicMenu() {
-		color = color.decode("#FF9526");
+		color = color.decode("#01579B");
 		getContentPane().setBackground(color);
 		getContentPane().setLayout(null);
 		setupWindow();
@@ -37,12 +37,13 @@ public class GraphicMenu extends JFrame {
 	
 	public void setupMisc() {
 		
-		JLabel lblNewLabel = new JLabel("");
+		JLabel lblNewLabel =  new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(GraphicMenu.class.getResource("/assets/MenuAssets/title.gif")));
 		lblNewLabel.setBounds(20, 42, 440, 185);
 		getContentPane().add(lblNewLabel);
 		
 		JRadioButton rdbtnMario = new JRadioButton("Mario");
+		rdbtnMario.setForeground(Color.BLACK);
 		rdbtnMario.setFont(new Font("Segoe UI Black", Font.PLAIN, 13));
 		rdbtnMario.setBounds(172, 416, 109, 23);
 		rdbtnMario.setBackground(color);
@@ -50,12 +51,14 @@ public class GraphicMenu extends JFrame {
 		getContentPane().add(rdbtnMario);
 		
 		rdbtnPokemon = new JRadioButton("Pokemon");
+		rdbtnPokemon.setForeground(Color.BLACK);
 		rdbtnPokemon.setFont(new Font("Segoe UI Black", Font.PLAIN, 13));
 		rdbtnPokemon.setBounds(307, 416, 109, 23);
 		rdbtnPokemon.setBackground(color);
 		getContentPane().add(rdbtnPokemon);
 		
 		JLabel lblCharacters = new JLabel("Characters:");
+		lblCharacters.setForeground(Color.BLACK);
 		lblCharacters.setFont(new Font("Segoe UI Black", Font.PLAIN, 16));
 		lblCharacters.setBounds(43, 413, 90, 23);
 		getContentPane().add(lblCharacters);
@@ -69,6 +72,7 @@ public class GraphicMenu extends JFrame {
 		/*PLAY BUTTON*/
 		
 		JButton btnStartGame = new JButton("Play");
+		btnStartGame.setForeground(Color.BLACK);
 		btnStartGame.setFont(new Font("Segoe UI Black", Font.PLAIN, 30));
 
 		btnStartGame.setBackground(color);
@@ -105,13 +109,15 @@ public class GraphicMenu extends JFrame {
 		
 		/*HIGH SCORES BUTTON*/
 		JButton btnHighScores= new JButton("High Scores");
+		btnHighScores.setForeground(Color.BLACK);
 		btnHighScores.setFont(new Font("Segoe UI Black", Font.PLAIN, 30));
 		btnHighScores.setBorder(null);
 		btnHighScores.setBackground(color);
 		btnHighScores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				HighScores hs = new HighScores();
+				HighScores hs = new HighScores(domainRoute);
+				dispose();
 			}
 		});
 		btnHighScores.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -149,7 +155,7 @@ public class GraphicMenu extends JFrame {
 		    }
 		});
 		btnCloseApp.setIcon(new ImageIcon(GraphicMenu.class.getResource("/assets/MenuAssets/closeImage.png")));
-		btnCloseApp.setBounds(434, 0, 50, 47);
+		btnCloseApp.setBounds(450, 0, 50, 47);
 		getContentPane().add(btnCloseApp);
 	}
 	
@@ -158,8 +164,8 @@ public class GraphicMenu extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(500, 500)); 
         setLocationRelativeTo(null);
-		//setUndecorated(true);
-	   //setResizable(false);
+		setUndecorated(true);
+		setResizable(false);
 
 	}
 }

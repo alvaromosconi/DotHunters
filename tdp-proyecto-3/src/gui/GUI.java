@@ -15,6 +15,9 @@ import javax.swing.SwingConstants;
 import entities.Entity;
 import logic.Game;
 import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GUI extends JFrame {
 	
@@ -24,6 +27,7 @@ public class GUI extends JFrame {
 	private ImageIcon backgroundImage;
 	private JPanel panel = new JPanel();
 	private JLabel lblScoreNumber;
+	private Color color;
 	
 	private KeyListener keyListener;
 	private Map<Entity, JLabel> labelMap;
@@ -33,6 +37,8 @@ public class GUI extends JFrame {
 		this.game = game;
 		this.backgroundUrl = backgroundUrl;
 		labelMap = new HashMap<Entity, JLabel>();
+		color = color.decode("#01579B");
+		panel.setBackground(color);
 		
 		setupWindow();
 
@@ -46,25 +52,81 @@ public class GUI extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(1100, 684)); 
-        setLocationRelativeTo(null);        
+        setLocationRelativeTo(null);     
         
 		setContentPane(panel);
 		panel.setLayout(null);
 		
-		JLabel lblScoreWord = new JLabel("Score:");
-		lblScoreWord.setFont(new Font("OCR A Extended", Font.BOLD, 18));
-		lblScoreWord.setBounds(983, 11, 107, 23);
-		panel.add(lblScoreWord);
+		setupLabels();
+		setupButton();
 		
-		lblScoreNumber = new JLabel(""+game.getScore());
-		lblScoreNumber.setFont(new Font("OCR A Extended", Font.BOLD, 18));
-		lblScoreNumber.setBounds(983, 45, 107, 23);
-		panel.add(lblScoreNumber);
+		
        
 		setUndecorated(true);
 	    setResizable(false);
 	}
 	
+	private void setupButton() {
+		JButton btnCloseApp = new JButton("");
+		btnCloseApp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				dispose();
+			}
+		});
+		btnCloseApp.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	btnCloseApp.setIcon(new ImageIcon(GraphicMenu.class.getResource("/assets/MenuAssets/hoverCloseImage.png")));
+		    	
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	btnCloseApp.setIcon(new ImageIcon(GraphicMenu.class.getResource("/assets/MenuAssets/closeImage.png")));
+		    }
+		});
+		btnCloseApp.setIcon(new ImageIcon(GUI.class.getResource("/assets/MenuAssets/closeImage.png")));
+		btnCloseApp.setBorder(null);
+		btnCloseApp.setBackground(new Color(1, 87, 155));
+		btnCloseApp.setBounds(1050, 0, 50, 47);
+		panel.add(btnCloseApp);
+	}
+	
+	private void setupLabels() {
+		JLabel lblScoreWord = new JLabel("Score:");
+		lblScoreWord.setForeground(Color.BLACK);
+		lblScoreWord.setFont(new Font("Segoe UI Black", Font.BOLD, 26));
+		lblScoreWord.setBounds(983, 79, 107, 38);
+		panel.add(lblScoreWord);
+		
+		lblScoreNumber = new JLabel(""+game.getScore());
+		lblScoreNumber.setForeground(Color.BLACK);
+		lblScoreNumber.setFont(new Font("Segoe UI Black", Font.BOLD, 24));
+		lblScoreNumber.setBounds(983, 128, 107, 23);
+		panel.add(lblScoreNumber);
+		
+		JLabel lblArrows = new JLabel("");
+		lblArrows.setIcon(new ImageIcon(GUI.class.getResource("/assets/MenuAssets/arrows2.png")));
+		lblArrows.setBounds(983, 175, 86, 73);
+		panel.add(lblArrows);
+		
+		JLabel lblMove = new JLabel("Move");
+		lblMove.setForeground(Color.BLACK);
+		lblMove.setFont(new Font("Segoe UI Black", Font.PLAIN, 24));
+		lblMove.setBounds(983, 247, 93, 38);
+		panel.add(lblMove);
+		
+		JLabel lblP = new JLabel("P");
+		lblP.setForeground(Color.BLACK);
+		lblP.setFont(new Font("Segoe UI Black", Font.PLAIN, 40));
+		lblP.setBounds(1009, 296, 33, 89);
+		panel.add(lblP);
+		
+		JLabel lblPower = new JLabel("Power");
+		lblPower.setForeground(Color.BLACK);
+		lblPower.setFont(new Font("Segoe UI Black", Font.PLAIN, 24));
+		lblPower.setBounds(983, 370, 93, 38);
+		panel.add(lblPower);
+	}
 	public void setupBackground() {
 		
 		
@@ -196,6 +258,4 @@ public class GUI extends JFrame {
 		labelMap.clear();
 		
 	}
-	
-
 }

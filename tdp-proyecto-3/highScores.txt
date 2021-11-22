@@ -1,5 +1,5 @@
-4080-Pepe
-1720-Player
-1030-Player
-40-Player
-0-Player
+4080 Pepe
+1720 Player
+1380 Player
+1030 Player
+1000 Player
