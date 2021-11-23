@@ -67,7 +67,7 @@ public class Director {
 		Potion potion2 = new PotionTypeB(19 * size , 7 * size, potionTypeBRoute, game);
 		
 		// Creacion de las frutas
-		Fruit fruit1 = new FruitTypeA(size * 11 , size * 13 , 50, fruitTypeARoute, game);
+		Fruit fruit1 = new FruitTypeA(size * 13, size * 1 , 50, fruitTypeARoute, game);
 		
 		// Creacion de los portales
 		Entity doorway1 = new Doorway(0 * size, 9 * size, game);
@@ -128,11 +128,11 @@ public class Director {
 		Dot poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute, game);
 		
 		// Creacion de las potions
-		Potion potion1 = new PotionTypeA(7 * size, 7 * size, potionTypeARoute, game);
-		Potion potion2 = new PotionTypeB(19 * size, 7 * size, potionTypeBRoute, game);
+		Potion potion1 = new PotionTypeA(5 * size, 5 * size, potionTypeARoute, game);
+		Potion potion2 = new PotionTypeB(21 * size, 5 * size, potionTypeBRoute, game);
 		
 		// Creacion de las frutas
-		Fruit fruit1 = new FruitTypeA(size * 15 + 30 , size * 12 + 15 , 50, fruitTypeARoute, game);
+		Fruit fruit1 = new FruitTypeA(size * 13, size * 1 , 50, fruitTypeARoute, game);
 		
 		// Creacion de los portales
 		Entity doorway1 = new Doorway(0 * size, 3 * size, game);
@@ -141,7 +141,7 @@ public class Director {
 		Entity doorway4 = new Doorway(26 * size, 15 * size, game);
 		
 		// Creacion de los enemigos
-		Enemy enemy1 = new EnemyTypeA(13 * size, 3 * size, domainRoute + "EnemyTypeA.gif", 2, game);
+		Enemy enemy1 = new EnemyTypeA(12 * size, 3 * size, domainRoute + "EnemyTypeA.gif", 2, game);
 		Enemy enemy2 = new EnemyTypeB(12 * size, 5 * size, domainRoute + "EnemyTypeB.gif", 1, game);
 		Enemy enemy3 = new EnemyTypeC(14 * size, 5 * size, domainRoute + "EnemyTypeC.gif", 2, game);
 		Enemy enemy4 = new EnemyTypeD(15 * size, 5 * size, domainRoute + "EnemyTypeD.gif", 2, game);
@@ -195,11 +195,11 @@ public class Director {
 		Dot poweredDot4 = new PoweredDot(size * 25 + 6, size * 17 + 6, 20, poweredDotRoute, game);
 		
 		// Creacion de las potions
-		Potion potion1 = new PotionTypeA(8 * size, 8 * size, potionTypeARoute, game);
-		Potion potion2 = new PotionTypeB(18 * size , 8 * size, potionTypeBRoute, game);
+		Potion potion1 = new PotionTypeA(8 * size, 6 * size, potionTypeARoute, game);
+		Potion potion2 = new PotionTypeB(18 * size , 6 * size, potionTypeBRoute, game);
 		
 		// Creacion de las frutas
-		Fruit fruit1 = new FruitTypeA(size * 15 , size * 15 , 50, fruitTypeARoute, game);
+		Fruit fruit1 = new FruitTypeA(size * 13, size * 1 , 50, fruitTypeARoute, game);
 				
 		// Creacion de los portales
 		Entity doorway1 = new Doorway(0 * size, 4 * size, game);
@@ -208,7 +208,7 @@ public class Director {
 		Entity doorway4 = new Doorway(26 * size, 14 * size, game);
 		
 		// Creacion de los enemigos
-		Enemy enemy1 = new EnemyTypeA(13 * size, 5 * size, domainRoute + "EnemyTypeA.gif", 2, game);
+		Enemy enemy1 = new EnemyTypeA(12 * size, 5 * size, domainRoute + "EnemyTypeA.gif", 2, game);
 		Enemy enemy2 = new EnemyTypeB(12 * size, 7 * size, domainRoute + "EnemyTypeB.gif", 1, game);
 		Enemy enemy3 = new EnemyTypeC(14 * size, 7 * size, domainRoute + "EnemyTypeC.gif", 2, game);
 		Enemy enemy4 = new EnemyTypeD(15 * size, 7 * size, domainRoute + "EnemyTypeD.gif", 2, game);

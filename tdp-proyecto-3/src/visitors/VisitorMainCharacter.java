@@ -84,7 +84,7 @@ public class VisitorMainCharacter implements Visitor {
 			player.setNextDirection(Direction.STILL);
 			
 			// Aumento de velocidad
-			player.setSpeed(3);
+			player.setSpeed(4);
 			
 			// Timer que elimina el poder luego de x tiempo
 			new Thread() {

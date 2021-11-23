@@ -1,6 +1,7 @@
 package logic;
 
 import java.awt.Point;
+
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -15,7 +16,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import entities.*;
 import entities.Character;
 import entities.Enemy.State;
-import gui.EndLevelGUI;
 import gui.GUI;
 import gui.GameOverGUI;
 import gui.GraphicMenu;
@@ -27,17 +27,15 @@ public class Game {
 	private Level currentLevel;
 	private GUI myGUI;
 	private GameOverGUI myGameOverGUI;
-	private EndLevelGUI myEndLevelGUI;
 
 	private Thread playerThread;
 	private Thread enemiesThread;
 	
 	private Zone[][] myZones;
 
-	private boolean frightenedTimerOn;
 	private boolean gameOver = false;
 	private boolean sound = true;
-	private int level = 1;
+	private int level = 3;
 	private int lives = 3;
 	private int score;
 	
@@ -61,7 +59,7 @@ public class Game {
 		initializeLevel();	
 		
 		automaticMovement();			// Arrancar hilo del jugador.
-		enemiesAi();					// Arrancar hilo de los enemigos.
+		//enemiesAi();					// Arrancar hilo de los enemigos.
 		turnOnAudio();
 		
 	}
@@ -353,7 +351,7 @@ public class Game {
 			
 			myGUI.dispose();
 			gameOver = true;
-			myEndLevelGUI = new EndLevelGUI(this, domainRoute);
+			//myEndLevelGUI = new EndLevelGUI(this, domainRoute);
 			levelUp();
 
 		}
@@ -608,15 +606,16 @@ public class Game {
 
 	public void enableFrightenedMode() {
 
+		
+		
 		for (Enemy enemy : enemies) {
 			
 			if (enemy.getState() != State.RESPAWNING ) {
 				enemy.enableFrightenedMode();
-				frightenedTimerOn = true;
 			}
 			
 		}
-		new FrightenedTimer(this, 10000).start();;
+		new FrightenedTimer(this, 10000).start();
 	}
 
 	/*
@@ -644,7 +643,7 @@ public class Game {
 
 		for (Enemy enemy : enemies) {
 			
-			if (enemy.getState() == State.FRIGHTENED && !frightenedTimerOn) {
+			if (enemy.getState() == State.FRIGHTENED) {
 				
 				enemy.disableFrightenedMode();
 				enemy.setState(State.CHASING);
@@ -731,13 +730,6 @@ public class Game {
 
 		return myGUI;
 	}
-	/*
-	 * Modifica el boolean para determinar si un enemigo se encontraba en modo "asustado" y poder reiniciar la duracion de dicho estado
-	 * @param f corresponde a si el estado del enemigo es "asustado"
-	 */
-	public void setFrightenedTimer(boolean f) {
-		this.frightenedTimerOn = f;
-	}
 	
 	/**
 	 * 
@@ -791,6 +783,5 @@ public class Game {
 	public int getLifes() {
 		return lives;
 	}
-	
 	
 }
