@@ -28,6 +28,8 @@ public class GUI extends JFrame {
 	private JPanel panel = new JPanel();
 	private JLabel lblScoreNumber;
 	private Color color;
+	private JLabel lblVidas;
+	private JLabel lblBomb;
 	
 	private KeyListener keyListener;
 	private Map<Entity, JLabel> labelMap;
@@ -112,6 +114,7 @@ public class GUI extends JFrame {
 		btnSound.setBackground(new Color(1, 87, 155));
 		btnSound.setBorder(null);
 		panel.add(btnSound);
+		
 	}
 	
 	public void foco() {
@@ -153,6 +156,15 @@ public class GUI extends JFrame {
 		lblPower.setFont(new Font("Segoe UI Black", Font.PLAIN, 24));
 		lblPower.setBounds(983, 370, 93, 38);
 		panel.add(lblPower);
+		
+		lblVidas = new JLabel("");
+		lblVidas.setBounds(974, 419, 116, 36);
+		lblVidas.setIcon(new ImageIcon(GUI.class.getResource("/assets/MenuAssets/lives" + game.getLifes() + ".png")));
+		panel.add(lblVidas);
+		
+		lblBomb = new JLabel("");
+		lblBomb.setBounds(980, 479, 37, 37);
+		panel.add(lblBomb);
 	}
 	public void setupBackground() {
 		
@@ -183,8 +195,10 @@ public class GUI extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
-				if (e.getKeyCode() == KeyEvent.VK_P)
+				if (e.getKeyCode() == KeyEvent.VK_P) {
 				   game.potionTypeAEvent();
+				   desvisualizarBomba();
+				   }
 				else
 				   game.movePlayer(e);
 			
@@ -270,5 +284,17 @@ public class GUI extends JFrame {
 		panel.remove(labelMap.get(entityToDestroy));
 		labelMap.remove(entityToDestroy);
 
+	}
+	
+	public void updateLives() {
+		lblVidas.setIcon(new ImageIcon(GUI.class.getResource("/assets/MenuAssets/lives" + game.getLifes() + ".png")));
+	}
+	
+	public void visualizarBomba() {
+		lblBomb.setIcon(new ImageIcon(GUI.class.getResource("/assets/MarioAssets/bomb.png")));
+	}
+	
+	public void desvisualizarBomba() {
+		lblBomb.setIcon(null);
 	}
 }

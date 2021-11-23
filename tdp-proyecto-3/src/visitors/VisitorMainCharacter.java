@@ -66,6 +66,7 @@ public class VisitorMainCharacter implements Visitor {
 		Game myGame = p.getGame();
 		player.havePotionTypeA(true);
 		myGame.destroyEntity(p);
+		myGame.getGUI().visualizarBomba();
 	}
 
 	@Override
@@ -196,6 +197,7 @@ public class VisitorMainCharacter implements Visitor {
             else if (enemy.getState() != State.RESPAWNING){
 //                player.getGame().gameOver();
             	player.getGame().loseLife();
+            	player.getGame().getGUI().updateLives();
             	if (player.getGame().getLevel() == 1) {
 	            	player.setXValue(13 * size);
 	            	player.setYValue(9 * size);

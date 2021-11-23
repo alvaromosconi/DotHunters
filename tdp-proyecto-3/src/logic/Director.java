@@ -250,9 +250,9 @@ public class Director {
 private void loadAllRegularDots(List<Entity> components, List<Wall> walls, List<Entity> zonaSinDots) {
 		
 		
-		for (int i = 2; i < 10; i++) //27
+		for (int i = 2; i < 27; i++) //27
 			
-			for (int j = 1; j < 5; j++)  { //19
+			for (int j = 1; j < 19; j++)  { //19
 				
 				RegularDot regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
 				components.add(regularDot);

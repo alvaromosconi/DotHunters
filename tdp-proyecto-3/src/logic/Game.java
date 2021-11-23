@@ -349,7 +349,7 @@ public class Game {
 	 */	
 	public void checkIfWin() {
 
-		if (components.size() <= 5) {
+		if (components.size() <= 2) {
 			
 			myGUI.dispose();
 			gameOver = true;
@@ -375,7 +375,6 @@ public class Game {
 	 */
 	public void levelUp() {
 		level++;
-		System.out.println(level);
 		if(level < 4)
 			initializeLevel();
 		else {
@@ -783,6 +782,14 @@ public class Game {
 	private void turnOffAudio() {
 		clip.stop();
 		clip.close();
+	}
+
+	/**
+	 * 
+	 * @return cantidad de vidas
+	 */
+	public int getLifes() {
+		return lives;
 	}
 	
 	
