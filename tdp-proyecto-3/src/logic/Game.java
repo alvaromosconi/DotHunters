@@ -38,6 +38,7 @@ public class Game {
 	private boolean gameOver = false;
 	private boolean sound = true;
 	private int level = 1;
+	private int lives = 3;
 	private int score;
 	
 	Director director;
@@ -64,6 +65,14 @@ public class Game {
 		turnOnAudio();
 		
 	}
+	
+	public void loseLife() {
+		if(lives == 1)
+			gameOver();
+		else
+			lives--;
+	}
+	
 	private void turnOnAudio()  {
 		
 		AudioInputStream audioInputStream;

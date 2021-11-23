@@ -18,6 +18,7 @@ import timeHandlers.RespawnTimer;
 public class VisitorMainCharacter implements Visitor {
 
 	private MainCharacter player;
+	private int size = 36;
 	
 	public VisitorMainCharacter(MainCharacter player) {
 		
@@ -143,7 +144,6 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
 	public void visitDoorway(Doorway doorway) {
 		
-		int size = 36;
 		
 		float xPosition = player.getXValue();
 		
@@ -194,7 +194,22 @@ public class VisitorMainCharacter implements Visitor {
 
             // Caso contrario, si el enemigo no se encuentra en estado de "reaparicion" acabar el juego.
             else if (enemy.getState() != State.RESPAWNING){
-                player.getGame().gameOver();
+//                player.getGame().gameOver();
+            	player.getGame().loseLife();
+            	if (player.getGame().getLevel() == 1) {
+	            	player.setXValue(13 * size);
+	            	player.setYValue(9 * size);
+            	}
+            	else {
+            		if (player.getGame().getLevel() == 2) {
+    	            	player.setXValue(13 * size);
+    	            	player.setYValue(7 * size);
+                	}
+            		else {
+            			player.setXValue(13 * size);
+    	            	player.setYValue(11 * size);
+            		}
+            	}
             }
 
     }
