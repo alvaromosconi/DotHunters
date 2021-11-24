@@ -29,12 +29,5 @@ public enum Direction {
     	return yVelocity;
     }
     
-//    public static void changeSpeed(int speed) {
-//    	UP.yVelocity = -speed;
-//    	DOWN.yVelocity = speed;
-//    	LEFT.xVelocity = -speed;
-//    	RIGHT.xVelocity = speed;
-//    }
-    
 }
     

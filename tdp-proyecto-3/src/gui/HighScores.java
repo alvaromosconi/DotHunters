@@ -55,14 +55,6 @@ public class HighScores extends JFrame {
 		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-
-		JLabel title = new JLabel("");
-		title.setIcon(new ImageIcon(HighScores.class.getResource("/assets/MenuAssets/highScoresImage.png")));
-		title.setBounds(79, 59, 371, 104);
-		JLabel lblScoreWord = new JLabel("Score:");
-		lblScoreWord.setFont(new Font("OCR A Extended", Font.BOLD, 18));
-		contentPane.setLayout(null);
-		contentPane.add(title);
 		
 		setupLabels();
 		setupButtons();
@@ -71,7 +63,9 @@ public class HighScores extends JFrame {
 
 	}
 
-	
+	/*
+	 * Metodo encargado de crear los botones
+	 */
 	private void setupButtons() {
 		
 
@@ -113,7 +107,11 @@ public class HighScores extends JFrame {
 	}
 	
 	
+	/*
+	 * Metodo encargado de crear los labels
+	 */
 	private void setupLabels() {
+		
 		lblScore0 = new JLabel("New label");
 		lblScore0.setForeground(Color.BLACK);
 		lblScore0.setFont(new Font("Segoe UI Black", Font.PLAIN, 18));
@@ -144,8 +142,19 @@ public class HighScores extends JFrame {
 		lblScore4.setBounds(79, 364, 869, 26);
 		contentPane.add(lblScore4);
 		
+		JLabel title = new JLabel("");
+		title.setIcon(new ImageIcon(HighScores.class.getResource("/assets/MenuAssets/highScoresImage.png")));
+		title.setBounds(79, 59, 371, 104);
+		JLabel lblScoreWord = new JLabel("Score:");
+		lblScoreWord.setFont(new Font("OCR A Extended", Font.BOLD, 18));
+		contentPane.setLayout(null);
+		contentPane.add(title);
+		
 	}
 
+	/*
+	 * Metodo encargado de cargar los 5 puntajes mas alto
+	 */
 	public void chargeScores() {
 
 		String[] Scores = new String[5];
@@ -170,67 +179,75 @@ public class HighScores extends JFrame {
 
 	}
 
+	/*
+	 * Metodo encargado de formatear el puntaje
+	 */
 	private void setFormat(JLabel label, String string) {
+		
 		scoreString = string.replaceAll("\\D+","");
 	    nameString = string.replaceAll("[0-9]","");
 	    highScoreString = scoreString;
-	    while(highScoreString.length() + nameString.length() < 55) {
+	    
+	    while(highScoreString.length() + nameString.length() < 55) 
 	    	highScoreString +=".";
-	    }
+	    
 	    highScoreString+=nameString;
 	    label.setText(highScoreString);
 		
 	}
 
-
+	
+	/*
+	 * Añade el nuevo score y actualiza el Label correspondiente
+	 * @param Score puntaje nuevo
+	 * @param name nombre del jugador
+	 */
 	public void addScore(int Score, String name) {
+
 		int lowerScore = 0;
 		String originalFileContent = "";
 		boolean replace = false;
 		try {
-		      BufferedReader br = new BufferedReader(new FileReader(file));
-		      String line = br.readLine();
-		      int scoresAmount =0;
-		      while(line!=null && scoresAmount<5) {
-		    	  lowerScore =Integer.valueOf(line.replaceAll("\\D+", ""));
-		    	  if (Score>lowerScore && !replace) {
-		    		  originalFileContent+= Score+" "+name + System.lineSeparator();
-		    		  replace = true;
-		    		  scoresAmount++;
-		    	  }
-		    	  originalFileContent += line + System.lineSeparator();
-		    	  line = br.readLine();
-		    	  scoresAmount++;
-		      }
+			
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String line = br.readLine();
+			int scoresAmount = 0;
+			
+			while (line != null && scoresAmount < 5) {
+				lowerScore = Integer.valueOf(line.replaceAll("\\D+", ""));
+				
+				if (Score > lowerScore && !replace) {
+					originalFileContent += Score + " " + name + System.lineSeparator();
+					replace = true;
+					scoresAmount++;
+				}
+				
+				originalFileContent += line + System.lineSeparator();
+				line = br.readLine();
+				scoresAmount++;
+			}
 
-		      if (replace) {
-		    	  String modifiedContent = originalFileContent;
-		    	  BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		    	  writer.write(modifiedContent);
-		    	  writer.close();
-
-		      }
-		      br.close();
-		}catch(IOException e) {
+			if (replace) {
+				
+				String modifiedContent = originalFileContent;
+				BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+				writer.write(modifiedContent);
+				writer.close();
+			}
+			
+			br.close();
+		} 
+		
+		catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		chargeScores();
 	}
-
-	public int countScores() {
-		int amount = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-		    while (br.readLine() != null) {
-		    	amount++;
-		    }
-		    br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return amount;
-	}
 	
+	/*
+	 * Metodo encargado de estilizar y dimensionar la ventana
+	 */
 	private void setupWindow() {
 		setResizable(false);
 		setMinimumSize(new Dimension(500, 500)); 

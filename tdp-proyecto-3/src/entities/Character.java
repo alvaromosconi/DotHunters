@@ -14,6 +14,9 @@ public abstract class Character extends Entity {
 	protected int nextYVelocity;
 	protected int speed;
 	
+	protected int initialXValue;
+	protected int initialYValue;
+	
 	protected Direction currentDirection;
 	protected Direction nextDirection;
 
@@ -22,6 +25,8 @@ public abstract class Character extends Entity {
 		super(xValue, yValue, imageRoute, game);
 		
 		this.speed = speed;	
+		this.initialXValue = xValue;
+		this.initialYValue = yValue;
 		this.width = 36;
 		this.height = 36;
 		
@@ -205,4 +210,26 @@ public abstract class Character extends Entity {
 		
 		return speed;
 	}	
+	
+	/*
+	 * @return posicion inicial del personaje en X
+	 */
+	public int getInitialXValue() {
+
+		return initialXValue;
+	}
+
+	/*
+	 * @return posicion inicial del personaje en Y
+	 */
+	public int getInitialYValue() {
+
+		return initialYValue;
+	}
+	
+	public void setCharacterInInitialPosition() {
+		
+		xValue = initialXValue;
+		yValue = initialYValue;
+	}
 }

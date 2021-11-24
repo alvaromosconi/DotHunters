@@ -10,12 +10,7 @@ public class EnemyTypeC extends Enemy {
 	public EnemyTypeC(int xValue, int yValue, String imageRoute, int speed, Game game) {
 		
 		super(xValue, yValue, imageRoute, speed, game);
-		
-	    initialXValue = xValue;
-		initialYValue = yValue;
-
 		visitor = new VisitorEnemy(this);
-
 	}
 	
 	@Override
@@ -86,23 +81,23 @@ public class EnemyTypeC extends Enemy {
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.LEFT);
 		
-		if (yValue < 7 * 36 )
+		if (yValue < initialYValue - 36)
 			state = State.CHASING;	
 		
 	}
 	
 	@Override
 	public void disableRespawnMode() {
+		
 		state = State.CHASING;
-		loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");
-
+		loadSprites(domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute+ "EnemyTypeC.gif");
 	}
 	
 	@Override
     public void disableFrightenedMode() {
-    	speed = chaseSpeed;
-    	loadSprites("/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/" + "EnemyTypeC.gif", "/assets/MarioAssets/"+ "EnemyTypeC.gif");
-    
+    	
+		speed = chaseSpeed;
+    	loadSprites(domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute + "EnemyTypeC.gif", domainRoute+ "EnemyTypeC.gif");
     }
 
 }

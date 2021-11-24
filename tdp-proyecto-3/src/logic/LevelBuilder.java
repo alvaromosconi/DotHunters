@@ -11,10 +11,12 @@ public class LevelBuilder implements Builder {
 	private List<Enemy> enemies;
 	private List<Entity> components;
 	private List<Wall> walls;
+	private List<Entity> doorways;
 	private MainCharacter player;
 	private String backgroundUrl; 
-	private List<Entity> doorways;
-
+	private int respawnTime;
+	private int frightenedStateTime;
+	private int powerTypeBTime;
 
 	@Override
 	public void createEnemies(List<Enemy> enemies) {
@@ -43,7 +45,7 @@ public class LevelBuilder implements Builder {
 	@Override
 	public Level getResult() {
 		
-		return new Level(enemies, components, player, walls, backgroundUrl, doorways);
+		return new Level(enemies, components, player, walls, backgroundUrl, doorways, respawnTime, frightenedStateTime, powerTypeBTime);
 	}
 
 	@Override
@@ -55,8 +57,24 @@ public class LevelBuilder implements Builder {
 	@Override
 	public void createDoorways(List<Entity> doorways) {
 		// TODO Auto-generated method stub
-		this.doorways = doorways;
-		
+		this.doorways = doorways;		
 	}
-
+	
+	@Override
+	public void setRespawnTime(int milisec) {
+		
+		this.respawnTime = milisec;
+	}
+	
+	@Override
+	public void setFrightenedStateTime(int milisec) {
+		
+		this.frightenedStateTime = milisec;
+	}
+	
+	@Override
+	public void setPowerTypeBTime(int milisec) {
+		
+		this.powerTypeBTime = milisec;
+	}
 }

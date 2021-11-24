@@ -3,7 +3,7 @@ package entities;
 import logic.Game;
 import visitors.Visitor;
 import visitors.VisitorMainCharacter;
-
+import entities.Enemy.State;
 import logic.Direction;
 
 public class MainCharacter extends Character {
@@ -46,17 +46,28 @@ public class MainCharacter extends Character {
 		super.move();
 	}
 	
+	/*
+	 * Metodo encargado de modificar la velocidad
+	 * @param speed velocidad nuvea
+	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 	
+	/*
+	 * Metodo encargado de establecer que el jugador tiene una pocion cargada o no
+	 * @param p true si la tiene una pocion, false caso contrario
+	 */
 	public void havePotionTypeA(boolean p) {
 		havePotionTypeA = p;
 	}
 	
+	/*
+	 * Metodo encargado de retornar si el jugador tiene una pocion cargada o no
+	 * @return pocion cargada
+	 */
 	public boolean havePotionTypeA() {
 		return havePotionTypeA;
 	}
-
 
 }

@@ -1,7 +1,7 @@
 package visitors;
 
 import entities.*;
-
+import entities.Enemy.State;
 import logic.Direction;
 import logic.Game;
 import timeHandlers.PowerTimer;
@@ -20,6 +20,7 @@ public class VisitorEnemy implements Visitor {
 	@Override
 	public void visitWall(Wall w) {
 	
+		if (enemy.getState() != State.LEAVINGHOUSE)
 		enemy.setDirection(Direction.STILL);
 	}
 
@@ -77,7 +78,7 @@ public class VisitorEnemy implements Visitor {
 		Game myGame = enemy.getGame();
 
 		// Setear imagen del power
-		power.setImageRoute("/assets/MarioAssets/explosion.gif");
+		power.setImageRoute(myGame.getDomainRoute()+ "explosion.gif");
 		// Refrescar imagen
 		myGame.getGUI().refreshImage(power);
 
@@ -95,11 +96,10 @@ public class VisitorEnemy implements Visitor {
 		// Activar modo "reaparicion"
 		enemy.enableRespawnMode();
 		// Esperar x cantidad de tiempo antes de volver a establecer los enemigos en estado "persecucion"
-		new RespawnTimer(enemy, 15000).start();
+		new RespawnTimer(enemy, myGame.getLevel().getRespawnTime()).start();
 		
 		// Establecer posiciones iniciales
-		enemy.setXValue(enemy.getInitialXValue());
-		enemy.setYValue(enemy.getInitialYValue());
+		enemy.setCharacterInInitialPosition();
 	}
 
 	@Override

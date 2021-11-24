@@ -26,41 +26,42 @@ public class EndLevelGUI extends JFrame {
 	private JTextField textFieldFinishLevel;
 	private JTextField textFieldPlayerName;
 	
-	
 
 	public EndLevelGUI(Game game, String domainRoute) {
 		
 		this.game = game;
 		this.domainRoute = domainRoute;
 		setupWindow();
-		color = color.decode("#01579B");
-		getContentPane().setBackground(color);
-		getContentPane().setLayout(null);
 		
 		super.setVisible(true);
 		super.pack();
 		
 		
-		if(game.getLevel() < 3)
+		if(game.getLevelNumber() < 3)
 			this.esperar(2);
 		else
 			this.esperar(10);
 		
 		dispose();
-
 	}
 	
 	public static void esperar(int segundos){
-        try {
+       
+		try {
             Thread.sleep(segundos * 1000);
-         } catch (Exception e) {
+         } 
+		
+		catch (Exception e) {
             System.out.println(e);
          }
     }   
 	
+	/*
+	 * Metodo encargado de estilizar y dimensionar la ventana
+	 */
 	private void setupWindow() {
 		
-		if(game.getLevel() == 1 || game.getLevel() == 2) 
+		if(game.getLevelNumber() == 1 || game.getLevelNumber() == 2) 
 			setLevelCompletedWindow();
 		else
 			setGameCompletedWindow();
@@ -72,6 +73,9 @@ public class EndLevelGUI extends JFrame {
         setLocationRelativeTo(null);               
 	    setResizable(false);
 	    
+		color = color.decode("#01579B");
+		getContentPane().setBackground(color);
+		getContentPane().setLayout(null);
 	}
 	
 	private void setLevelCompletedWindow() {
@@ -89,8 +93,8 @@ public class EndLevelGUI extends JFrame {
 		JLabel lblNumberLevel = new JLabel("");
 		lblNumberLevel.setBounds(197, 111, 104, 84);
 		
-		if(game.getLevel() == 1 || game.getLevel() == 2) {
-			if(game.getLevel() == 1) 
+		if(game.getLevelNumber() == 1 || game.getLevelNumber() == 2) {
+			if(game.getLevelNumber() == 1) 
 				lblNumberLevel.setIcon(new ImageIcon(EndLevelGUI.class.getResource("/assets/MenuAssets/1.png")));
 			else 
 				lblNumberLevel.setIcon(new ImageIcon(EndLevelGUI.class.getResource("/assets/MenuAssets/2.png")));

@@ -4,15 +4,9 @@ import java.awt.Point;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import entities.*;
 import entities.Character;
 import entities.Enemy.State;
@@ -23,24 +17,24 @@ import timeHandlers.FrightenedTimer;
 
 public class Game {
 
-	private String domainRoute = "";
+	private String domainRoute;
 	private Level currentLevel;
 	private GUI myGUI;
 	private GameOverGUI myGameOverGUI;
-
 	private Thread playerThread;
 	private Thread enemiesThread;
 	
 	private Zone[][] myZones;
 
 	private boolean gameOver = false;
-	private boolean sound = true;
-	private int level = 3;
+	private int levelNumber = 1;
 	private int lives = 3;
 	private int score;
 	
-	Director director;
-	LevelBuilder levelBuilder;
+	private Director director;
+	private LevelBuilder levelBuilder;
+	
+	private SoundHandler soundHandler;
 	
 	private MainCharacter player;
 
@@ -49,41 +43,17 @@ public class Game {
 	private List<Enemy> enemies;
 	private List<Entity> allEntities;
 	private List<Entity> doorways;
-
-	private Clip clip = null;
-
+	
 	public Game(String domainRoute) {
+
 		this.domainRoute = domainRoute;
+		soundHandler = new SoundHandler(domainRoute);
 		director = new Director(this);
 		levelBuilder = new LevelBuilder();
 		initializeLevel();	
 		
 		automaticMovement();			// Arrancar hilo del jugador.
-		//enemiesAi();					// Arrancar hilo de los enemigos.
-		turnOnAudio();
-		
-	}
-	
-	public void loseLife() {
-		if(lives == 1)
-			gameOver();
-		else
-			lives--;
-	}
-	
-	private void turnOnAudio()  {
-		
-		AudioInputStream audioInputStream;
-		java.net.URL url = Game.class.getResource(domainRoute + "back.wav");
-		try {
-			audioInputStream = AudioSystem.getAudioInputStream(url);
-			clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-		} catch (UnsupportedAudioFileException |IOException | LineUnavailableException e) {
-			e.printStackTrace();
-		} 
-		
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		enemiesAi();					// Arrancar hilo de los enemigos.
 	}
 
 	/*
@@ -133,9 +103,8 @@ public class Game {
 
 						Thread.sleep(15);
 
-						for (Enemy enemy : enemies)
-							enemy.executeCurrentBehaviour();
-
+						for (Enemy enemy : enemies) 
+							enemy.executeCurrentBehaviour();		
 					}
 
 					catch (InterruptedException e) {
@@ -143,7 +112,6 @@ public class Game {
 					}
 
 				}
-
 			}
 		};
 
@@ -151,8 +119,8 @@ public class Game {
 	}
 
 	/*
-	 * Inicializa las zonas del juego con su tamaï¿½o y ubicacion correspondiente,
-	 * usando el tamaï¿½o del mapa como referencia.
+	 * Inicializa las zonas del juego con su tamaño y ubicacion correspondiente,
+	 * usando el tamaño del mapa como referencia.
 	 */
 	private void initializeZones() {
 
@@ -185,7 +153,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aï¿½aden las paredes a la o las zonas que correspondan.
+	 * Se añaden las paredes a la o las zonas que correspondan.
 	 */
 
 	private void chargeZonesWithWalls() {
@@ -214,7 +182,7 @@ public class Game {
 	}
 
 	/*
-	 * Se aï¿½aden las entidades a la o las zonas que correspondan.
+	 * Se añaden las entidades a la o las zonas que correspondan.
 	 */
 	private void chargeZonesWithEntities() {
 
@@ -230,7 +198,6 @@ public class Game {
 				for (int j = 0; j < myZones[0].length; j++) {
 
 					zoneRectangle = myZones[i][j].getRectangle();
-					// System.out.println(entityRectangle);
 					if (entityRectangle.intersects(zoneRectangle) && getZones(entity).isEmpty()) {
 
 						myGUI.addEntity(entity);
@@ -238,7 +205,6 @@ public class Game {
 					}
 				}
 		}
-
 	}
 
 	/*
@@ -274,9 +240,8 @@ public class Game {
 	 * 
 	 */
 	public void initializeLevel() {
-
-		
-		switch (level) {
+	
+		switch (levelNumber) {
 			
 			case 1: {
 				
@@ -308,8 +273,7 @@ public class Game {
 		
 		initializeZones();				// Inicializar zonas.
 		setupGUIandEntities();	
-		
-		
+			
 	}
 	
 	/*
@@ -347,10 +311,10 @@ public class Game {
 	 */	
 	public void checkIfWin() {
 
-		if (components.size() <= 2) {
+		if (components.size() == 0) {
 			
-			myGUI.dispose();
 			gameOver = true;
+			myGUI.dispose();
 			//myEndLevelGUI = new EndLevelGUI(this, domainRoute);
 			levelUp();
 
@@ -363,7 +327,7 @@ public class Game {
 	 * Apaga el sonido
 	 */
 	public void finishGame() {
-		turnOffAudio();
+		soundHandler.turnOffAudio();
 		playerThread.stop();
 		enemiesThread.stop();
 	}
@@ -372,17 +336,20 @@ public class Game {
 	 * Acciones a realizar al pasar de nivel
 	 */
 	public void levelUp() {
-		level++;
-		if(level < 4)
+		
+		levelNumber++;
+		
+		if (levelNumber < 4)
 			initializeLevel();
+		
 		else {
 			GraphicMenu graphicMenu = new GraphicMenu();
 			finishGame();
 		}
+		
 		gameOver = false;
 	}
 	
-
 	/*
 	 * Recibe el input que detecto la GUI y responde acorde al movimiento requerido,
 	 * guardando la direccion actual y la siguiente para evitar colisiones con
@@ -521,7 +488,7 @@ public class Game {
 					if (!zone.getEntities().contains(entityB))
 						break innerloop;
 					else
-						myGUI.refreshEntity(entityB);
+						myGUI.refreshLocationOfEntity(entityB);
 
 				}
 
@@ -532,7 +499,7 @@ public class Game {
 
 		myGUI.refreshImage(entityA);
 		updateZones(entityA);
-		myGUI.refreshEntity(entityA);
+		myGUI.refreshLocationOfEntity(entityA);
 		entityA.move();
 	}
 
@@ -592,7 +559,7 @@ public class Game {
 
 		if (player.havePotionTypeA()) {
 
-			PowerTypeA power = new PowerTypeA(player.getXValue(), player.getYValue(), "/assets/MarioAssets/bomb.png", this);
+			PowerTypeA power = new PowerTypeA(player.getXValue(), player.getYValue(), domainRoute + "bomb.png", this);
 			allEntities.add(power);
 
 			chargeZonesWithEntities();
@@ -606,16 +573,13 @@ public class Game {
 
 	public void enableFrightenedMode() {
 
-		
-		
 		for (Enemy enemy : enemies) {
 			
-			if (enemy.getState() != State.RESPAWNING ) {
-				enemy.enableFrightenedMode();
-			}
-			
+			if (enemy.getState() != State.RESPAWNING ) 
+				enemy.enableFrightenedMode();		
 		}
-		new FrightenedTimer(this, 10000).start();
+		
+		new FrightenedTimer(this, currentLevel.getFrightenedStateTime()).start();
 	}
 
 	/*
@@ -631,7 +595,7 @@ public class Game {
 		player.setDirection(Direction.STILL);
 
 		myGUI.dispose();
-		myGameOverGUI = new GameOverGUI(this,domainRoute);
+		new GameOverGUI(this,domainRoute);
 		finishGame();
 	}
 
@@ -649,7 +613,6 @@ public class Game {
 				enemy.setState(State.CHASING);
 			}
 		}
-
 	}
 
 	/*
@@ -723,59 +686,6 @@ public class Game {
 		return player;
 	}
     
-	/*
-	 * @return retorna GUI.
-	 */
-	public GUI getGUI() {
-
-		return myGUI;
-	}
-	
-	/**
-	 * 
-	 * @return nivel actual
-	 */
-	public int getLevel() {
-		return level;
-	}
-	/**
-	 * 
-	 * @return retorna si el sonido esta activado o no
-	 */
-	public boolean isSound() {
-		return sound;
-	}
-	
-	/**
-	 * Modifica la variable de sonido
-	 * @param sound
-	 */
-	public void setSound(boolean sound) {
-		this.sound = sound;
-	}
-	
-	/**
-	 * Cambia estado del sonido
-	 */
-	public void changeSound() {
-		if (sound) {
-			turnOffAudio();
-			sound = false;
-		}
-		else {
-			turnOnAudio();
-			sound = true;
-		}
-	}
-	
-	/**
-	 * Desactiva el sonido
-	 */
-	private void turnOffAudio() {
-		clip.stop();
-		clip.close();
-	}
-
 	/**
 	 * 
 	 * @return cantidad de vidas
@@ -784,4 +694,67 @@ public class Game {
 		return lives;
 	}
 	
+	/**
+	 * Reduce la cantidad de vidas en 1 si la cantidad de vidas actual es > 1
+	 */
+	public void loseLife() {
+		
+		if (lives == 1)
+			gameOver();
+		else
+			lives--;
+	}
+	
+	/**
+	 * 
+	 * @return levelNumber nivel numerico actual
+	 */
+	public int getLevelNumber() {
+		return levelNumber;
+	}
+	
+	/**
+	 * 
+	 * @return nivel actual
+	 */
+	public Level getLevel() {
+		return currentLevel;
+	}
+	
+	/*
+	 * @return retorna GUI.
+	 */
+	public GUI getGUI() {
+
+		return myGUI;
+	}
+	
+	public SoundHandler getSoundHandler() {
+		
+		return soundHandler;
+	}
+
+	/*
+	 * Reinicialia las posiciones de los enemigos en sus respectivas posiciones iniciales.
+	 */
+	public void resetPositions() {
+		
+		for (Enemy enemy : enemies) {
+		
+			enemy.setCharacterInInitialPosition();
+			enemy.setState(State.LEAVINGHOUSE);
+		}
+		
+		player.setCharacterInInitialPosition();
+		player.setDirection(Direction.STILL);
+	}
+	
+	/*
+	 * Devuelve la ruta del dominio de aplicacion actual
+	 * @return ruta de dominio actual
+	 */
+	public String getDomainRoute() {
+		
+		return domainRoute;
+	}
 }

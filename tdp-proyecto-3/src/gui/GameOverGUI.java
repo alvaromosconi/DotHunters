@@ -24,13 +24,11 @@ public class GameOverGUI extends JFrame {
 	private Color color;
 
 	public GameOverGUI(Game game, String domainRoute) {
+		
 		setupWindow();
 		color = color.decode("#01579B");
 		getContentPane().setBackground(color);
-		getContentPane().setLayout(null);
-		
-		
-		
+		getContentPane().setLayout(null);		
 		
 		setupButtons(game,domainRoute);
 		setupMisc(game);
@@ -39,9 +37,11 @@ public class GameOverGUI extends JFrame {
 		
 	}
 	
+	/*
+	 * Metodo encargado de crear botones logicos
+	 */
 	private void setupMisc(Game game) {
 		
-		/*Player Name Textfield*/
 		textFieldPlayerName = new JTextField();
 		textFieldPlayerName.grabFocus();
 		textFieldPlayerName.setForeground(Color.WHITE);
@@ -54,14 +54,12 @@ public class GameOverGUI extends JFrame {
 		textFieldPlayerName.grabFocus();
 		getContentPane().add(textFieldPlayerName);
 		
-		/*Player Name Label*/
 		JLabel lblName = new JLabel("Your name:");
 		lblName.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
 		lblName.setForeground(Color.BLACK);
 		lblName.setBounds(93, 248, 123, 32);
 		getContentPane().add(lblName);
 		
-		/*Player's Score Label*/
 		JLabel lblScore = new JLabel("Your score: " + game.getScore());
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setForeground(Color.BLACK);
@@ -69,13 +67,11 @@ public class GameOverGUI extends JFrame {
 		lblScore.setBounds(70, 175, 310, 80);
 		getContentPane().add(lblScore);
 		
-		/*Underline Label*/
 		JLabel lblLine = new JLabel("New label");
 		lblLine.setIcon(new ImageIcon(GameOverGUI.class.getResource("/assets/MenuAssets/playerNameLine.png")));
 		lblLine.setBounds(202, 276, 224, 14);
 		getContentPane().add(lblLine);
 		
-		/*Game Over Sign Label*/
 		JLabel lblGameOver = new JLabel("");
 		lblGameOver.setIcon(new ImageIcon(GameOverGUI.class.getResource("/assets/MenuAssets/gameOverImage.png")));
 		lblGameOver.setBounds(52, 58, 332, 90);
@@ -83,9 +79,11 @@ public class GameOverGUI extends JFrame {
 		
 	}
 	
+	/*
+	 * Metodo encargado de crear los botones y su logica
+	 */
 	private void setupButtons(Game game, String domainRoute){
 		
-		/*Close App button*/
 		JButton btnCloseApp = new JButton("");
 		btnCloseApp.setBackground(color);
 		btnCloseApp.setBorder(null);
@@ -108,7 +106,6 @@ public class GameOverGUI extends JFrame {
 		btnCloseApp.setBounds(400, 0, 50, 47);
 		getContentPane().add(btnCloseApp);
 	
-		/*HighScores Button*/
 		JButton btnHighScores = new JButton("High Scores");
 		btnHighScores.setForeground(Color.BLACK);
 		btnHighScores.setFont(new Font("Segoe UI Black", Font.PLAIN, 30));
@@ -134,7 +131,6 @@ public class GameOverGUI extends JFrame {
 		btnHighScores.setBounds(115,290, 211, 60);
 		getContentPane().add(btnHighScores);
 		
-		/*Reset Game Button*/
 		JButton btnReset = new JButton("");
 		btnReset.setBorder(null);
 		btnReset.setBackground(color);
@@ -166,12 +162,14 @@ public class GameOverGUI extends JFrame {
 		getContentPane().add(btnReset);
 	}
 	
+	/*
+	 * Metodo encargado de estilizar y dimensionar la ventana
+	 */
 	private void setupWindow() {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(450, 400)); 
         setLocationRelativeTo(null);               
-	    setResizable(false);
-	    
+	    setResizable(false);   
 	}
 }

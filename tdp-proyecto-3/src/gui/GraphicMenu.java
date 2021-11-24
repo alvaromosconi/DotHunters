@@ -17,15 +17,13 @@ import javax.swing.JRadioButton;
 
 public class GraphicMenu extends JFrame {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Color color;
 	private String domainRoute = "/assets/MarioAssets/";
 	private JRadioButton rdbtnPokemon;
 
 	public GraphicMenu() {
+	
 		color = color.decode("#01579B");
 		getContentPane().setBackground(color);
 		getContentPane().setLayout(null);
@@ -35,12 +33,22 @@ public class GraphicMenu extends JFrame {
 		super.setVisible(true);
 	}
 	
-	public void setupMisc() {
+	/*
+	 * Metodo encargado de estilizar y dimensionar la ventana
+	 */
+	private void setupWindow() {
 		
-		JLabel lblNewLabel =  new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(GraphicMenu.class.getResource("/assets/MenuAssets/title.gif")));
-		lblNewLabel.setBounds(20, 42, 440, 185);
-		getContentPane().add(lblNewLabel);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(500, 500)); 
+        setLocationRelativeTo(null);
+		setUndecorated(true);
+		setResizable(false);
+	}
+	
+	/*
+	 * Metodo encargado de crear botones logicos
+	 */
+	public void setupMisc() {
 		
 		JRadioButton rdbtnMario = new JRadioButton("Mario");
 		rdbtnMario.setForeground(Color.BLACK);
@@ -66,10 +74,18 @@ public class GraphicMenu extends JFrame {
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		radioButtonGroup.add(rdbtnMario);
 		radioButtonGroup.add(rdbtnPokemon);
+		
+		JLabel lblNewLabel =  new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(GraphicMenu.class.getResource("/assets/MenuAssets/title.gif")));
+		lblNewLabel.setBounds(20, 42, 440, 185);
+		getContentPane().add(lblNewLabel);
 	}
 	
+	/*
+	 * Metodo encargado de crear los botones y su logica
+	 */
 	private void setupButtons() {
-		/*PLAY BUTTON*/
+
 		
 		JButton btnStartGame = new JButton("Play");
 		btnStartGame.setForeground(Color.BLACK);
@@ -78,22 +94,27 @@ public class GraphicMenu extends JFrame {
 		btnStartGame.setBackground(color);
 		btnStartGame.setBorder(null);
 		btnStartGame.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					if (rdbtnPokemon.isSelected()) {
-						domainRoute = "/assets/PokemonAssets/";
-						System.out.println("entro pokemon");
-					}else
-						System.out.println("mario");
+					
+					if (rdbtnPokemon.isSelected()) 
+						domainRoute = "/assets/PokemonAssets/";	
+					else
+						domainRoute = "/assets/MarioAssets/";	
+					
 					Game game = new Game(domainRoute);
 					dispose();
-				} catch (Exception e1) {
+				}
+				
+				catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
+		
 		btnStartGame.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
 		    	btnStartGame.setForeground(Color.white);
@@ -159,14 +180,5 @@ public class GraphicMenu extends JFrame {
 		getContentPane().add(btnCloseApp);
 	}
 	
-	private void setupWindow() {
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(500, 500)); 
-        setLocationRelativeTo(null);
-		setUndecorated(true);
-		setResizable(false);
-
-	}
 }
 

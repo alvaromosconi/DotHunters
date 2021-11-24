@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -17,15 +19,17 @@ public class Director {
 	private Game game;
 	
 	// Declaracion de rutas
-	private String domainRoute = "/assets/MarioAssets/";
-	private String regularDotRoute = domainRoute + "regularDot.png";
+	private String domainRoute;
+	private String regularDotRoute;
 	private String poweredDotRoute = domainRoute + "poweredDot.png";
 	private String potionTypeARoute = domainRoute + "potion1.png";
 	private String potionTypeBRoute = domainRoute + "potion2.png";
 	private String fruitTypeARoute = domainRoute + "fruit1.png";
+	private String fruitTypeBRoute = domainRoute + "fruit2.png";
+	private String fruitTypeCRoute = domainRoute + "fruit3.png";
 	private String routeOfMaze;
 	
-	// Tamaï¿½o estandar de las entidades del juego (puede variar)
+	// Tamaño estandar de las entidades del juego (puede variar)
 	private int size = 36;
 	
 	/*
@@ -33,15 +37,26 @@ public class Director {
 	 * @param game 
 	 */
 	public Director(Game game) {
+		
 		this.game = game;
+		this.domainRoute = game.getDomainRoute();
+		
+		this.regularDotRoute = domainRoute + "regularDot.png";
+		this.poweredDotRoute = domainRoute + "poweredDot.png";
+		this.potionTypeARoute = domainRoute + "potion1.png";
+		this.potionTypeBRoute = domainRoute + "potion2.png";
+		this.fruitTypeARoute = domainRoute + "fruit1.png";
+		this.fruitTypeBRoute = domainRoute + "fruit2.png";
+		this.fruitTypeCRoute = domainRoute + "fruit3.png";
 	}
 
 	/*
 	 * Crea todas las entidades del juego para el nivel 1.
 	 */
-	public void constructLevelOne(Builder b) {
+	public void constructLevelOne(Builder builder)  {
 		
-		
+		System.out.println(regularDotRoute);
+		System.out.println(poweredDotRoute);
 		routeOfMaze = "/assets/MazeLevel1.txt";
 		
 		// Obtencion de las walls a traves de un archivo
@@ -95,18 +110,18 @@ public class Director {
 		loadAllRegularDots(components, walls, zonaSinDots);
 		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
 		
-		
-		b.createBackground(domainRoute + "MazeLevel1.png");
-	    b.createEnemies(enemies);
-	    b.createWalls(walls);
-	    b.createComponents(components);
-	    b.createPlayer(player);
-	    b.createDoorways(doorways);
+		builder.createBackground(domainRoute + "MazeLevel1.png");
+	    builder.createEnemies(enemies);
+	    builder.createWalls(walls);
+	    builder.createComponents(components);
+	    builder.createPlayer(player);
+	    builder.createDoorways(doorways);
+	    builder.setFrightenedStateTime(10000);
+	    builder.setRespawnTime(15000);
+	    builder.setPowerTypeBTime(3500);
 	}
-
 	
-	
-	public void constructLevelTwo(Builder b) {
+	public void constructLevelTwo(Builder builder) {
 	
 		routeOfMaze = "/assets/MazeLevel2.txt";
 		// Obtencion de las walls a traves de un archivo
@@ -132,7 +147,7 @@ public class Director {
 		Potion potion2 = new PotionTypeB(21 * size, 5 * size, potionTypeBRoute, game);
 		
 		// Creacion de las frutas
-		Fruit fruit1 = new FruitTypeA(size * 13, size * 1 , 50, fruitTypeARoute, game);
+		Fruit fruit2 = new FruitTypeB(size * 13, size * 1 , 50, fruitTypeBRoute, game);
 		
 		// Creacion de los portales
 		Entity doorway1 = new Doorway(0 * size, 3 * size, game);
@@ -156,23 +171,26 @@ public class Director {
 		doorways.addAll(Arrays.asList(doorway1, doorway2, doorway3, doorway4));		
 			
 		Wall contornoCasaEnemies = new Wall(9 * size, 3 * size, 9 * size, 7 * size, game);
-		zonaSinDots.addAll(Arrays.asList(contornoCasaEnemies, poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
+		zonaSinDots.addAll(Arrays.asList(contornoCasaEnemies, poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit2));
 		
 		// Creacion de todos los regular dots (Se crean en donde NO haya paredes y otros componentes)
 		loadAllRegularDots(components, walls, zonaSinDots);
-		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
+		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit2));
 		
 		
-		b.createBackground(domainRoute + "MazeLevel2.png");
-	    b.createEnemies(enemies);
-	    b.createWalls(walls);
-	    b.createComponents(components);
-	    b.createPlayer(player);
-	    b.createDoorways(doorways);
+		builder.createBackground(domainRoute + "MazeLevel2.png");
+	    builder.createEnemies(enemies);
+	    builder.createWalls(walls);
+	    builder.createComponents(components);
+	    builder.createPlayer(player);
+	    builder.createDoorways(doorways);
+	    builder.setFrightenedStateTime(8000);
+	    builder.setRespawnTime(12500);
+	    builder.setPowerTypeBTime(2500);
 	}
 	
 	
-	public void constructLevelThree(Builder b) {
+	public void constructLevelThree(Builder builder) {
 		
 		routeOfMaze = "/assets/MazeLevel3.txt";
 		
@@ -199,8 +217,8 @@ public class Director {
 		Potion potion2 = new PotionTypeB(18 * size , 6 * size, potionTypeBRoute, game);
 		
 		// Creacion de las frutas
-		Fruit fruit1 = new FruitTypeA(size * 13, size * 1 , 50, fruitTypeARoute, game);
-				
+		Fruit fruit3 = new FruitTypeC(size * 13, size * 1 , 50, fruitTypeCRoute, game);
+		
 		// Creacion de los portales
 		Entity doorway1 = new Doorway(0 * size, 4 * size, game);
 		Entity doorway2 = new Doorway(0 * size, 14 * size, game);
@@ -224,22 +242,22 @@ public class Director {
 		doorways.addAll(Arrays.asList(doorway1, doorway2, doorway3, doorway4));		
 				
 		Wall contornoCasaEnemies = new Wall(9 * size, 5 * size, 9 * size, 5 * size, game);
-		zonaSinDots.addAll(Arrays.asList(contornoCasaEnemies, poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
+		zonaSinDots.addAll(Arrays.asList(contornoCasaEnemies, poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit3));
 						
 		// Creacion de todos los regular dots (Se crean en donde NO haya paredes y otros componentes)
 		loadAllRegularDots(components, walls, zonaSinDots);
-		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit1));
+		components.addAll(Arrays.asList(poweredDot1, poweredDot2, poweredDot3, poweredDot4, potion1, potion2, fruit3));
 	
-		b.createBackground(domainRoute + "MazeLevel3.png");
-	    b.createEnemies(enemies);
-	    b.createWalls(walls);
-	    b.createComponents(components);
-	    b.createPlayer(player);
-	    b.createDoorways(doorways);
-		
+		builder.createBackground(domainRoute + "MazeLevel3.png");
+	    builder.createEnemies(enemies);
+	    builder.createWalls(walls);
+	    builder.createComponents(components);
+	    builder.createPlayer(player);
+	    builder.createDoorways(doorways);
+	    builder.setFrightenedStateTime(6500);
+	    builder.setRespawnTime(10);
+	    builder.setPowerTypeBTime(2000);
 	}
-	
-	
 	
 /*
  * Automatizaciion de la carga de dots; elimina los que colisionan con paredes y estan en la zona que rode la casa
@@ -250,9 +268,9 @@ public class Director {
 private void loadAllRegularDots(List<Entity> components, List<Wall> walls, List<Entity> zonaSinDots) {
 		
 		
-		for (int i = 2; i < 27; i++) //27
+		for (int i = 2; i < 27; i++) 
 			
-			for (int j = 1; j < 19; j++)  { //19
+			for (int j = 1; j < 19; j++)  {
 				
 				RegularDot regularDot = new RegularDot(i * size - 27, j * size - 27, 10, regularDotRoute, game);
 				components.add(regularDot);
@@ -276,8 +294,7 @@ private void loadAllRegularDots(List<Entity> components, List<Wall> walls, List<
 					break;
 				}	
 				
-			}
-				
+			}		
 		}
 		
 		// Se eliminan los que colisionan con la zona de la casa de los enemies , powerDots, potions y fruits.
@@ -303,7 +320,6 @@ private void loadAllRegularDots(List<Entity> components, List<Wall> walls, List<
 						
 			}
 	}
-
 
 	/*
 	 * Carga de paredes automatizada

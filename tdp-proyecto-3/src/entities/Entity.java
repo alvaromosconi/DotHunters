@@ -23,8 +23,7 @@ public abstract class Entity {
 		this.xValue = xValue;
 		this.yValue = yValue;
 		this.imageRoute = imageRoute;
-		this.game = game;
-		
+		this.game = game;	
 	}
 	   
 	/*
@@ -121,4 +120,5 @@ public abstract class Entity {
 	public Game getGame() {
 		return game;
 	}
+	
 }

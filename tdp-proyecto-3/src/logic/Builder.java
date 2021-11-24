@@ -22,6 +22,9 @@ public interface Builder {
 	
 	public void createDoorways(List<Entity> doorways);
 
-
+	public void setRespawnTime(int milisec);
 	
+	public void setPowerTypeBTime(int milisec);
+	
+	public void setFrightenedStateTime(int milisec);
 }

@@ -9,12 +9,6 @@ public class EnemyTypeD extends Enemy {
 	public EnemyTypeD(int xValue, int yValue, String imageRoute, int speed, Game game) {
 	
 		super(xValue, yValue, imageRoute, speed, game);
-		
-	    initialXValue = xValue;
-		initialYValue = yValue;
-		
-		this.imageRoute = imageRoute;
-
 		visitor = new VisitorEnemy(this);
 	}
 	
@@ -47,20 +41,22 @@ public class EnemyTypeD extends Enemy {
 
 	@Override
 	public void exitHouse() {
-
+		
 		if (!game.collideWithWall(Direction.UP, this))
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.LEFT);
 		
-		if (yValue < 7 * 36 )
+		if (yValue <= initialYValue - 36) {
+			System.out.println("xd");
 			state = State.CHASING;	
+		}
 		
 	}
 
 	public void disableRespawnMode() {
 		
 		state = State.CHASING;
-		loadSprites("/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/"+ "EnemyTypeD.gif");
+		loadSprites(domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute+ "EnemyTypeD.gif");
 
 	}
 	
@@ -68,7 +64,7 @@ public class EnemyTypeD extends Enemy {
 	public void disableFrightenedMode() {
 	
     	speed = chaseSpeed;
-    	loadSprites("/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/" + "EnemyTypeD.gif", "/assets/MarioAssets/"+ "EnemyTypeD.gif");
+    	loadSprites(domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute + "EnemyTypeD.gif", domainRoute+ "EnemyTypeD.gif");
 	}
 
 

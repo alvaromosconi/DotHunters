@@ -11,10 +11,6 @@ public class EnemyTypeB extends Enemy {
 	public EnemyTypeB(int xValue, int yValue, String imageRoute, int speed, Game game) {
 		
 		super(xValue, yValue, imageRoute, speed, game);
-		
-	    initialXValue = xValue;
-		initialYValue = yValue;
-		
 		visitor = new VisitorEnemy(this);
 	}
 	
@@ -88,19 +84,18 @@ public class EnemyTypeB extends Enemy {
 			setNextDirection(Direction.UP);
 		else setNextDirection(Direction.RIGHT);
 		
-		
-		if (yValue < 7 * 36 )
+		if (yValue < initialYValue - 36)
 			state = State.CHASING;	
 	}
 	
 	public void disableRespawnMode() {
 		state = State.CHASING;
-		loadSprites("/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/"+ "EnemyTypeB.gif");
+		loadSprites(domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute+ "EnemyTypeB.gif");
 	}
 	
     public void disableFrightenedMode() {
     	speed = chaseSpeed;
-    	loadSprites("/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/" + "EnemyTypeB.gif", "/assets/MarioAssets/"+ "EnemyTypeB.gif");
+    	loadSprites(domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute + "EnemyTypeB.gif", domainRoute+ "EnemyTypeB.gif");
     	
     }
 

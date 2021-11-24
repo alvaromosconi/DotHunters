@@ -10,9 +10,6 @@ public class EnemyTypeA extends Enemy {
 		
 		super(xValue, yValue, imageRoute, speed, game);
 		
-		initialXValue = xValue;
-	    initialYValue = yValue;
-		
 		this.currentDirection = Direction.LEFT;
 		this.nextDirection = Direction.LEFT;
 
@@ -43,13 +40,15 @@ public class EnemyTypeA extends Enemy {
 	@Override
 	public void exitHouse() {
 	
-		state = State.CHASING;		
+		state = State.CHASING;	
+		setDirection(Direction.LEFT);
+		setNextDirection(Direction.LEFT);
 	}
 	
 	@Override
 	public void disableRespawnMode() {
 		
-		loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
+		loadSprites(domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute+ "EnemyTypeA.gif");
 
 	}
 	
@@ -57,7 +56,7 @@ public class EnemyTypeA extends Enemy {
     public void disableFrightenedMode() {
     	
     	speed = chaseSpeed;
-    	loadSprites("/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/" + "EnemyTypeA.gif", "/assets/MarioAssets/"+ "EnemyTypeA.gif");
+    	loadSprites(domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute + "EnemyTypeA.gif", domainRoute+ "EnemyTypeA.gif");
 
     }
 

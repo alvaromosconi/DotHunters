@@ -3,6 +3,7 @@ package entities;
 import java.util.ArrayList;
 
 import javax.swing.Timer;
+
 import java.util.List;
 import java.util.Random;
 
@@ -12,17 +13,16 @@ import logic.Direction;
 public abstract class Enemy extends Character {
 
 	protected State state;
-
-	protected int initialXValue;
-	protected int initialYValue;
 	protected int chaseSpeed;
 	protected final static int frightenedSpeed = 1;
+	protected String domainRoute;
 
 	public Enemy(int xValue, int yValue, String imageRoute, int speed, Game game) {
 
 		super(xValue, yValue, imageRoute, speed, game);
 		chaseSpeed = speed;
 		state = State.LEAVINGHOUSE;  				 // Estado inicial 
+		domainRoute = game.getDomainRoute();
 	}
 
 	/*
@@ -203,8 +203,8 @@ public abstract class Enemy extends Character {
 	public void enableRespawnMode() {
 		
 		state = State.RESPAWNING;
-		loadSprites("/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif",
-				"/assets/MarioAssets/" + "respawnMode.gif", "/assets/MarioAssets/" + "respawnMode.gif");
+		loadSprites(domainRoute + "respawnMode.gif", domainRoute + "respawnMode.gif",
+				domainRoute + "respawnMode.gif", domainRoute + "respawnMode.gif");
 	}
 
 	/*
@@ -214,14 +214,15 @@ public abstract class Enemy extends Character {
 		
 		state = State.FRIGHTENED;
 		speed = frightenedSpeed;
-		loadSprites("/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedBack.gif",
-				"/assets/MarioAssets/" + "frightenedFront.gif", "/assets/MarioAssets/" + "frightenedFront.gif");
+		loadSprites(domainRoute + "frightenedFront.gif", domainRoute + "frightenedBack.gif",
+				domainRoute + "frightenedFront.gif", domainRoute + "frightenedFront.gif");
 	}
 	
 	/*
 	 * Se establece el estado deseado
 	 */
 	public void setState(State state) {
+		
 		this.state = state;
 	}
 	
@@ -233,21 +234,4 @@ public abstract class Enemy extends Character {
 		
 		return state;
 	}
-
-	/*
-	 * @return posicion inicial del enemigo en X
-	 */
-	public int getInitialXValue() {
-
-		return initialXValue;
-	}
-
-	/*
-	 * @return posicion inicial del enemigo en Y
-	 */
-	public int getInitialYValue() {
-
-		return initialYValue;
-	}
-
 }

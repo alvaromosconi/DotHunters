@@ -2,7 +2,6 @@ package visitors;
 
 import entities.Doorway;
 import entities.Enemy;
-import entities.Enemy.State;
 import entities.Fruit;
 import entities.MainCharacter;
 import entities.Potion;
@@ -11,6 +10,7 @@ import entities.PowerTypeB;
 import entities.PoweredDot;
 import entities.RegularDot;
 import entities.Wall;
+import entities.Enemy.State;
 import logic.Direction;
 import logic.Game;
 import timeHandlers.RespawnTimer;
@@ -49,8 +49,7 @@ public class VisitorMainCharacter implements Visitor {
 
 	@Override
 	public void visitFruitTypeB(Fruit fruit) {
-		
-			
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -64,9 +63,10 @@ public class VisitorMainCharacter implements Visitor {
 	public void visitPotionTypeA(Potion p) {
 		
 		Game myGame = p.getGame();
+		myGame.getSoundHandler().playSpecificSound(myGame.getDomainRoute() + "powerup.wav");
 		player.havePotionTypeA(true);
 		myGame.destroyEntity(p);
-		myGame.getGUI().visualizarBomba();
+		myGame.getGUI().dropBomb();
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class VisitorMainCharacter implements Visitor {
 		
 		Game myGame = potion.getGame();
 		// Si la posicion entre las entidades es igual
-		if (potion.getXValue() == player.getXValue() && potion.getYValue()== player.getYValue()) {
+		if (potion.getXValue() == player.getXValue() && potion.getYValue() == player.getYValue()) {
 			
 			// Destruir entidad
 			myGame.destroyEntity(potion);
@@ -91,20 +91,17 @@ public class VisitorMainCharacter implements Visitor {
 				public void run() {
 					
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(myGame.getLevel().getPowerTypeBTime());
 						player.setSpeed(2);
 					}
 					
 					catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
 				}
 			}.start();
-		}
-
-		
+		}	
 	}
 
 	@Override
@@ -112,15 +109,10 @@ public class VisitorMainCharacter implements Visitor {
 		
 		Game myGame = dot.getGame();
 		
-		// Colocar a los fantasmas en estado "asustado"
-		myGame.enableFrightenedMode();
-		// Destruir entidad
-		myGame.destroyEntity(dot);
-		// Aumentar puntaje
-		modifyScore(50);
-		// Chequear si gano
-		myGame.checkIfWin();
-		
+		myGame.enableFrightenedMode();		// Colocar a los fantasmas en estado "asustado"
+		myGame.destroyEntity(dot);			// Destruir entidad
+		modifyScore(50);					// Aumentar puntaje
+		myGame.checkIfWin();				// Chequear si gano	
 	}
 
 	@Override
@@ -128,13 +120,9 @@ public class VisitorMainCharacter implements Visitor {
 		
 		Game myGame = dot.getGame();
 	
-		// Destruir entidad
-		myGame.destroyEntity(dot);
-		// Aumentar puntaje
-		modifyScore(10);
-		// Chequear si gano
-		myGame.checkIfWin();
-	
+		myGame.destroyEntity(dot);			// Destruir entidad
+		modifyScore(10);					// Aumentar puntaje	
+		myGame.checkIfWin();				// Chequear si gano
 	}
 
 	@Override
@@ -160,8 +148,7 @@ public class VisitorMainCharacter implements Visitor {
 	
 	private void modifyScore(int plus) {
 		
-		// Establecer nuevo puntaje
-		int newScore = player.getGame().getScore() + plus;
+		int newScore = player.getGame().getScore() + plus;			// Establecer nuevo puntaje
 		player.getGame().setScore(newScore);
 	}
 
@@ -169,51 +156,39 @@ public class VisitorMainCharacter implements Visitor {
 	@Override
     public void visitEnemy(Enemy enemy) {
 
+		Game myGame = enemy.getGame();
         // Calculo para que la colision no sea inmediata al intersectarse los rectangulos
         if (Math.abs(enemy.getXValue() - player.getXValue()) < 18 && Math.abs(enemy.getYValue() - player.getYValue()) < 18)
 
             // Si el estado actual del enemigo es "asustado"
             if (enemy.getState() == State.FRIGHTENED) {
 
-                // Trasladar enemigo a su posicion inicial
+            	// Trasladar enemigo a su posicion inicial
                 enemy.setXValue(enemy.getInitialXValue());
                 enemy.setYValue(enemy.getInitialYValue());
-                // Desactivar estado "asustado"
-                enemy.disableFrightenedMode();
-                // Activar estado "reaparicion"
-                enemy.enableRespawnMode();
+                
+                enemy.disableFrightenedMode();			// Desactivar estado "asustado"
+                enemy.enableRespawnMode();				// Activar estado "reaparicion"
+               
                 // Dejar inmovil al enemigo
                 enemy.setDirection(Direction.STILL);
                 enemy.setNextDirection(Direction.STILL);
 
                 // Esperar x cantidad de tiempo antes de volver a establecer los enemigos en estado "persecucion"
-                new RespawnTimer(enemy, 15000).start();
-
-
+                new RespawnTimer(enemy, myGame.getLevel().getRespawnTime()).start();
+                
                 modifyScore(200);
             }
 
             // Caso contrario, si el enemigo no se encuentra en estado de "reaparicion" acabar el juego.
             else if (enemy.getState() != State.RESPAWNING){
-//                player.getGame().gameOver();
-            	player.getGame().loseLife();
-            	player.getGame().getGUI().updateLives();
-            	if (player.getGame().getLevel() == 1) {
-	            	player.setXValue(13 * size);
-	            	player.setYValue(9 * size);
-            	}
-            	else {
-            		if (player.getGame().getLevel() == 2) {
-    	            	player.setXValue(13 * size);
-    	            	player.setYValue(7 * size);
-                	}
-            		else {
-            			player.setXValue(13 * size);
-    	            	player.setYValue(11 * size);
-            		}
-            	}
-            }
 
+            	myGame.resetPositions();
+            	
+            	player.getGame().loseLife();					// Controlador de vidas
+            	player.getGame().getGUI().updateLives();		// Actualizar graficamente vidas disponibles
+            	     							  	           	
+            }
     }
 
 	@Override
