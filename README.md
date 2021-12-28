@@ -14,4 +14,4 @@ Este proyecto fue realizado en la matería "Tecnología de la Programación" de 
 
 ![pokemonthememap2](https://github.com/alvaromosconi/tdp-proyecto-3/blob/master/readmeImages/game2.map2.png)
 
-![gamerover](https://github.com/alvaromosconi/tdp-proyecto-3/blob/master/readmeImages/gameover.png)
+![gameover](https://github.com/alvaromosconi/tdp-proyecto-3/blob/master/readmeImages/gameOver.png)
