@@ -8,7 +8,7 @@ Este proyecto fue realizado en la matería "Tecnología de la Programación" de 
 
 ![mariotheme](https://github.com/alvaromosconi/tdp-proyecto-3/blob/master/readmeImages/game1.png)
 
-![mariothememap2](https://github.com/alvaromosconi/tdp-proyecto-3/blob/master/readmeImages/game.map2.png)
+![mariothememap2](https://github.com/alvaromosconi/tdp-proyecto-3/blob/master/readmeImages/game1.map2.png)
 
 ![pokemontheme](https://github.com/alvaromosconi/tdp-proyecto-3/blob/master/readmeImages/game2.png)
 
