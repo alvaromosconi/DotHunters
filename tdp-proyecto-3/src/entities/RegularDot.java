@@ -11,8 +11,8 @@ public class RegularDot extends Dot {
 		
 		this.value = v;
 		
-		this.width = 12;
-		this.height = 12;
+		this.width = 18;
+		this.height = 18;
 	
 		
 		visitor = new VisitorRegularDot(this);

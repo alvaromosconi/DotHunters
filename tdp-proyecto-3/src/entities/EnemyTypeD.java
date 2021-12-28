@@ -47,7 +47,6 @@ public class EnemyTypeD extends Enemy {
 		else setNextDirection(Direction.LEFT);
 		
 		if (yValue <= initialYValue - 36) {
-			System.out.println("xd");
 			state = State.CHASING;	
 		}
 		
